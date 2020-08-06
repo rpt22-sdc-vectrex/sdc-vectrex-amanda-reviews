@@ -1,1 +1,1 @@
-# rvrita-Etsy
+# rvrita-etsy-reviews
