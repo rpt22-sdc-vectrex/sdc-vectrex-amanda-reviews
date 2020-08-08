@@ -1,0 +1,23 @@
+{
+  "name": "rvrita-etsy-reviews",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FEC-Linka/rvrita-etsy-reviews.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FEC-Linka/rvrita-etsy-reviews/issues"
+  },
+  "homepage": "https://github.com/FEC-Linka/rvrita-etsy-reviews#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
