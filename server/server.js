@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
-const port = 8888;
 const db = require('../database');
+const port = 8888;
 
 app.use(express.static('./public'));
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-});
+// app.listen(port, () => {
+//   console.log(`Example app listening at http://localhost:${port}`)
+// });
 
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/:productId', function (req, res) {
@@ -19,8 +19,11 @@ app.get('/reviews/:productId', function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      result = Math.round(result[0].rating * 2) / 2;
-      res.send({ productId: id, rating: result });
+      rating = Math.round(result[0].rating * 2) / 2;
+      res.send({ productId: id, rating: rating });
     }
   })
 });
+
+// export for tests
+module.exports = app;
