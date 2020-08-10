@@ -1,5 +1,5 @@
-const server = require("./server.js");
+const server = require('./server.js');
 
 server.listen(8888, () => {
-  console.log("Server has started!")
+  console.log('Server has started!');
 });
