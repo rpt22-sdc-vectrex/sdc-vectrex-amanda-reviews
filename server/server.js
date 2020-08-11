@@ -33,6 +33,7 @@ app.get('/reviews/all/:productId', (req, res) => {
       throw err;
     } else {
       const allData = {};
+      // console.log(reviewsForProductFromDB);
       allData.reviewsArray = reviewsForProductFromDB;
       // counting average rating
       allData.avgRating = 0;
@@ -45,33 +46,31 @@ app.get('/reviews/all/:productId', (req, res) => {
       // links will be replaced with something like this: 'linktoimageservice/reviewPhotos',
       // 'linktoimageservice/pictures/:itemID, 'linktoproductservice/itemDetails/:productId
       Promise.all([
-        axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviewPhotos.json'),
-        axios.get('https://valeriia-ten-item-description.s3.us-east-2.amazonaws.com/itemDetails2.json'),
-        axios.get('https://rvrita-fec-reviews.s3.us-west-1.amazonaws.com/pic.json'),
+        axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviews.json'),
+        axios.get('https://valeriia-ten-item-description.s3.us-east-2.amazonaws.com/itemDetails1.json'),
+        axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/pictures-itemID.json'),
       ])
         .then(([
           reviewPhotosResponse,
           itemDetailsResponse,
           productPicturesResponse,
         ]) => {
+          // console.log(productPicturesResponse.data[0].item_pictures[0]);
           const { data } = reviewPhotosResponse;
           for (let j = 0; j < data.length; j += 1) {
             for (let k = 0; k < allData.reviewsArray.length; k += 1) {
               if (allData.reviewsArray[k].id === data[j].id) {
                 allData.reviewsArray[k].userPicture = data[j].user_picture;
-                allData.reviewsArray[k].review_picture = data[j].review_picture;
+                allData.reviewsArray[k].reviewPicture = data[j].review_picture;
               }
             }
           }
           // adding product name
           allData.itemName = itemDetailsResponse.data.itemName;
           // adding main product image
-          allData.mainImage = productPicturesResponse.data.pictures[0];
+          allData.mainImage = productPicturesResponse.data.item_pictures[0].thumbnail;
           res.send(allData);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        });// .catch((error) => console.log(error));
     }
   });
 });

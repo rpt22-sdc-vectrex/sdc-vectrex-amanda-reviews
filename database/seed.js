@@ -11,7 +11,7 @@ connection.query(queryString, (err) => {
   if (err) {
     throw err;
   } else {
-    const inserts = ["insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (1, 'bbilsford0', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', 5, '2019-09-15', 17, 'http://diigo.com', 1)",
+    const inserts = ["insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (1, 'bbilsford0', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', 5, '2019-09-15', 17, 'http://diigo.com', 1)",-
       "insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (2, 'cmanning1', 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.', 4, '2019-04-25', 6, 'http://cbslocal.com', 4)",
       "insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (3, 'jcadwallader2', 'Nulla nisl. Nunc nisl.', 3, '2017-06-04', 10, 'https://dagondesign.com', 2)",
       "insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (4, 'sivanenko3', 'Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante.', 3, '2020-02-16', 14, 'https://feedburner.com', 4)",
@@ -110,7 +110,7 @@ connection.query(queryString, (err) => {
       "insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (97, 'bpretsell2o', 'Curabitur in libero ut massa volutpat convallis.', 2, '2016-07-06', 6, 'https://archive.org', 2)",
       "insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (98, 'vwyley2p', 'Proin eu mi.', 5, '2019-03-05', 12, 'http://uol.com.br', 4)",
       "insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (99, 'dbohlens2q', 'Proin risus.', 5, '2018-10-11', 5, 'http://cisco.com', 5)",
-      "insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (100, 'pgallihaulk2r', 'In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.', 5, '2016-05-06', 2, 'https://com.com', 5)"
+      "insert into reviews (id, username, text, rating, date, product_id, user_profile_url, store_id) values (100, 'pgallihaulk2r', 'In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.', 5, '2016-05-06', 2, 'https://com.com', 5)",
     ];
 
     const queryStrings = inserts.join(';');
