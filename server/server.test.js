@@ -138,7 +138,7 @@ describe('It should return the correct response for a GET request to /reviews/al
             }],
         });
 
-        expect(db.query).toHaveBeenLastCalledWith(
+        expect(db.query).toHaveBeenCalledWith(
           'SELECT * FROM reviews WHERE product_id = 3',
           expect.any(Function),
         );

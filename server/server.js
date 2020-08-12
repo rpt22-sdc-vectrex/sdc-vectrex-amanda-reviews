@@ -9,12 +9,11 @@ app.use(express.static('./public'));
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/:productId', (req, res) => {
   const id = req.params.productId;
-
-  const sql = `SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ${id}`;
-
-  db.query(sql, (err, result) => {
+  const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?';
+  const queryArg = id;
+  db.query(sql, queryArg, (err, result) => {
     if (err) {
-      throw err;
+      res.status(500).send(err);
     } else if (!result[0].product_id) {
       res.status(404).send('no record in database for this product');
     } else {
@@ -27,13 +26,13 @@ app.get('/reviews/:productId', (req, res) => {
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/all/:productId', (req, res) => {
   const id = req.params.productId;
-  const sql = `SELECT * FROM reviews WHERE product_id = ${id}`;
-  db.query(sql, (err, reviewsForProductFromDB) => {
+  const queryArg = id;
+  const sql = 'SELECT * FROM reviews WHERE product_id = ?';
+  db.query(sql, queryArg, (err, reviewsForProductFromDB) => {
     if (err) {
-      throw err;
+      res.status(500).send(err);
     } else {
       const allData = {};
-      // console.log(reviewsForProductFromDB);
       allData.reviewsArray = reviewsForProductFromDB;
       // counting average rating
       allData.avgRating = 0;
@@ -46,7 +45,7 @@ app.get('/reviews/all/:productId', (req, res) => {
       // links will be replaced with something like this: 'linktoimageservice/reviewPhotos',
       // 'linktoimageservice/pictures/:itemID, 'linktoproductservice/itemDetails/:productId
       Promise.all([
-        axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviews.json'),
+        axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviews.json'), // mnm: move these into constants at the top of file. const PHOTO_API_URL = ...
         axios.get('https://valeriia-ten-item-description.s3.us-east-2.amazonaws.com/itemDetails1.json'),
         axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/pictures-itemID.json'),
       ])
@@ -55,7 +54,6 @@ app.get('/reviews/all/:productId', (req, res) => {
           itemDetailsResponse,
           productPicturesResponse,
         ]) => {
-          // console.log(productPicturesResponse.data[0].item_pictures[0]);
           const { data } = reviewPhotosResponse;
           for (let j = 0; j < data.length; j += 1) {
             for (let k = 0; k < allData.reviewsArray.length; k += 1) {
@@ -70,7 +68,8 @@ app.get('/reviews/all/:productId', (req, res) => {
           // adding main product image
           allData.mainImage = productPicturesResponse.data.item_pictures[0].thumbnail;
           res.send(allData);
-        });// .catch((error) => console.log(error));
+        })
+        .catch((error) => { res.status(500).send(error); });
     }
   });
 });
