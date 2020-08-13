@@ -10,7 +10,7 @@ app.use(express.static('./public'));
 app.get('/reviews/:productId', (req, res) => {
   const id = req.params.productId;
   const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?';
-  const queryArg = id;
+  const queryArg = [id];
   db.query(sql, queryArg, (err, result) => {
     if (err) {
       res.status(500).send(err);
@@ -26,7 +26,7 @@ app.get('/reviews/:productId', (req, res) => {
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/all/:productId', (req, res) => {
   const id = req.params.productId;
-  const queryArg = id;
+  const queryArg = [id];
   const sql = 'SELECT * FROM reviews WHERE product_id = ?';
   db.query(sql, queryArg, (err, reviewsForProductFromDB) => {
     if (err) {
