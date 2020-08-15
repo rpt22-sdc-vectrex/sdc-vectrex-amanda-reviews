@@ -1,14 +1,22 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 
 class Carousel extends React.Component {
   render() {
+    const { props } = this;
     return (
       <div>
         <h5>Photos from reviews</h5>
         <ul>
-          <li><img alt="img1" src="http://placehold.it/150x150" /></li>
-          <li><img alt="img1" src="http://placehold.it/150x150" /></li>
+          {props.reviewData.reviewsArray.map((review) => {
+            if (review.reviewPicture) {
+              return (
+                <li><img alt="review" src={review.reviewPicture} /></li>
+              );
+            }
+            return null;
+          })}
         </ul>
       </div>
     );

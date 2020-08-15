@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import ReviewList from './components/ReviewList';
 import Dropdown from './components/Dropdown';
 import Stars from './components/Stars';
@@ -10,12 +11,26 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reviewData: [],
+      reviewData: {
+        avgRating: 0,
+        itemName: '',
+        mainImage: '',
+        reviewsArray: [],
+      },
     };
   }
 
   componentDidMount() {
-    // fetch data, research how to get id from url
+    // const queryString = window.location.pathname;
+    // var id = url.substring(url.lastIndexOf('/') + 1);
+    const id = 2;
+    axios.get(`/reviews/all/${id}`)
+      // .then((resp) => { console.log(resp); return resp; })
+      .then((response) => {
+        this.setState({
+          reviewData: response.data,
+        }, () => console.log(this.state.reviewData));
+      });
   }
 
   render() {
@@ -26,16 +41,18 @@ class App extends React.Component {
         <Stars />
         <div>
           <button type="button" className="itemReviews">
-            Reviews for this item 25
+            Reviews for this item
+            <span>{state.reviewData.reviewsArray.length}</span>
           </button>
           <button type="button" className="shopReviews">
-            Reviews for his shop 68
+            Reviews for this shop
+            <span>68</span>
           </button>
         </div>
         <Dropdown />
         <ReviewList reviewData={state.reviewData} />
         <Pager />
-        <Carousel />
+        <Carousel reviewData={state.reviewData} />
       </div>
     );
   }
