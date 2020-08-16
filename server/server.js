@@ -8,17 +8,16 @@ app.use(express.static('./public'));
 
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/:productId', (req, res) => {
-  const id = req.params.productId;
+  const { productId } = req.params;
   const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?';
-  const queryArg = id;
-  db.query(sql, queryArg, (err, result) => {
+  db.query(sql, productId, (err, result) => {
     if (err) {
       res.status(500).send(err);
     } else if (!result[0].product_id) {
       res.status(404).send('no record in database for this product');
     } else {
       const rating = Math.round(result[0].rating * 2) / 2;
-      res.send({ productId: id, rating });
+      res.send({ productId, rating });
     }
   });
 });
