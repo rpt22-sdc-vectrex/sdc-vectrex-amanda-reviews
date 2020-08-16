@@ -25,10 +25,8 @@ app.get('/reviews/:productId', (req, res) => {
 
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/all/:productId', (req, res) => {
-  const id = req.params.productId;
-  const queryArg = id;
   const sql = 'SELECT * FROM reviews WHERE product_id = ?';
-  db.query(sql, queryArg, (err, reviews) => {
+  db.query(sql, req.params.productId, (err, reviews) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -47,6 +45,7 @@ app.get('/reviews/all/:productId', (req, res) => {
         ]) => {
           const photosById = {};
           reviewPhotosResponse.data.forEach((photos) => {
+            // eslint-disable-next-line camelcase
             const { id, user_picture, review_picture } = photos;
             photosById[id] = { user_picture, review_picture };
           });
