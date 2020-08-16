@@ -29,6 +29,9 @@ export default class ReviewsWidget extends React.Component {
         this.setState({
           reviewData: response.data,
         });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 

@@ -12,7 +12,7 @@ class Carousel extends React.Component {
           {props.reviewData.reviewsArray.map((review) => {
             if (review.reviewPicture) {
               return (
-                <li><img alt="review" src={review.reviewPicture} /></li>
+                <li key={review.id}><img alt="review" src={review.reviewPicture} /></li>
               );
             }
             return null;
