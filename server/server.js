@@ -28,19 +28,10 @@ app.get('/reviews/all/:productId', (req, res) => {
   const id = req.params.productId;
   const queryArg = id;
   const sql = 'SELECT * FROM reviews WHERE product_id = ?';
-  db.query(sql, queryArg, (err, reviewsForProductFromDB) => {
+  db.query(sql, queryArg, (err, reviews) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      const allData = {};
-      allData.reviewsArray = reviewsForProductFromDB;
-      // counting average rating
-      allData.avgRating = 0;
-      for (let i = 0; i < allData.reviewsArray.length; i += 1) {
-        allData.avgRating += allData.reviewsArray[i].rating;
-      }
-      allData.avgRating /= allData.reviewsArray.length;
-      allData.avgRating = Math.round(allData.avgRating * 2) / 2;
       // getting the review picture from S3, adding them to my own data from DB based on review id
       // links will be replaced with something like this: 'linktoimageservice/reviewPhotos',
       // 'linktoimageservice/pictures/:itemID, 'linktoproductservice/itemDetails/:productId
@@ -54,22 +45,33 @@ app.get('/reviews/all/:productId', (req, res) => {
           itemDetailsResponse,
           productPicturesResponse,
         ]) => {
-          const { data } = reviewPhotosResponse;
-          for (let j = 0; j < data.length; j += 1) {
-            for (let k = 0; k < allData.reviewsArray.length; k += 1) {
-              if (allData.reviewsArray[k].id === data[j].id) {
-                allData.reviewsArray[k].userPicture = data[j].user_picture;
-                allData.reviewsArray[k].reviewPicture = data[j].review_picture;
-              }
-            }
-          }
-          // adding product name
-          allData.itemName = itemDetailsResponse.data.itemName;
-          // adding main product image
-          allData.mainImage = productPicturesResponse.data.item_pictures[0].thumbnail;
-          res.send(allData);
+          const photosById = {};
+          reviewPhotosResponse.data.forEach((photos) => {
+            const { id, user_picture, review_picture } = photos;
+            photosById[id] = { user_picture, review_picture };
+          });
+
+          const reviewsArray = reviews.map((review) => ({
+            ...review,
+            userPicture: photosById[review.id].user_picture,
+            reviewPicture: photosById[review.id].review_picture,
+          }));
+
+          let avgRating = reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length;
+          avgRating = Math.round(avgRating * 2) / 2;
+
+          const reviewsData = {
+            reviewsArray,
+            avgRating,
+            itemName: itemDetailsResponse.data.itemName,
+            mainImage: productPicturesResponse.data.item_pictures[0].thumbnail,
+          };
+
+          res.send(reviewsData);
         })
-        .catch((error) => { res.status(500).send(error); });
+        .catch((error) => {
+          res.status(500).send(error);
+        });
     }
   });
 });
