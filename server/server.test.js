@@ -40,7 +40,7 @@ describe('It should return the correct response for a GET request to /reviews/:p
       expect(response.body).toEqual({ productId: '1234', rating: 3.5 });
       expect(db.query).toHaveBeenCalledWith(
         'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?',
-        ['1234'],
+        '1234',
         expect.any(Function),
       );
     }));
@@ -58,7 +58,7 @@ describe('It should return the correct response for a GET request to /reviews/:p
         expect(response.text).toEqual('no record in database for this product');
         expect(db.query).toHaveBeenLastCalledWith(
           'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?',
-          ['123'],
+          '123',
           expect.any(Function),
         );
       });
@@ -142,7 +142,7 @@ describe('It should return the correct response for a GET request to /reviews/al
 
         expect(db.query).toHaveBeenCalledWith(
           'SELECT * FROM reviews WHERE product_id = ?',
-          ['3'],
+          '3',
           expect.any(Function),
         );
       });
