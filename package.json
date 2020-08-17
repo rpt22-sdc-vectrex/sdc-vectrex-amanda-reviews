@@ -21,13 +21,16 @@
     "url": "https://github.com/FEC-Linka/rvrita-etsy-reviews/issues"
   },
   "jest": {
-    "setupFilesAfterEnv": ["<rootDir>tests/setupTests.js"]
+    "setupFilesAfterEnv": [
+      "<rootDir>tests/setupTests.js"
+    ]
   },
   "homepage": "https://github.com/FEC-Linka/rvrita-etsy-reviews#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "express": "^4.17.1",
     "faker": "^4.1.0",
+    "moment": "^2.27.0",
     "mysql": "^2.18.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
