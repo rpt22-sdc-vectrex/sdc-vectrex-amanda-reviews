@@ -1,10 +1,18 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 import ReviewList from './ReviewList';
 import Dropdown from './Dropdown';
 import Stars from './Stars';
 import Carousel from './Carousel';
 import Pager from './Pager';
+
+// font-family: ${(props) => props.theme.fonts[1]};
+const MainHeading = styled.h3`
+  font-family: ${({ theme: { fonts } }) => `${fonts[1]}`};
+  font-size: ${({ theme: { fontSizes } }) => `${fontSizes[2]}px`};
+  font-weight: ${({ theme: { fontWeight } }) => `${fontWeight[0]}`};
+`;
 
 export default class ReviewsWidget extends React.Component {
   constructor(props) {
@@ -39,7 +47,7 @@ export default class ReviewsWidget extends React.Component {
     const { state } = this;
     return (
       <div>
-        <h3>68 reviews</h3>
+        <MainHeading>68 reviews</MainHeading>
         <Stars />
         <div>
           <button type="button" className="itemReviews">
