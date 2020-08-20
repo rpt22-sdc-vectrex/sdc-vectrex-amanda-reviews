@@ -1,4 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReviewsWidget from './components/ReviewsWidget';
 
-ReactDOM.render(<h1>hello from react</h1>, document.getElementById('reviews'));
+ReactDOM.render(<ReviewsWidget />, document.getElementById('reviews'));
