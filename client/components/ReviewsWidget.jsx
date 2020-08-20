@@ -7,11 +7,9 @@ import Stars from './Stars';
 import Carousel from './Carousel';
 import Pager from './Pager';
 
-// font-family: ${(props) => props.theme.fonts[1]};
 const MainHeading = styled.h3`
   font-family: ${({ theme: { fonts } }) => `${fonts[1]}`};
-  font-size: ${({ theme: { fontSizes } }) => `${fontSizes[2]}px`};
-  font-weight: ${({ theme: { fontWeight } }) => `${fontWeight[0]}`};
+  font-size: 26px;
 `;
 
 export default class ReviewsWidget extends React.Component {
@@ -32,7 +30,6 @@ export default class ReviewsWidget extends React.Component {
     // var id = url.substring(url.lastIndexOf('/') + 1);
     const id = 2;
     axios.get(`/reviews/all/${id}`)
-      // .then((resp) => { console.log(resp); return resp; })
       .then((response) => {
         this.setState({
           reviewData: response.data,

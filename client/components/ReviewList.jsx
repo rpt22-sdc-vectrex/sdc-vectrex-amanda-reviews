@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ReviewHeader from './ReviewHeader';
 import ReviewBody from './ReviewBody';
@@ -28,5 +27,11 @@ class ReviewList extends React.Component {
     );
   }
 }
+
+ReviewList.propTypes = {
+  reviewData: PropTypes.objectOf(PropTypes.object).isRequired,
+  itemName: PropTypes.string.isRequired,
+  mainImage: PropTypes.string.isRequired,
+};
 
 export default ReviewList;

@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Stars from './Stars';
 import ReviewImage from './ReviewImage';
@@ -10,8 +9,7 @@ const Container = styled.div`
 `;
 
 const TextContainer = styled.div`
-  margin-left: 48px;
-  margin-right: 48px;
+  margin: 0 48px;
   flex: 3 1;
 `;
 
@@ -20,31 +18,35 @@ const ImageContainer = styled.div`
 `;
 
 const Paragraph = styled.p`
-  margin-top: 0px;
-  margin-bottom: 16px;
+  margin: 0 0 16px 0;
   padding-right: 30px;
-  color: ${(props) => props.theme.colors.dark_gray};
+  color: ${(props) => props.theme.colors.darkGray};
 `;
 
-class ReviewBody extends React.Component {
-  render() {
-    const { props } = this;
-    return (
-      <Container>
-        <TextContainer>
-          <Stars rating={props.info.rating} />
-          <Paragraph>{props.info.text}</Paragraph>
-        </TextContainer>
-        {/* conditional expression in jsx, short circuit - it's like break in for loops ->
+const ReviewBody = (props) => {
+  const { info } = props;
+  return (
+    <Container>
+      <TextContainer>
+        <Stars rating={info.rating} />
+        <Paragraph>{info.text}</Paragraph>
+      </TextContainer>
+      {/* conditional expression in jsx, short circuit - it's like break in for loops ->
         bcz it's an expression it could be used inside a return statement */}
-        {props.info.reviewPicture && (
+      {info.reviewPicture && (
         <ImageContainer>
-          <ReviewImage alt="user_uploaded" src={props.info.reviewPicture} />
+          <ReviewImage alt="user_uploaded" src={info.reviewPicture} />
         </ImageContainer>
-        )}
-      </Container>
-    );
-  }
-}
+      )}
+    </Container>
+  );
+};
+
+ReviewBody.propTypes = {
+  info: PropTypes.arrayOf(PropTypes.object).isRequired,
+  rating: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired,
+  reviewPicture: PropTypes.string.isRequired,
+};
 
 export default ReviewBody;

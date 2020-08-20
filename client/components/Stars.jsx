@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -11,9 +10,8 @@ const Svg = styled.svg`
   display: inline-block;
   height: 18px;
   width: 18px;
-  color: #222;
-  margin-right: 4px;
-  margin-bottom: 4px;
+  color: ${(props) => props.theme.colors.darkGray};
+  margin: 0 4px 4px 0;
 `;
 
 const stars = {
@@ -38,15 +36,17 @@ function renderRating(rating) {
   return starArray;
 }
 
-class Stars extends React.Component {
-  render() {
-    const { props } = this;
-    return (
-      <Container>
-        {renderRating(props.rating)}
-      </Container>
-    );
-  }
-}
+const Stars = (props) => {
+  const { rating } = props;
+  return (
+    <Container>
+      {renderRating(rating)}
+    </Container>
+  );
+};
+
+Stars.propTypes = {
+  rating: PropTypes.number.isRequired,
+};
 
 export default Stars;

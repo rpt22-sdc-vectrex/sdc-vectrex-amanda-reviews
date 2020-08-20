@@ -4,13 +4,11 @@ import { ThemeProvider } from 'styled-components';
 
 const theme = {
   colors: {
-    dark_gray: '#222222',
-    middle_gray: '#595959',
-    light_gray: '#b1b1b1',
+    darkGray: '#222222',
+    middleGray: '#595959',
+    lightGray: '#b1b1b1',
   },
   fonts: ['Roboto', 'Merriweather'],
-  fontSizes: [13, 14, 16, 26],
-  fontWeight: [300, 400, 600],
 };
 
 const Theme = ({ children }) => (
