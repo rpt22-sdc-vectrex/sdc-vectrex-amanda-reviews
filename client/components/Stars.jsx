@@ -45,8 +45,12 @@ const Stars = (props) => {
   );
 };
 
+Stars.defaultProps = {
+  rating: 4.5,
+};
+
 Stars.propTypes = {
-  rating: PropTypes.number.isRequired,
+  rating: PropTypes.number,
 };
 
 export default Stars;

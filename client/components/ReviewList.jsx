@@ -28,10 +28,20 @@ class ReviewList extends React.Component {
   }
 }
 
+ReviewList.defaultProps = {
+  itemName: 'Vase',
+  mainImage: 'http://placehold.it/75x75',
+};
+
 ReviewList.propTypes = {
-  reviewData: PropTypes.objectOf(PropTypes.object).isRequired,
-  itemName: PropTypes.string.isRequired,
-  mainImage: PropTypes.string.isRequired,
+  reviewData: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.object,
+    PropTypes.array,
+  ])).isRequired,
+  itemName: PropTypes.string,
+  mainImage: PropTypes.string,
 };
 
 export default ReviewList;

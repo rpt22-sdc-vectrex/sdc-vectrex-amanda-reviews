@@ -7,7 +7,7 @@ import Stars from './Stars';
 import Carousel from './Carousel';
 import Pager from './Pager';
 
-const MainHeading = styled.h3`
+export const MainHeading = styled.h3`
   font-family: ${({ theme: { fonts } }) => `${fonts[1]}`};
   font-size: 26px;
 `;
