@@ -1,10 +1,16 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 import ReviewList from './ReviewList';
 import Dropdown from './Dropdown';
 import Stars from './Stars';
 import Carousel from './Carousel';
 import Pager from './Pager';
+
+export const MainHeading = styled.h3`
+  font-family: ${({ theme: { fonts } }) => `${fonts[1]}`};
+  font-size: 26px;
+`;
 
 export default class ReviewsWidget extends React.Component {
   constructor(props) {
@@ -24,7 +30,6 @@ export default class ReviewsWidget extends React.Component {
     // var id = url.substring(url.lastIndexOf('/') + 1);
     const id = 2;
     axios.get(`/reviews/all/${id}`)
-      // .then((resp) => { console.log(resp); return resp; })
       .then((response) => {
         this.setState({
           reviewData: response.data,
@@ -39,7 +44,7 @@ export default class ReviewsWidget extends React.Component {
     const { state } = this;
     return (
       <div>
-        <h3>68 reviews</h3>
+        <MainHeading>68 reviews</MainHeading>
         <Stars />
         <div>
           <button type="button" className="itemReviews">
