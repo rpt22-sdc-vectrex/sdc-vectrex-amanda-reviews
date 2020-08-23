@@ -14,24 +14,19 @@ class ReviewList extends React.Component {
   render() {
     const { props } = this;
     return (
-      props.reviewData.reviewsArray.map((review) => (
+      props.reviewData.map((review) => (
         <Container key={review.username}>
           <ReviewHeader info={review} />
           <ReviewBody info={review} />
           <ProductInfo
-            itemName={props.reviewData.itemName}
-            mainImage={props.reviewData.mainImage}
+            itemName={review.itemName}
+            mainImage={review.mainImage}
           />
         </Container>
       ))
     );
   }
 }
-
-ReviewList.defaultProps = {
-  itemName: 'Vase',
-  mainImage: 'http://placehold.it/75x75',
-};
 
 ReviewList.propTypes = {
   reviewData: PropTypes.objectOf(PropTypes.oneOfType([
@@ -40,8 +35,6 @@ ReviewList.propTypes = {
     PropTypes.object,
     PropTypes.array,
   ])).isRequired,
-  itemName: PropTypes.string,
-  mainImage: PropTypes.string,
 };
 
 export default ReviewList;

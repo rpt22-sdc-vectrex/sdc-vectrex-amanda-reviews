@@ -19,12 +19,8 @@ export default class ReviewsWidget extends React.Component {
       storeCount: 0,
       rating: 0,
       productCount: 0,
-      reviewData: {
-        avgRating: 0,
-        itemName: '',
-        mainImage: '',
-        reviewsArray: [],
-      },
+      reviewList: [],
+      reviewPictures: [],
     };
   }
 
@@ -32,14 +28,17 @@ export default class ReviewsWidget extends React.Component {
     // const queryString = window.location.pathname;
     // var id = url.substring(url.lastIndexOf('/') + 1);
     const id = 2;
-    // Promise.all([
-    axios.get(`/review-summary/${id}`)
-      // axios.get(''),
-      // ])
-      .then((response) => {
+    Promise.all([
+      axios.get(`/review-summary/${id}`),
+      axios.get(`/review-list/${id}`),
+      axios.get(`/reviews-pictures/${id}`),
+    ])
+      .then(([reviewSummary, reviewList, reviewPictures]) => {
         this.setState({
-          ...response.data,
-        });
+          ...reviewSummary.data,
+          reviewList: reviewList.data,
+          reviewPictures: reviewPictures.data,
+        }, () => console.log(this.state));
       })
       .catch((error) => {
         console.log(error);
@@ -69,9 +68,9 @@ export default class ReviewsWidget extends React.Component {
           </button>
         </div>
         <Dropdown />
-        <ReviewList reviewData={state.reviewData} />
+        <ReviewList reviewData={state.reviewList} />
         <Pager />
-        <Carousel reviewData={state.reviewData} />
+        <Carousel allImages={state.reviewPictures} />
       </div>
     );
   }
