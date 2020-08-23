@@ -16,6 +16,9 @@ export default class ReviewsWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      storeCount: 0,
+      rating: 0,
+      productCount: 0,
       reviewData: {
         avgRating: 0,
         itemName: '',
@@ -29,10 +32,13 @@ export default class ReviewsWidget extends React.Component {
     // const queryString = window.location.pathname;
     // var id = url.substring(url.lastIndexOf('/') + 1);
     const id = 2;
-    axios.get(`/reviews/all/${id}`)
+    // Promise.all([
+    axios.get(`/review-summary/${id}`)
+      // axios.get(''),
+      // ])
       .then((response) => {
         this.setState({
-          reviewData: response.data,
+          ...response.data,
         });
       })
       .catch((error) => {
@@ -44,16 +50,22 @@ export default class ReviewsWidget extends React.Component {
     const { state } = this;
     return (
       <div>
-        <MainHeading>68 reviews</MainHeading>
-        <Stars />
+        <MainHeading>
+          {state.storeCount}
+          {' '}
+          reviews
+        </MainHeading>
+        <Stars rating={state.rating} />
         <div>
           <button type="button" className="itemReviews">
             Reviews for this item
-            <span>{state.reviewData.reviewsArray.length}</span>
+            {' '}
+            {state.productCount}
           </button>
           <button type="button" className="shopReviews">
             Reviews for this shop
-            <span>68</span>
+            {' '}
+            {state.storeCount}
           </button>
         </div>
         <Dropdown />

@@ -1,5 +1,5 @@
 const express = require('express');
-const axios = require('axios');
+// const axios = require('axios');
 const db = require('../database');
 
 const app = express();
@@ -30,7 +30,6 @@ app.get('/review-summary/:productId', (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      console.log(result);
       const reviewSummary = {};
       reviewSummary.storeCount = result[0][0].count;
       reviewSummary.rating = Math.round(result[0][0].avgRating * 2) / 2;
@@ -49,11 +48,12 @@ app.get('/review-summary/:productId', (req, res) => {
 //     if (err) {
 //       res.status(500).send(err);
 //     } else {
-//       // getting the review picture from S3, adding them to my own data from DB based on review id
+//       // getting the review picture from S3, adding them to my own data 
+// from DB based on review id
 //       // links will be replaced with something like this: 'linktoimageservice/reviewPhotos',
 //       // 'linktoimageservice/pictures/:itemID, 'linktoproductservice/itemDetails/:productId
 //       Promise.all([
-//         axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviews.json'), // mnm: move these into constants at the top of file. const PHOTO_API_URL = ...
+//         axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviews.json'),
 //         axios.get('https://valeriia-ten-item-description.s3.us-east-2.amazonaws.com/itemDetails1.json'),
 //         axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/pictures-itemID.json'),
 //       ])
