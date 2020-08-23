@@ -12,3 +12,9 @@ CREATE TABLE reviews (
   product_id INTEGER NOT NULL,
   user_profile_url VARCHAR(250) NOT NULL
 );
+
+DROP TABLE IF EXISTS product_to_stores;
+CREATE TABLE product_to_stores (
+  id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  store_id INTEGER NOT NULL
+);
