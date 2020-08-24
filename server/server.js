@@ -1,10 +1,16 @@
 const express = require('express');
 const axios = require('axios');
+const bodyParser = require('body-parser');
 const db = require('../database');
 
 const app = express();
 
 app.use(express.static('./public'));
+
+app.use(bodyParser.urlencoded({
+  extended: true,
+}));
+app.use(bodyParser.json());
 
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/:productId', (req, res) => {
@@ -42,6 +48,7 @@ app.get('/review-summary/:productId', (req, res) => {
 // get store reviews
 app.get('/review-list/:productId', (req, res) => {
   const pageIndex = (req.query.pageNumber || 1) - 1;
+  console.log(req.query);
   const limit = 4;
   const { productId } = req.params;
   const sortBy = req.query.sortBy === 'date' ? 'date' : 'rating';

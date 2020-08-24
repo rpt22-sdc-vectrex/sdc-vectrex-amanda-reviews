@@ -7,7 +7,7 @@ import ProductInfo from './ProductInfo';
 
 const Container = styled.div`
   padding: 6px;
-  margin: 24px 0;
+  margin: 24px 0 60px;
 `;
 
 class ReviewList extends React.Component {

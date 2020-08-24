@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import ReviewList from './ReviewList';
 import Dropdown from './Dropdown';
 import Stars from './Stars';
 import Carousel from './Carousel';
@@ -10,6 +9,11 @@ import Pager from './Pager';
 export const MainHeading = styled.h3`
   font-family: ${({ theme: { fonts } }) => `${fonts[1]}`};
   font-size: 26px;
+  font-weight: 300;
+`;
+
+const Container = styled.div`
+  font-weight: 300;
 `;
 
 export default class ReviewsWidget extends React.Component {
@@ -21,7 +25,10 @@ export default class ReviewsWidget extends React.Component {
       productCount: 0,
       reviewList: [],
       reviewPictures: [],
+      pageNumber: 1,
+      sortBy: 'rating',
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   componentDidMount() {
@@ -45,10 +52,35 @@ export default class ReviewsWidget extends React.Component {
       });
   }
 
+  handlePageClick(pageNum) {
+    console.log('page', pageNum);
+    // const queryString = window.location.pathname;
+    // var id = url.substring(url.lastIndexOf('/') + 1);
+    const id = 2;
+    this.setState({
+      pageNumber: pageNum,
+    });
+    const { sortBy } = this.state;
+    axios.get(`/review-list/${id}`, {
+      params: {
+        pageNumber: pageNum,
+        sortBy,
+      },
+    })
+      .then((response) => {
+        this.setState({
+          reviewList: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     const { state } = this;
     return (
-      <div>
+      <Container>
         <MainHeading>
           {state.storeCount}
           {' '}
@@ -68,10 +100,14 @@ export default class ReviewsWidget extends React.Component {
           </button>
         </div>
         <Dropdown />
-        <ReviewList reviewData={state.reviewList} />
-        <Pager />
+        <Pager
+          handlePageClick={this.handlePageClick}
+          productCount={state.productCount}
+          storeCount={state.storeCount}
+          reviewList={state.reviewList}
+        />
         <Carousel allImages={state.reviewPictures} />
-      </div>
+      </Container>
     );
   }
 }
