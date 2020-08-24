@@ -39,71 +39,25 @@ app.get('/review-summary/:productId', (req, res) => {
   });
 });
 
+// get store reviews
 app.get('/review-list/:productId', (req, res) => {
-  const pageNumber = req.query.pageNumber || 1;
+  const pageIndex = (req.query.pageNumber || 1) - 1;
+  const limit = 4;
+  const { productId } = req.params;
+  const sortBy = req.query.sortBy === 'date' ? 'date' : 'rating';
+  const entireStore = !!req.query.store;
+  const sql = entireStore ? `
+    SELECT * FROM reviews 
+    LEFT JOIN product_to_stores ON reviews.product_id = product_to_stores.id 
+    WHERE store_id = (
+      SELECT store_id FROM product_to_stores WHERE id = ?
+      ) 
+    ORDER BY ?? DESC 
+    LIMIT ?, ?;
+    `
+    : 'SELECT * FROM reviews WHERE product_id = ? ORDER BY ?? DESC LIMIT ?, ?;';
 
-  // sorting by date or rating
-  let sql = '';
-  if (req.query.sortBy === 'date') {
-    sql = 'SELECT * FROM reviews WHERE product_id = ? ORDER BY date DESC LIMIT ?, 4;';
-  } else {
-    sql = 'SELECT * FROM reviews WHERE product_id = ? ORDER BY rating DESC LIMIT ?, 4;';
-  }
-
-  const queryArgs = [req.params.productId, pageNumber * 4 - 4];
-  db.query(sql, queryArgs, (err, reviews) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      console.log(reviews);
-      // TODO: change links after deployment: linktoimageservice/reviewPhotos',
-      // 'linktoimageservice/pictures/:itemID, 'linktoproductservice/itemDetails/:productId
-      Promise.all([
-        axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviews.json'),
-        axios.get('https://valeriia-ten-item-description.s3.us-east-2.amazonaws.com/itemDetails1.json'),
-        axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/pictures-itemID.json'),
-      ])
-        .then(([
-          reviewPhotosResponse,
-          itemDetailsResponse,
-          productPicturesResponse,
-        ]) => {
-          const photosById = {};
-          reviewPhotosResponse.data.forEach((photos) => {
-            // eslint-disable-next-line camelcase
-            const { id, user_picture, review_picture } = photos;
-            photosById[id] = { user_picture, review_picture };
-          });
-
-          const reviewsArray = reviews.map((review) => ({
-            ...review,
-            userPicture: photosById[review.id].user_picture,
-            reviewPicture: photosById[review.id].review_picture,
-            itemName: itemDetailsResponse.data.itemName,
-            mainImage: productPicturesResponse.data.item_pictures[0].thumbnail,
-          }));
-
-          res.send(reviewsArray);
-        })
-        .catch((error) => {
-          res.status(500).send(error);
-        });
-    }
-  });
-});
-
-app.get('/reviews-by-store/:productId', (req, res) => {
-  const pageNumber = req.query.pageNumber || 1;
-
-  // sorting by date or rating
-  let sql = '';
-  if (req.query.sortBy === 'date') {
-    sql = 'SELECT * FROM reviews LEFT JOIN product_to_stores ON reviews.product_id = product_to_stores.id WHERE store_id = (SELECT store_id FROM product_to_stores WHERE id = ?) ORDER BY date DESC LIMIT ?, 4;';
-  } else {
-    sql = 'SELECT * FROM reviews LEFT JOIN product_to_stores ON reviews.product_id = product_to_stores.id WHERE store_id = (SELECT store_id FROM product_to_stores WHERE id = ?) ORDER BY rating DESC LIMIT ?, 4;';
-  }
-
-  const queryArgs = [req.params.productId, pageNumber * 4 - 4];
+  const queryArgs = [productId, sortBy, pageIndex * limit, limit];
   db.query(sql, queryArgs, (err, reviews) => {
     if (err) {
       res.status(500).send(err);
@@ -126,23 +80,20 @@ app.get('/reviews-by-store/:productId', (req, res) => {
             const { id, user_picture, review_picture } = photos;
             photosById[id] = { user_picture, review_picture };
           });
-
           const itemNameById = {};
-          itemDetailsResponse.data.forEach((products) => {
+          itemDetailsResponse.data.forEach((product) => {
             // eslint-disable-next-line camelcase
-            const { productId, itemName } = products;
-            itemNameById[productId] = { itemName };
+            const { itemName } = product;
+            itemNameById[product.productId] = { itemName };
           });
-
           const reviewsArray = reviews.map((review) => ({
             ...review,
             userPicture: photosById[review.id].user_picture,
             reviewPicture: photosById[review.id].review_picture,
-            itemName: itemNameById[review.id].itemName,
+            itemName: itemNameById[review.product_id].itemName,
             // TODO: check with Zack for batch S3
             mainImage: productPicturesResponse.data.item_pictures[0].thumbnail,
           }));
-
           res.send(reviewsArray);
         })
         .catch((error) => {
@@ -152,9 +103,9 @@ app.get('/reviews-by-store/:productId', (req, res) => {
   });
 });
 
+// get all review pictures
 app.get('/reviews-pictures/:productId', (req, res) => {
   const sql = 'SELECT reviews.id FROM reviews LEFT JOIN product_to_stores ON reviews.product_id = product_to_stores.id WHERE store_id = (SELECT store_id FROM product_to_stores WHERE id = ?)';
-
   db.query(sql, req.params.productId, (err, reviewIds) => {
     if (err) {
       res.status(500).send(err);
@@ -173,7 +124,6 @@ app.get('/reviews-pictures/:productId', (req, res) => {
               reviewsArray.push(photosById[reviewId.id].review_picture);
             }
           });
-
           res.send(reviewsArray);
         })
         .catch((error) => {
