@@ -128,7 +128,7 @@ app.get('/reviews-pictures/:productId', (req, res) => {
           const reviewsArray = [];
           reviewIds.forEach((reviewId) => {
             if (photosById[reviewId.id].review_picture) {
-              reviewsArray.push(photosById[reviewId.id].review_picture);
+              reviewsArray.push([reviewId.id, photosById[reviewId.id].review_picture]);
             }
           });
           res.send(reviewsArray);

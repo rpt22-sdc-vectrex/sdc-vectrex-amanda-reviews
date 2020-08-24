@@ -34,7 +34,7 @@ export default class ReviewsWidget extends React.Component {
   componentDidMount() {
     // const queryString = window.location.pathname;
     // var id = url.substring(url.lastIndexOf('/') + 1);
-    const id = 2;
+    const id = 70;
     Promise.all([
       axios.get(`/review-summary/${id}`),
       axios.get(`/review-list/${id}`),
@@ -56,7 +56,7 @@ export default class ReviewsWidget extends React.Component {
     console.log('page', pageNum);
     // const queryString = window.location.pathname;
     // var id = url.substring(url.lastIndexOf('/') + 1);
-    const id = 2;
+    const id = 70;
     this.setState({
       pageNumber: pageNum,
     });
@@ -102,12 +102,15 @@ export default class ReviewsWidget extends React.Component {
         <Dropdown />
         <Pager
           handlePageClick={this.handlePageClick}
-          productCount={state.productCount}
-          storeCount={state.storeCount}
           reviewList={state.reviewList}
+          activePage={state.pageNumber}
+          totalPages={Math.ceil(state.productCount / 4)}
         />
         <Carousel allImages={state.reviewPictures} />
       </Container>
     );
   }
 }
+
+// {/* TODO: don't hardcode Limit 4
+//     TODO: switch between productCount or storeCount */}
