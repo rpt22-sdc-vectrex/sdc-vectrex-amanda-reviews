@@ -9,14 +9,9 @@ class Carousel extends React.Component {
       <div>
         <h5>Photos from reviews</h5>
         <ul>
-          {props.reviewData.reviewsArray.map((review) => {
-            if (review.reviewPicture) {
-              return (
-                <li key={review.id}><img alt="review" src={review.reviewPicture} /></li>
-              );
-            }
-            return null;
-          })}
+          {props.allImages.map((image) => (
+            <li key={image}><img alt="review" src={image} /></li>
+          ))}
         </ul>
       </div>
     );

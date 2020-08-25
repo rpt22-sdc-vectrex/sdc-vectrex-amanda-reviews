@@ -16,12 +16,11 @@ export default class ReviewsWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reviewData: {
-        avgRating: 0,
-        itemName: '',
-        mainImage: '',
-        reviewsArray: [],
-      },
+      storeCount: 0,
+      rating: 0,
+      productCount: 0,
+      reviewList: [],
+      reviewPictures: [],
     };
   }
 
@@ -29,11 +28,17 @@ export default class ReviewsWidget extends React.Component {
     // const queryString = window.location.pathname;
     // var id = url.substring(url.lastIndexOf('/') + 1);
     const id = 2;
-    axios.get(`/reviews/all/${id}`)
-      .then((response) => {
+    Promise.all([
+      axios.get(`/review-summary/${id}`),
+      axios.get(`/review-list/${id}`),
+      axios.get(`/reviews-pictures/${id}`),
+    ])
+      .then(([reviewSummary, reviewList, reviewPictures]) => {
         this.setState({
-          reviewData: response.data,
-        });
+          ...reviewSummary.data,
+          reviewList: reviewList.data,
+          reviewPictures: reviewPictures.data,
+        }, () => console.log(this.state));
       })
       .catch((error) => {
         console.log(error);
@@ -44,22 +49,28 @@ export default class ReviewsWidget extends React.Component {
     const { state } = this;
     return (
       <div>
-        <MainHeading>68 reviews</MainHeading>
-        <Stars />
+        <MainHeading>
+          {state.storeCount}
+          {' '}
+          reviews
+        </MainHeading>
+        <Stars rating={state.rating} />
         <div>
           <button type="button" className="itemReviews">
             Reviews for this item
-            <span>{state.reviewData.reviewsArray.length}</span>
+            {' '}
+            {state.productCount}
           </button>
           <button type="button" className="shopReviews">
             Reviews for this shop
-            <span>68</span>
+            {' '}
+            {state.storeCount}
           </button>
         </div>
         <Dropdown />
-        <ReviewList reviewData={state.reviewData} />
+        <ReviewList reviewData={state.reviewList} />
         <Pager />
-        <Carousel reviewData={state.reviewData} />
+        <Carousel allImages={state.reviewPictures} />
       </div>
     );
   }
