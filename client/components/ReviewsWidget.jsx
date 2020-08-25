@@ -32,9 +32,8 @@ export default class ReviewsWidget extends React.Component {
   }
 
   componentDidMount() {
-    // const queryString = window.location.pathname;
-    // var id = url.substring(url.lastIndexOf('/') + 1);
-    const id = 70;
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf('/') + 1);
     Promise.all([
       axios.get(`/review-summary/${id}`),
       axios.get(`/review-list/${id}`),
@@ -45,7 +44,7 @@ export default class ReviewsWidget extends React.Component {
           ...reviewSummary.data,
           reviewList: reviewList.data,
           reviewPictures: reviewPictures.data,
-        }, () => console.log(this.state));
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -53,10 +52,8 @@ export default class ReviewsWidget extends React.Component {
   }
 
   handlePageClick(pageNum) {
-    console.log('page', pageNum);
-    // const queryString = window.location.pathname;
-    // var id = url.substring(url.lastIndexOf('/') + 1);
-    const id = 70;
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf('/') + 1);
     this.setState({
       pageNumber: pageNum,
     });
@@ -112,5 +109,5 @@ export default class ReviewsWidget extends React.Component {
   }
 }
 
-// {/* TODO: don't hardcode Limit 4
-//     TODO: switch between productCount or storeCount */}
+// TODO: change 4 to a variable
+// TODO: switch between productCount or storeCount

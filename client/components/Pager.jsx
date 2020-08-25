@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ReviewList from './ReviewList';
 
@@ -47,8 +47,8 @@ const Span = styled.span`
   vertical-align: sub;
 `;
 
-// https://stackoverflow.com/questions/33710833/how-do-i-conditionally-wrap-a-react-component
-// https://blog.hackages.io/conditionally-wrap-an-element-in-react-a8b9a47fab2
+// conditonal rendering using built-in "children" prop:
+// if condition true rander element with link around it otherwise without link
 function linkIf(condition, props, children) {
   const { onClick, href = '#' } = props;
   if (condition) {
@@ -59,7 +59,6 @@ function linkIf(condition, props, children) {
 
 class Pager extends React.Component {
   render() {
-    // const totalPages = Math.ceil(this.props.productCount / 4);
     const pages = [];
     const { props } = this;
     for (let i = 1; i < props.totalPages + 1; i += 1) {
@@ -116,5 +115,18 @@ class Pager extends React.Component {
     );
   }
 }
+
+Pager.defaultProps = {
+  totalPages: 0,
+  activePage: 1,
+  reviewList: [],
+};
+
+Pager.propTypes = {
+  totalPages: PropTypes.number,
+  activePage: PropTypes.number,
+  handlePageClick: PropTypes.func.isRequired,
+  reviewList: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default Pager;
