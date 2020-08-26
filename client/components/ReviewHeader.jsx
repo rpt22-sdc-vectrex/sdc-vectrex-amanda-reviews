@@ -22,12 +22,25 @@ const ReviewHeader = (props) => {
   );
 };
 
+ReviewHeader.defaultProps = {
+  info: {},
+  userPicture: 'http://placehold.it/36x36',
+  user_profile_url: 'http://placehold.it/179x179',
+  username: '',
+  date: '2019-10-05T07:00:00.000Z',
+};
+
 ReviewHeader.propTypes = {
-  info: PropTypes.arrayOf(PropTypes.object).isRequired,
-  userPicture: PropTypes.string.isRequired,
-  user_profile_url: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  date: PropTypes.instanceOf(Date).isRequired,
+  info: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.oneOf([null]),
+  ]),
+  userPicture: PropTypes.string,
+  user_profile_url: PropTypes.string,
+  username: PropTypes.string,
+  date: PropTypes.string,
 };
 
 export default ReviewHeader;

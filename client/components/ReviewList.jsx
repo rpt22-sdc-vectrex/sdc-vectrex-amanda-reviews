@@ -29,7 +29,7 @@ class ReviewList extends React.Component {
 }
 
 ReviewList.propTypes = {
-  reviewData: PropTypes.objectOf(PropTypes.oneOfType([
+  reviewData: PropTypes.arrayOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.object,

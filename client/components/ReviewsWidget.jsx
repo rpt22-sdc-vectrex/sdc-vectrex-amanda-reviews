@@ -15,9 +15,10 @@ export const MainHeading = styled.h3`
   font-weight: 300;
 `;
 
+// width should be width: 100% if rendered with proxy, otherwise 810px for development
 const Container = styled.div`
   font-weight: 300;
-  width: 100%;
+  width: 810px;
   font-family: ${(props) => props.theme.fonts[0]};
   line-height: 150%;
   letter-spacing: 0.4px;
