@@ -5,6 +5,9 @@ import Dropdown from './Dropdown';
 import Stars from './Stars';
 import Carousel from './Carousel';
 import Pager from './Pager';
+import Theme from './Theme';
+
+const serverUrl = 'http://localhost:8888';
 
 export const MainHeading = styled.h3`
   font-family: ${({ theme: { fonts } }) => `${fonts[1]}`};
@@ -12,8 +15,13 @@ export const MainHeading = styled.h3`
   font-weight: 300;
 `;
 
+// width should be width: 100% if rendered with proxy, otherwise 810px for development
 const Container = styled.div`
   font-weight: 300;
+  width: 810px;
+  font-family: ${(props) => props.theme.fonts[0]};
+  line-height: 150%;
+  letter-spacing: 0.4px;
 `;
 
 export default class ReviewsWidget extends React.Component {
@@ -33,11 +41,11 @@ export default class ReviewsWidget extends React.Component {
 
   componentDidMount() {
     const url = window.location.pathname;
-    const id = url.substring(url.lastIndexOf('/') + 1);
+    const id = url.substring(url.lastIndexOf('/') + 1) || 1;
     Promise.all([
-      axios.get(`/review-summary/${id}`),
-      axios.get(`/review-list/${id}`),
-      axios.get(`/reviews-pictures/${id}`),
+      axios.get(`${serverUrl}/review-summary/${id}`),
+      axios.get(`${serverUrl}/review-list/${id}`),
+      axios.get(`${serverUrl}/reviews-pictures/${id}`),
     ])
       .then(([reviewSummary, reviewList, reviewPictures]) => {
         this.setState({
@@ -53,12 +61,12 @@ export default class ReviewsWidget extends React.Component {
 
   handlePageClick(pageNum) {
     const url = window.location.pathname;
-    const id = url.substring(url.lastIndexOf('/') + 1);
+    const id = url.substring(url.lastIndexOf('/') + 1) || 1;
     this.setState({
       pageNumber: pageNum,
     });
     const { sortBy } = this.state;
-    axios.get(`/review-list/${id}`, {
+    axios.get(`${serverUrl}/review-list/${id}`, {
       params: {
         pageNumber: pageNum,
         sortBy,
@@ -77,34 +85,36 @@ export default class ReviewsWidget extends React.Component {
   render() {
     const { state } = this;
     return (
-      <Container>
-        <MainHeading>
-          {state.storeCount}
-          {' '}
-          reviews
-        </MainHeading>
-        <Stars rating={state.rating} />
-        <div>
-          <button type="button" className="itemReviews">
-            Reviews for this item
-            {' '}
-            {state.productCount}
-          </button>
-          <button type="button" className="shopReviews">
-            Reviews for this shop
-            {' '}
+      <Theme>
+        <Container>
+          <MainHeading>
             {state.storeCount}
-          </button>
-        </div>
-        <Dropdown />
-        <Pager
-          handlePageClick={this.handlePageClick}
-          reviewList={state.reviewList}
-          activePage={state.pageNumber}
-          totalPages={Math.ceil(state.productCount / 4)}
-        />
-        <Carousel allImages={state.reviewPictures} />
-      </Container>
+            {' '}
+            reviews
+          </MainHeading>
+          <Stars rating={state.rating} />
+          <div>
+            <button type="button" className="itemReviews">
+              Reviews for this item
+              {' '}
+              {state.productCount}
+            </button>
+            <button type="button" className="shopReviews">
+              Reviews for this shop
+              {' '}
+              {state.storeCount}
+            </button>
+          </div>
+          <Dropdown />
+          <Pager
+            handlePageClick={this.handlePageClick}
+            reviewList={state.reviewList}
+            activePage={state.pageNumber}
+            totalPages={Math.ceil(state.productCount / 4)}
+          />
+          <Carousel allImages={state.reviewPictures} />
+        </Container>
+      </Theme>
     );
   }
 }

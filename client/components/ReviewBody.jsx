@@ -42,11 +42,23 @@ const ReviewBody = (props) => {
   );
 };
 
+ReviewBody.defaultProps = {
+  info: {},
+  rating: 1,
+  text: 'Lorem ipsum',
+  reviewPicture: 'http://placehold.it/179x179',
+};
+
 ReviewBody.propTypes = {
-  info: PropTypes.arrayOf(PropTypes.object).isRequired,
-  rating: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-  reviewPicture: PropTypes.string.isRequired,
+  info: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.oneOf([null]),
+  ]),
+  rating: PropTypes.number,
+  text: PropTypes.string,
+  reviewPicture: PropTypes.string,
 };
 
 export default ReviewBody;
