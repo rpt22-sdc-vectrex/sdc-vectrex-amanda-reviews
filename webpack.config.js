@@ -1,5 +1,5 @@
 module.exports = {
-  entry: `${__dirname}/client/app.jsx`,
+  entry: `${__dirname}/client/components/ReviewsWidget.jsx`,
   module: {
     rules: [
       {
@@ -17,8 +17,13 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
+  externals: {
+    react: 'React',
+  },
   output: {
     filename: 'bundle.js',
     path: `${__dirname}/public`,
+    library: 'ReviewsWidget',
+    libraryExport: 'default',
   },
 };

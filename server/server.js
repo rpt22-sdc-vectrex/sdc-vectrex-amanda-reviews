@@ -2,9 +2,12 @@ const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 const db = require('../database');
 
 const app = express();
+
+app.use(cors());
 
 // first: static files
 app.use(express.static('./public'));
@@ -142,8 +145,8 @@ app.get('/reviews-pictures/:productId', (req, res) => {
 });
 
 // third: fall through to index.html
-app.get('*', (request, response) => {
-  response.sendFile(path.resolve(__dirname, '../public/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
 // export for tests
