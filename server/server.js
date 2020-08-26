@@ -1,11 +1,20 @@
 const express = require('express');
 const axios = require('axios');
+const bodyParser = require('body-parser');
+const path = require('path');
 const db = require('../database');
 
 const app = express();
 
+// first: static files
 app.use(express.static('./public'));
 
+app.use(bodyParser.urlencoded({
+  extended: true,
+}));
+app.use(bodyParser.json());
+
+// second: all api endpoints
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/:productId', (req, res) => {
   const { productId } = req.params;
@@ -82,7 +91,6 @@ app.get('/review-list/:productId', (req, res) => {
           });
           const itemNameById = {};
           itemDetailsResponse.data.forEach((product) => {
-            // eslint-disable-next-line camelcase
             const { itemName } = product;
             itemNameById[product.productId] = { itemName };
           });
@@ -121,7 +129,7 @@ app.get('/reviews-pictures/:productId', (req, res) => {
           const reviewsArray = [];
           reviewIds.forEach((reviewId) => {
             if (photosById[reviewId.id].review_picture) {
-              reviewsArray.push(photosById[reviewId.id].review_picture);
+              reviewsArray.push([reviewId.id, photosById[reviewId.id].review_picture]);
             }
           });
           res.send(reviewsArray);
@@ -131,6 +139,11 @@ app.get('/reviews-pictures/:productId', (req, res) => {
         });
     }
   });
+});
+
+// third: fall through to index.html
+app.get('*', (request, response) => {
+  response.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
 // export for tests

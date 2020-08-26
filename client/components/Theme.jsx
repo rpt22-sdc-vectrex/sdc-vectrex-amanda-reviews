@@ -7,7 +7,9 @@ const theme = {
     darkGray: '#222222',
     middleGray: '#595959',
     lightGray: '#b1b1b1',
+    paleGray: '#aaaaaa',
   },
+  // TODO : make it an object
   fonts: ['Roboto', 'Merriweather'],
 };
 
