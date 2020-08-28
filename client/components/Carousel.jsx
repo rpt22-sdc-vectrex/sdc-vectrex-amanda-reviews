@@ -11,6 +11,7 @@ const Heading = styled.h4`
   font-weight: 300;
   margin-bottom: 12px;
   line-height: 28px;
+  padding: 9px;
 `;
 
 const CarouselOuter = styled.div`

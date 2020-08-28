@@ -15,7 +15,7 @@ export const MainHeading = styled.h3`
   font-weight: 300;
 `;
 
-// width should be width: 100% if rendered with proxy, otherwise 810px for development
+// width should be width: 100% if rendered with proxy, otherwise 830px for development
 const Container = styled.div`
   font-weight: 300;
   font-family: ${(props) => props.theme.fonts[0]};
@@ -35,8 +35,11 @@ export default class ReviewsWidget extends React.Component {
       reviewPictures: [],
       pageNumber: 1,
       sortBy: 'rating',
+      isDropdownOpen: false,
     };
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.handleSortByClick = this.handleSortByClick.bind(this);
+    this.handleDropdownClick = this.handleDropdownClick.bind(this);
   }
 
   componentDidMount() {
@@ -52,11 +55,43 @@ export default class ReviewsWidget extends React.Component {
           ...reviewSummary.data,
           reviewList: reviewList.data,
           reviewPictures: reviewPictures.data,
-        }, () => console.log(this.state));
+        });
       })
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  handleSortByClick(e) {
+    e.preventDefault();
+    const sort = e.target.value;
+    this.setState((state) => ({
+      sortBy: sort,
+      pageNumber: 1,
+      isDropdownOpen: !state.isDropdownOpen,
+    }));
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf('/') + 1) || 1;
+    axios.get(`${serverUrl}/review-list/${id}`, {
+      params: {
+        pageNumber: 1,
+        sortBy: sort,
+      },
+    })
+      .then((response) => {
+        this.setState({
+          reviewList: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  handleDropdownClick() {
+    this.setState((state) => ({
+      isDropdownOpen: !state.isDropdownOpen,
+    }));
   }
 
   handlePageClick(pageNum) {
@@ -105,7 +140,11 @@ export default class ReviewsWidget extends React.Component {
               {state.storeCount}
             </button>
           </div>
-          <Dropdown />
+          <Dropdown
+            isOpen={state.isDropdownOpen}
+            handleDropdownClick={this.handleDropdownClick}
+            handleSortByClick={this.handleSortByClick}
+          />
           <Pager
             handlePageClick={this.handlePageClick}
             reviewList={state.reviewList}
