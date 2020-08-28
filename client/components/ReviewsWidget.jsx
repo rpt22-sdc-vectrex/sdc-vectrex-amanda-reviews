@@ -18,10 +18,10 @@ export const MainHeading = styled.h3`
 // width should be width: 100% if rendered with proxy, otherwise 810px for development
 const Container = styled.div`
   font-weight: 300;
-  width: 810px;
   font-family: ${(props) => props.theme.fonts[0]};
   line-height: 150%;
   letter-spacing: 0.4px;
+  width: 830px;
 `;
 
 export default class ReviewsWidget extends React.Component {
@@ -52,7 +52,7 @@ export default class ReviewsWidget extends React.Component {
           ...reviewSummary.data,
           reviewList: reviewList.data,
           reviewPictures: reviewPictures.data,
-        });
+        }, () => console.log(this.state));
       })
       .catch((error) => {
         console.log(error);
