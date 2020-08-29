@@ -31,6 +31,8 @@ class ReviewTab extends React.Component {
         <Menu
           storeCount={props.storeCount}
           productCount={props.productCount}
+          activeTab={props.activeTab}
+          handleMenuClick={props.handleMenuClick}
         />
         <DropdownCont>
           <Dropdown

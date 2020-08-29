@@ -36,10 +36,12 @@ export default class ReviewsWidget extends React.Component {
       pageNumber: 1,
       sortBy: 'rating',
       isDropdownOpen: false,
+      activeTab: 'productReviews',
     };
     this.handlePageClick = this.handlePageClick.bind(this);
     this.handleSortByClick = this.handleSortByClick.bind(this);
     this.handleDropdownClick = this.handleDropdownClick.bind(this);
+    this.handleMenuClick = this.handleMenuClick.bind(this);
   }
 
   componentDidMount() {
@@ -55,7 +57,7 @@ export default class ReviewsWidget extends React.Component {
           ...reviewSummary.data,
           reviewList: reviewList.data,
           reviewPictures: reviewPictures.data,
-        });
+        }, () => console.log(this.state));
       })
       .catch((error) => {
         console.log(error);
@@ -72,10 +74,12 @@ export default class ReviewsWidget extends React.Component {
     }));
     const url = window.location.pathname;
     const id = url.substring(url.lastIndexOf('/') + 1) || 1;
+    const { activeTab } = this.state;
     axios.get(`${serverUrl}/review-list/${id}`, {
       params: {
         pageNumber: 1,
         sortBy: sort,
+        store: activeTab === 'shopReviews',
       },
     })
       .then((response) => {
@@ -100,14 +104,42 @@ export default class ReviewsWidget extends React.Component {
     this.setState({
       pageNumber: pageNum,
     });
-    const { sortBy } = this.state;
+    const { sortBy, activeTab } = this.state;
     axios.get(`${serverUrl}/review-list/${id}`, {
       params: {
         pageNumber: pageNum,
         sortBy,
+        store: activeTab === 'shopReviews',
       },
     })
       .then((response) => {
+        this.setState({
+          reviewList: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  handleMenuClick(tab) {
+    console.log(tab);
+    this.setState({
+      activeTab: tab,
+    }, () => console.log(this.state));
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf('/') + 1) || 1;
+    const { sortBy } = this.state;
+    const store = tab === 'shopReviews';
+    axios.get(`${serverUrl}/review-list/${id}`, {
+      params: {
+        pageNumber: 1,
+        sortBy,
+        store,
+      },
+    })
+      .then((response) => {
+        console.log(response);
         this.setState({
           reviewList: response.data,
         });
@@ -135,6 +167,8 @@ export default class ReviewsWidget extends React.Component {
             storeCount={state.storeCount}
             productCount={state.productCount}
             sortBy={state.sortBy}
+            activeTab={state.activeTab}
+            handleMenuClick={this.handleMenuClick}
           />
           <Pager
             handlePageClick={this.handlePageClick}

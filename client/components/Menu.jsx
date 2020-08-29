@@ -12,7 +12,7 @@ const Container = styled.div`
   color: #222;
 `;
 
-const MenuButton = styled.div`
+const MenuButton = styled.button`
   background: none;
   border: none;
   color: inherit;
@@ -55,12 +55,28 @@ class Menu extends React.Component {
     const { props } = this;
     return (
       <Container>
-        <MenuButton type="button" className="itemReviews">
+        <MenuButton
+          type="button"
+          value="productReviews"
+          onClick={(e) => {
+            e.preventDefault();
+            props.handleMenuClick(e.target.value);
+          }}
+          className={props.activeTab === this.value && 'active'}
+        >
           Reviews for this item
           {' '}
           <Badge>{props.productCount}</Badge>
         </MenuButton>
-        <MenuButton type="button" className="shopReviews">
+        <MenuButton
+          type="button"
+          value="shopReviews"
+          onClick={(e) => {
+            e.preventDefault();
+            props.handleMenuClick(e.target.value);
+          }}
+          className={props.activeTab === this.value && 'active'}
+        >
           Reviews for this shop
           {' '}
           <Badge>{props.storeCount}</Badge>
