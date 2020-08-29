@@ -9,6 +9,7 @@ const List = styled.ul`
   list-style: none;
   padding: 6px;
   height: 36px;
+  margin-bottom: 40px;
 `;
 
 const ListItem = styled.li`
@@ -82,17 +83,17 @@ class Pager extends React.Component {
                   </svg>
                 </Span>)}
             </ListItem>
-            {pages.map((pagenum) => (
-              <ListItem key={pagenum}>
+            {pages.map((pageNum) => (
+              <ListItem key={pageNum}>
                 <Link
                   onClick={(e) => {
                     e.preventDefault();
-                    props.handlePageClick(pagenum);
+                    props.handlePageClick(pageNum);
                   }}
-                  className={props.activePage === pagenum && 'active'}
+                  className={props.activePage === pageNum && 'active'}
                   href="http://placehold.it"
                 >
-                  {pagenum}
+                  {pageNum}
                 </Link>
               </ListItem>
             ))}
