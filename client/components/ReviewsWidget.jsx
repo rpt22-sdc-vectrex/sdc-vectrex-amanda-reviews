@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Dropdown from './Dropdown';
+import ReviewTab from './ReviewTab';
 import Stars from './Stars';
 import Carousel from './Carousel';
 import Pager from './Pager';
@@ -128,22 +128,13 @@ export default class ReviewsWidget extends React.Component {
             reviews
           </MainHeading>
           <Stars rating={state.rating} />
-          <div>
-            <button type="button" className="itemReviews">
-              Reviews for this item
-              {' '}
-              {state.productCount}
-            </button>
-            <button type="button" className="shopReviews">
-              Reviews for this shop
-              {' '}
-              {state.storeCount}
-            </button>
-          </div>
-          <Dropdown
+          <ReviewTab
             isOpen={state.isDropdownOpen}
             handleDropdownClick={this.handleDropdownClick}
             handleSortByClick={this.handleSortByClick}
+            storeCount={state.storeCount}
+            productCount={state.productCount}
+            sortBy={state.sortBy}
           />
           <Pager
             handlePageClick={this.handlePageClick}
