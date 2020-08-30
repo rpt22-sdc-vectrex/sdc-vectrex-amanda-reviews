@@ -9,7 +9,7 @@ const List = styled.ul`
   list-style: none;
   padding: 6px;
   height: 36px;
-  margin-bottom: 40px;
+  margin: 60px 0 30px;
 `;
 
 const ListItem = styled.li`

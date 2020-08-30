@@ -2,18 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import ReviewTab from './ReviewTab';
-import Stars from './Stars';
 import Carousel from './Carousel';
 import Pager from './Pager';
 import Theme from './Theme';
+import MainHeader from './MainHeader';
 
 const serverUrl = 'http://localhost:8888';
-
-export const MainHeading = styled.h3`
-  font-family: ${({ theme: { fonts } }) => `${fonts[1]}`};
-  font-size: 26px;
-  font-weight: 300;
-`;
 
 // width should be width: 100% if rendered with proxy, otherwise 830px for development
 const Container = styled.div`
@@ -154,12 +148,7 @@ export default class ReviewsWidget extends React.Component {
     return (
       <Theme>
         <Container>
-          <MainHeading>
-            {state.storeCount}
-            {' '}
-            reviews
-          </MainHeading>
-          <Stars rating={state.rating} />
+          <MainHeader rating={state.rating} storeCount={state.storeCount} />
           <ReviewTab
             isOpen={state.isDropdownOpen}
             handleDropdownClick={this.handleDropdownClick}

@@ -6,7 +6,7 @@ import Dropdown from './Dropdown';
 import Menu from './Menu';
 
 const Container = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   overflow: visible;
   width: auto;
   padding-left: 0px;

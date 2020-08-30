@@ -65,7 +65,7 @@ const TextContainer = styled.span`
   color: #222222;
   text-align: left;
   cursor: pointer;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: none;
 `;
 

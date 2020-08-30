@@ -7,7 +7,7 @@ import ProductInfo from './ProductInfo';
 
 const Container = styled.div`
   padding: 6px;
-  margin: 24px 0 60px;
+  margin: 24px 0 30px;
 `;
 
 class ReviewList extends React.Component {
@@ -21,6 +21,7 @@ class ReviewList extends React.Component {
           <ProductInfo
             itemName={review.itemName}
             mainImage={review.mainImage}
+            id={review.id}
           />
         </Container>
       ))

@@ -16,12 +16,12 @@ const Paragraph = styled.p`
 `;
 
 const ProductInfo = (props) => {
-  const { mainImage, itemName } = props;
+  const { mainImage, itemName, id } = props;
   return (
     <Container>
       <Paragraph>Purchased item:</Paragraph>
       <ImageSmall alt="product" src={mainImage} />
-      <Link href="http://placehold.it">{`${itemName.slice(0, 60)}...`}</Link>
+      <Link href={`/${id}`}>{`${itemName.slice(0, 60)}...`}</Link>
     </Container>
   );
 };
@@ -29,6 +29,7 @@ const ProductInfo = (props) => {
 ProductInfo.propTypes = {
   mainImage: PropTypes.string.isRequired,
   itemName: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default ProductInfo;
