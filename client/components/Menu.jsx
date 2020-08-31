@@ -32,6 +32,24 @@ const MenuButton = styled.button`
   &:nth-child(1) {
     margin-left: 0;
   }
+  ::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    bottom: -2px;
+    width: 0;
+    border-bottom: 2px solid rgba(34, 34, 34, 0.5);
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 200ms cubic-bezier(0.54, 0, 0.54, 1);
+    ${(props) => props.isActive && `
+    width: 100%;
+    border-bottom-color: #222222;
+    `}
+  }
+  &:hover::after {
+    width: 100%;
+  }
 `;
 
 const Badge = styled.span`
@@ -58,11 +76,11 @@ class Menu extends React.Component {
         <MenuButton
           type="button"
           value="productReviews"
+          isActive={props.activeTab === 'productReviews'}
           onClick={(e) => {
             e.preventDefault();
             props.handleMenuClick(e.target.value);
           }}
-          className={props.activeTab === this.value && 'active'}
         >
           Reviews for this item
           {' '}
@@ -71,11 +89,11 @@ class Menu extends React.Component {
         <MenuButton
           type="button"
           value="shopReviews"
+          isActive={props.activeTab === 'shopReviews'}
           onClick={(e) => {
             e.preventDefault();
             props.handleMenuClick(e.target.value);
           }}
-          className={props.activeTab === this.value && 'active'}
         >
           Reviews for this shop
           {' '}

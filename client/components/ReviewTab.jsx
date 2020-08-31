@@ -17,11 +17,8 @@ const DropdownCont = styled.div`
   display: flex;
   box-sizing: border-box;
   margin-top: 6px;
-
+  width: 830px;
 `;
-
-// border: ${(props) => (props.isOpen ? '1px solid #dedede' : 'none')};
-// border-radius: 12px;
 
 class ReviewTab extends React.Component {
   render() {

@@ -51,7 +51,7 @@ export default class ReviewsWidget extends React.Component {
           ...reviewSummary.data,
           reviewList: reviewList.data,
           reviewPictures: reviewPictures.data,
-        }, () => console.log(this.state));
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -133,7 +133,6 @@ export default class ReviewsWidget extends React.Component {
       },
     })
       .then((response) => {
-        console.log(response);
         this.setState({
           reviewList: response.data,
         });

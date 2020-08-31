@@ -9,6 +9,7 @@ const DropDownContainer = styled.div`
 `;
 
 const DropDownHeader = styled.button`
+  letter-spacing: 0.4px;
   left: 7px;
   position: relative;
   color: #222222;
@@ -33,6 +34,32 @@ const DropDownHeader = styled.button`
   margin: 0;
   z-index: 20;
   border-radius: 24px;
+  ::before {
+    transition: transform 200ms cubic-bezier(0.345, 0.115, 0.135, 1.42),opacity 150ms ease-out;
+    box-shadow: 0 4px 20px rgba(34, 34, 34, 0.15);
+    opacity: 0;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    border: inherit;
+    border-radius: inherit;
+    background: #222222;
+    transform: scale(0.7) perspective(1px);
+  }
+  ${(props) => (props.isOpen ? '' : `
+    &:hover::before {
+      opacity: 0.075;
+      transform: scale(1) perspective(1px);
+    }
+    &:active::before {
+      opacity: 0.15;
+      transform: scale(0.95) perspective(1px);
+    }
+  `)}
   `;
 
 const SvgContainer = styled.span`
@@ -81,7 +108,7 @@ const DropDownSortBy = styled.div`
   border-radius: 12px;
   border: 1px rgba(34, 34, 34, 0.15) solid;
   box-shadow: 0 4px 20px rgba(34, 34, 34, 0.15);
-  min-width: 200px;
+  min-width: 100%;
   max-width: 300px;
   overflow: hidden;
   font-size: 16px;
@@ -124,6 +151,20 @@ const ListItem = styled.button`
   &:hover {
     background-color: #efefef;
   };
+  ${(props) => props.isSelected && `
+  ::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 24 24%22%3E%3Cpath fill%3D%22%23222222%22 d%3D%22M10.55 16.97L6.3 12.7a1 1 0 0 1 1.42-1.42l2.74 2.74 5.8-6.68a1 1 0 0 1 1.5 1.3l-7.2 8.32z%22%2F%3E%3C%2Fsvg%3E");
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+    margin-right: -2px;
+    min-width: 24px;
+    width: 24px;
+    height: 18px;
+    content: "";
+  };
+  `}
 `;
 
 class Dropdown extends React.Component {
@@ -133,6 +174,7 @@ class Dropdown extends React.Component {
       <DropDownContainer>
         <DropDownHeader
           type="button"
+          isOpen={props.isOpen}
           onClick={(e) => {
             e.preventDefault();
             props.handleDropdownClick();
@@ -148,10 +190,10 @@ class Dropdown extends React.Component {
           </SvgContainer>
         </DropDownHeader>
         <DropDownSortBy isOpen={props.isOpen}>
-          <ListItem type="button" value="rating" onClick={props.handleSortByClick}>
+          <ListItem isSelected={props.sortBy === 'rating'} type="button" value="rating" onClick={props.handleSortByClick}>
             Recommended
           </ListItem>
-          <ListItem type="button" value="date" onClick={props.handleSortByClick}>
+          <ListItem isSelected={props.sortBy === 'date'} type="button" value="date" onClick={props.handleSortByClick}>
             Newest
           </ListItem>
         </DropDownSortBy>
