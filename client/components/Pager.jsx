@@ -91,6 +91,7 @@ class Pager extends React.Component {
                     props.handlePageClick(pageNum);
                   }}
                   className={props.activePage === pageNum && 'active'}
+                  // TODO: fix link
                   href="."
                 >
                   {pageNum}
