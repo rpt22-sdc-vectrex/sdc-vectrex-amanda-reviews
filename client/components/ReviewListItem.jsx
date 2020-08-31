@@ -1,4 +1,3 @@
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -11,28 +10,19 @@ const Container = styled.div`
   margin: 24px 0 30px;
 `;
 
-class ReviewListItem extends React.Component {
-  render() {
-    const { review } = this.props;
-    return (
-      <Container>
-        <ReviewHeader info={review} />
-        <ReviewBody info={review} />
-        <ProductInfo
-          itemName={review.itemName}
-          mainImage={review.mainImage}
-          id={review.id}
-        />
-      </Container>
-    );
-  }
-}
+const ReviewListItem = (props) => {
+  const { review } = props;
+  return (
+    <Container>
+      <ReviewHeader info={review} />
+      <ReviewBody info={review} />
+      <ProductInfo info={review} />
+    </Container>
+  );
+};
 
 ReviewListItem.defaultProps = {
   review: {},
-  itemName: '',
-  mainImage: '',
-  id: 1,
 };
 
 ReviewListItem.propTypes = {
@@ -42,9 +32,6 @@ ReviewListItem.propTypes = {
     PropTypes.object,
     PropTypes.oneOf([null]),
   ])),
-  itemName: PropTypes.string,
-  mainImage: PropTypes.string,
-  id: PropTypes.number,
 };
 
 export default ReviewListItem;

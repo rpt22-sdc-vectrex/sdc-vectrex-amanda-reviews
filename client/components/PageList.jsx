@@ -1,9 +1,8 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-// TODO: Refacor styling
 const List = styled.ul`
   list-style: none;
   padding: 6px;
@@ -114,5 +113,16 @@ class PageList extends React.Component {
     );
   }
 }
+
+PageList.defaultProps = {
+  totalPages: 0,
+  activePage: 1,
+};
+
+PageList.propTypes = {
+  totalPages: PropTypes.number,
+  activePage: PropTypes.number,
+  handlePageClick: PropTypes.func.isRequired,
+};
 
 export default PageList;

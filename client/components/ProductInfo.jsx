@@ -16,20 +16,33 @@ const Paragraph = styled.p`
 `;
 
 const ProductInfo = (props) => {
-  const { mainImage, itemName, id } = props;
+  const { info } = props;
   return (
     <Container>
       <Paragraph>Purchased item:</Paragraph>
-      <ImageSmall alt="product" src={mainImage} />
-      <Link href={`/${id}`}>{`${itemName.slice(0, 60)}...`}</Link>
+      <ImageSmall alt="product" src={info.mainImage} />
+      <Link href={`/${info.product_id}`}>{`${info.itemName.slice(0, 60)}...`}</Link>
     </Container>
   );
 };
 
+ProductInfo.defaultProps = {
+  info: {},
+  mainImage: '',
+  itemName: '',
+  product_id: 1,
+};
+
 ProductInfo.propTypes = {
-  mainImage: PropTypes.string.isRequired,
-  itemName: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  info: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ])),
+  mainImage: PropTypes.string,
+  itemName: PropTypes.string,
+  product_id: PropTypes.number,
 };
 
 export default ProductInfo;

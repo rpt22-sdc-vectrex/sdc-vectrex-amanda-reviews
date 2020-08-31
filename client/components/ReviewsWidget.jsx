@@ -39,8 +39,7 @@ export default class ReviewsWidget extends React.Component {
   }
 
   componentDidMount() {
-    const url = window.location.pathname;
-    const id = url.substring(url.lastIndexOf('/') + 1) || 1;
+    const id = ReviewsWidget.getId();
     Promise.all([
       axios.get(`${serverUrl}/review-summary/${id}`),
       axios.get(`${serverUrl}/review-list/${id}`),
@@ -58,75 +57,16 @@ export default class ReviewsWidget extends React.Component {
       });
   }
 
-  handleSortByClick(e) {
-    e.preventDefault();
-    const sort = e.target.value;
-    this.setState((state) => ({
-      sortBy: sort,
-      pageNumber: 1,
-      isDropdownOpen: !state.isDropdownOpen,
-    }));
+  static getId() {
     const url = window.location.pathname;
     const id = url.substring(url.lastIndexOf('/') + 1) || 1;
-    const { activeTab } = this.state;
-    axios.get(`${serverUrl}/review-list/${id}`, {
-      params: {
-        pageNumber: 1,
-        sortBy: sort,
-        store: activeTab === 'shopReviews',
-      },
-    })
-      .then((response) => {
-        this.setState({
-          reviewList: response.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    return id;
   }
 
-  handleDropdownClick() {
-    this.setState((state) => ({
-      isDropdownOpen: !state.isDropdownOpen,
-    }));
-  }
-
-  handlePageClick(pageNum) {
-    const url = window.location.pathname;
-    const id = url.substring(url.lastIndexOf('/') + 1) || 1;
-    this.setState({
-      pageNumber: pageNum,
-    });
-    const { sortBy, activeTab } = this.state;
+  getReviews(id, pageNumber, sortBy, store) {
     axios.get(`${serverUrl}/review-list/${id}`, {
       params: {
-        pageNumber: pageNum,
-        sortBy,
-        store: activeTab === 'shopReviews',
-      },
-    })
-      .then((response) => {
-        this.setState({
-          reviewList: response.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  handleMenuClick(tab) {
-    this.setState({
-      activeTab: tab,
-    });
-    const url = window.location.pathname;
-    const id = url.substring(url.lastIndexOf('/') + 1) || 1;
-    const { sortBy } = this.state;
-    const store = tab === 'shopReviews';
-    axios.get(`${serverUrl}/review-list/${id}`, {
-      params: {
-        pageNumber: 1,
+        pageNumber,
         sortBy,
         store,
       },
@@ -141,9 +81,49 @@ export default class ReviewsWidget extends React.Component {
       });
   }
 
+  handleSortByClick(e) {
+    e.preventDefault();
+    const sort = e.target.value;
+    this.setState((state) => ({
+      sortBy: sort,
+      pageNumber: 1,
+      isDropdownOpen: !state.isDropdownOpen,
+    }));
+    const id = ReviewsWidget.getId();
+    const { activeTab } = this.state;
+    this.getReviews(id, 1, sort, activeTab === 'shopReviews');
+  }
+
+  handleDropdownClick() {
+    this.setState((state) => ({
+      isDropdownOpen: !state.isDropdownOpen,
+    }));
+  }
+
+  handlePageClick(pageNum) {
+    const id = ReviewsWidget.getId();
+    this.setState({
+      pageNumber: pageNum,
+    });
+    const { sortBy, activeTab } = this.state;
+    this.getReviews(id, pageNum, sortBy, activeTab === 'shopReviews');
+  }
+
+  handleMenuClick(tab) {
+    this.setState({
+      activeTab: tab,
+      pageNumber: 1,
+    });
+    const id = ReviewsWidget.getId();
+    const { sortBy } = this.state;
+    const store = tab === 'shopReviews';
+    this.getReviews(id, 1, sortBy, store);
+  }
+
   render() {
     const { state } = this;
-    const totalPages = state.activeTab === 'productReviews' ? Math.ceil(state.productReviewCount / 4) : Math.ceil(state.storeReviewCount / 4);
+    const reviewPerPage = 4;
+    const totalPages = state.activeTab === 'productReviews' ? Math.ceil(state.productReviewCount / reviewPerPage) : Math.ceil(state.storeReviewCount / reviewPerPage);
     return (
       <Theme>
         <Container>
@@ -170,5 +150,3 @@ export default class ReviewsWidget extends React.Component {
     );
   }
 }
-
-// TODO: change 4 to a variable
