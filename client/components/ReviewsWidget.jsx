@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import ReviewTab from './ReviewTab';
 import Carousel from './Carousel';
-import Pager from './Pager';
+import ReviewPager from './ReviewPager';
 import Theme from './Theme';
 import MainHeader from './MainHeader';
 
@@ -22,9 +22,9 @@ export default class ReviewsWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      storeCount: 0,
+      storeReviewCount: 0,
       rating: 0,
-      productCount: 0,
+      productReviewCount: 0,
       reviewList: [],
       reviewPictures: [],
       pageNumber: 1,
@@ -143,27 +143,28 @@ export default class ReviewsWidget extends React.Component {
 
   render() {
     const { state } = this;
+    const totalPages = state.activeTab === 'productReviews' ? Math.ceil(state.productReviewCount / 4) : Math.ceil(state.storeReviewCount / 4);
     return (
       <Theme>
         <Container>
-          <MainHeader rating={state.rating} storeCount={state.storeCount} />
+          <MainHeader rating={state.rating} storeReviewCount={state.storeReviewCount} />
           <ReviewTab
             isOpen={state.isDropdownOpen}
             handleDropdownClick={this.handleDropdownClick}
             handleSortByClick={this.handleSortByClick}
-            storeCount={state.storeCount}
-            productCount={state.productCount}
+            storeReviewCount={state.storeReviewCount}
+            productReviewCount={state.productReviewCount}
             sortBy={state.sortBy}
             activeTab={state.activeTab}
             handleMenuClick={this.handleMenuClick}
           />
-          <Pager
+          <ReviewPager
             handlePageClick={this.handlePageClick}
             reviewList={state.reviewList}
             activePage={state.pageNumber}
-            totalPages={Math.ceil(state.productCount / 4)}
+            totalPages={totalPages}
           />
-          <Carousel allImages={state.reviewPictures} />
+          <Carousel reviewPictures={state.reviewPictures} />
         </Container>
       </Theme>
     );
@@ -171,4 +172,3 @@ export default class ReviewsWidget extends React.Component {
 }
 
 // TODO: change 4 to a variable
-// TODO: switch between productCount or storeCount

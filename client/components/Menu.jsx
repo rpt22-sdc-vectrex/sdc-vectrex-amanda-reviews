@@ -80,7 +80,7 @@ const Menu = (props) => (
     >
       Reviews for this item
       {' '}
-      <Badge>{props.productCount}</Badge>
+      <Badge>{props.productReviewCount}</Badge>
     </MenuButton>
     <MenuButton
       type="button"
@@ -93,7 +93,7 @@ const Menu = (props) => (
     >
       Reviews for this shop
       {' '}
-      <Badge>{props.storeCount}</Badge>
+      <Badge>{props.storeReviewCount}</Badge>
     </MenuButton>
   </Container>
 );
@@ -101,8 +101,8 @@ const Menu = (props) => (
 Menu.propTypes = {
   activeTab: PropTypes.string.isRequired,
   handleMenuClick: PropTypes.func.isRequired,
-  productCount: PropTypes.number.isRequired,
-  storeCount: PropTypes.number.isRequired,
+  productReviewCount: PropTypes.number.isRequired,
+  storeReviewCount: PropTypes.number.isRequired,
 };
 
 export default Menu;

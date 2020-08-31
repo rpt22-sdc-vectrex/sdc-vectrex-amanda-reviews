@@ -22,8 +22,8 @@ const DropdownCont = styled.div`
 const ReviewTab = (props) => (
   <Container>
     <Menu
-      storeCount={props.storeCount}
-      productCount={props.productCount}
+      storeReviewCount={props.storeReviewCount}
+      productReviewCount={props.productReviewCount}
       activeTab={props.activeTab}
       handleMenuClick={props.handleMenuClick}
     />
@@ -45,8 +45,8 @@ ReviewTab.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   activeTab: PropTypes.string.isRequired,
-  productCount: PropTypes.number.isRequired,
-  storeCount: PropTypes.number.isRequired,
+  productReviewCount: PropTypes.number.isRequired,
+  storeReviewCount: PropTypes.number.isRequired,
 };
 
 export default ReviewTab;

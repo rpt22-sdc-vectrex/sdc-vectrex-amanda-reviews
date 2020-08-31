@@ -16,7 +16,7 @@ const MainHeading = styled.h3`
 const MainHeader = (props) => (
   <div>
     <MainHeading>
-      {props.storeCount}
+      {props.storeReviewCount}
       {' '}
       reviews
     </MainHeading>
@@ -25,7 +25,7 @@ const MainHeader = (props) => (
 );
 
 MainHeader.propTypes = {
-  storeCount: PropTypes.number.isRequired,
+  storeReviewCount: PropTypes.number.isRequired,
   rating: PropTypes.number.isRequired,
 };
 

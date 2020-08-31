@@ -102,7 +102,7 @@ const Svg = styled.svg`
   text-align: left;
 `;
 
-const DropDownSortBy = styled.div`
+const DropDownList = styled.div`
   background: #fff;
   border-radius: 12px;
   border: 1px rgba(34, 34, 34, 0.15) solid;
@@ -185,14 +185,14 @@ const Dropdown = (props) => (
         <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polygon points="16.5 10 12 16 7.5 10 16.5 10" /></Svg>
       </SvgContainer>
     </DropDownHeader>
-    <DropDownSortBy isOpen={props.isOpen}>
+    <DropDownList isOpen={props.isOpen}>
       <ListItem isSelected={props.sortBy === 'rating'} type="button" value="rating" onClick={props.handleSortByClick}>
         Recommended
       </ListItem>
       <ListItem isSelected={props.sortBy === 'date'} type="button" value="date" onClick={props.handleSortByClick}>
         Newest
       </ListItem>
-    </DropDownSortBy>
+    </DropDownList>
   </DropDownContainer>
 );
 

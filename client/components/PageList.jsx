@@ -1,8 +1,7 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import ReviewList from './ReviewList';
 
 // TODO: Refacor styling
 const List = styled.ul`
@@ -58,7 +57,7 @@ function linkIf(condition, props, children) {
   return children;
 }
 
-class Pager extends React.Component {
+class PageList extends React.Component {
   render() {
     const pages = [];
     const { props } = this;
@@ -67,7 +66,6 @@ class Pager extends React.Component {
     }
     return (
       <div>
-        <ReviewList reviewData={props.reviewList} />
         {(pages.length > 1) && (
           <List>
             <ListItem>
@@ -91,7 +89,6 @@ class Pager extends React.Component {
                     props.handlePageClick(pageNum);
                   }}
                   className={props.activePage === pageNum && 'active'}
-                  // TODO: fix link
                   href="."
                 >
                   {pageNum}
@@ -118,17 +115,4 @@ class Pager extends React.Component {
   }
 }
 
-Pager.defaultProps = {
-  totalPages: 0,
-  activePage: 1,
-  reviewList: [],
-};
-
-Pager.propTypes = {
-  totalPages: PropTypes.number,
-  activePage: PropTypes.number,
-  handlePageClick: PropTypes.func.isRequired,
-  reviewList: PropTypes.arrayOf(PropTypes.object),
-};
-
-export default Pager;
+export default PageList;

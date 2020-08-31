@@ -117,14 +117,14 @@ class Carousel extends React.Component {
           )}
         <CarouselOuter>
           <CarouselInner translate={state.translate}>
-            {props.allImages.map((image) => (
+            {props.reviewPictures.map((image) => (
               <ListItem key={image[0]}>
                 <ReviewImageListItem alt="review" src={image[1]} />
               </ListItem>
             ))}
           </CarouselInner>
         </CarouselOuter>
-        {state.firstItemIndex + 4 < props.allImages.length
+        {state.firstItemIndex + 4 < props.reviewPictures.length
           && (
           <ButtonRight translate={state.translate} aria-label="arrow" type="button" onClick={() => this.handleRightArrowClick()}>
             <Svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -138,7 +138,7 @@ class Carousel extends React.Component {
 }
 
 Carousel.propTypes = {
-  allImages: PropTypes.arrayOf(PropTypes.oneOfType([
+  reviewPictures: PropTypes.arrayOf(PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.oneOf([null]),
   ])).isRequired,

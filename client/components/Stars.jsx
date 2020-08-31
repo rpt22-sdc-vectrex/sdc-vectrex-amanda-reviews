@@ -23,19 +23,19 @@ const stars = {
 };
 
 const renderRating = (rating) => {
-  let starNum = rating;
-  const starArray = [];
-  while (starArray.length < 5) {
-    if (starNum >= 1) {
-      starArray.push(stars.full(starNum));
-    } else if (starNum >= 0.5) {
-      starArray.push(stars.half(starNum));
+  let numberOfStars = rating;
+  const svgs = [];
+  while (svgs.length < 5) {
+    if (numberOfStars >= 1) {
+      svgs.push(stars.full(numberOfStars));
+    } else if (numberOfStars >= 0.5) {
+      svgs.push(stars.half(numberOfStars));
     } else {
-      starArray.push(stars.empty(starNum));
+      svgs.push(stars.empty(numberOfStars));
     }
-    starNum -= 1;
+    numberOfStars -= 1;
   }
-  return starArray;
+  return svgs;
 };
 
 const Stars = (props) => {
