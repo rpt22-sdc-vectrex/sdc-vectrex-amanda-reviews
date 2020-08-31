@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -68,40 +67,42 @@ const Badge = styled.span`
 }
 `;
 
-class Menu extends React.Component {
-  render() {
-    const { props } = this;
-    return (
-      <Container>
-        <MenuButton
-          type="button"
-          value="productReviews"
-          isActive={props.activeTab === 'productReviews'}
-          onClick={(e) => {
-            e.preventDefault();
-            props.handleMenuClick(e.target.value);
-          }}
-        >
-          Reviews for this item
-          {' '}
-          <Badge>{props.productCount}</Badge>
-        </MenuButton>
-        <MenuButton
-          type="button"
-          value="shopReviews"
-          isActive={props.activeTab === 'shopReviews'}
-          onClick={(e) => {
-            e.preventDefault();
-            props.handleMenuClick(e.target.value);
-          }}
-        >
-          Reviews for this shop
-          {' '}
-          <Badge>{props.storeCount}</Badge>
-        </MenuButton>
-      </Container>
-    );
-  }
-}
+const Menu = (props) => (
+  <Container>
+    <MenuButton
+      type="button"
+      value="productReviews"
+      isActive={props.activeTab === 'productReviews'}
+      onClick={(e) => {
+        e.preventDefault();
+        props.handleMenuClick(e.target.value);
+      }}
+    >
+      Reviews for this item
+      {' '}
+      <Badge>{props.productCount}</Badge>
+    </MenuButton>
+    <MenuButton
+      type="button"
+      value="shopReviews"
+      isActive={props.activeTab === 'shopReviews'}
+      onClick={(e) => {
+        e.preventDefault();
+        props.handleMenuClick(e.target.value);
+      }}
+    >
+      Reviews for this shop
+      {' '}
+      <Badge>{props.storeCount}</Badge>
+    </MenuButton>
+  </Container>
+);
+
+Menu.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  handleMenuClick: PropTypes.func.isRequired,
+  productCount: PropTypes.number.isRequired,
+  storeCount: PropTypes.number.isRequired,
+};
 
 export default Menu;

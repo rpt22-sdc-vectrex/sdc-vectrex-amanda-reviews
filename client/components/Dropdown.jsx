@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const DropDownContainer = styled.div`
   display: inline-flex;
@@ -167,39 +166,41 @@ const ListItem = styled.button`
   `}
 `;
 
-class Dropdown extends React.Component {
-  render() {
-    const { props } = this;
-    return (
-      <DropDownContainer>
-        <DropDownHeader
-          type="button"
-          isOpen={props.isOpen}
-          onClick={(e) => {
-            e.preventDefault();
-            props.handleDropdownClick();
-          }}
-        >
-          <TextContainer>
-            Sort by:
-            {' '}
-            {props.sortBy === 'rating' ? 'Recommended' : 'Newest'}
-          </TextContainer>
-          <SvgContainer>
-            <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polygon points="16.5 10 12 16 7.5 10 16.5 10" /></Svg>
-          </SvgContainer>
-        </DropDownHeader>
-        <DropDownSortBy isOpen={props.isOpen}>
-          <ListItem isSelected={props.sortBy === 'rating'} type="button" value="rating" onClick={props.handleSortByClick}>
-            Recommended
-          </ListItem>
-          <ListItem isSelected={props.sortBy === 'date'} type="button" value="date" onClick={props.handleSortByClick}>
-            Newest
-          </ListItem>
-        </DropDownSortBy>
-      </DropDownContainer>
-    );
-  }
-}
+const Dropdown = (props) => (
+  <DropDownContainer>
+    <DropDownHeader
+      type="button"
+      isOpen={props.isOpen}
+      onClick={(e) => {
+        e.preventDefault();
+        props.handleDropdownClick();
+      }}
+    >
+      <TextContainer>
+        Sort by:
+        {' '}
+        {props.sortBy === 'rating' ? 'Recommended' : 'Newest'}
+      </TextContainer>
+      <SvgContainer>
+        <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polygon points="16.5 10 12 16 7.5 10 16.5 10" /></Svg>
+      </SvgContainer>
+    </DropDownHeader>
+    <DropDownSortBy isOpen={props.isOpen}>
+      <ListItem isSelected={props.sortBy === 'rating'} type="button" value="rating" onClick={props.handleSortByClick}>
+        Recommended
+      </ListItem>
+      <ListItem isSelected={props.sortBy === 'date'} type="button" value="date" onClick={props.handleSortByClick}>
+        Newest
+      </ListItem>
+    </DropDownSortBy>
+  </DropDownContainer>
+);
+
+Dropdown.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  handleDropdownClick: PropTypes.func.isRequired,
+  handleSortByClick: PropTypes.func.isRequired,
+};
 
 export default Dropdown;

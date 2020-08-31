@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 const theme = {
@@ -30,5 +30,16 @@ const Theme = ({ children }) => (
     {children}
   </ThemeProvider>
 );
+
+Theme.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.array,
+    PropTypes.func,
+  ]).isRequired,
+};
 
 export default Theme;

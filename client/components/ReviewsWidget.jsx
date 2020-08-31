@@ -117,10 +117,9 @@ export default class ReviewsWidget extends React.Component {
   }
 
   handleMenuClick(tab) {
-    console.log(tab);
     this.setState({
       activeTab: tab,
-    }, () => console.log(this.state));
+    });
     const url = window.location.pathname;
     const id = url.substring(url.lastIndexOf('/') + 1) || 1;
     const { sortBy } = this.state;

@@ -31,8 +31,6 @@ const ReviewBody = (props) => {
         <Stars rating={info.rating} />
         <Paragraph>{info.text}</Paragraph>
       </TextContainer>
-      {/* conditional expression in jsx, short circuit - it's like break in for loops ->
-        bcz it's an expression it could be used inside a return statement */}
       {info.reviewPicture && (
         <ImageContainer>
           <ReviewImage alt="user_uploaded" src={info.reviewPicture} />
@@ -44,9 +42,9 @@ const ReviewBody = (props) => {
 
 ReviewBody.defaultProps = {
   info: {},
-  rating: 1,
-  text: 'Lorem ipsum',
-  reviewPicture: 'http://placehold.it/179x179',
+  rating: 0,
+  text: '',
+  reviewPicture: '',
 };
 
 ReviewBody.propTypes = {

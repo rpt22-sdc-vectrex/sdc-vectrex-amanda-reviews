@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Stars from './Stars';
 
 const MainHeading = styled.h3`
@@ -14,20 +13,20 @@ const MainHeading = styled.h3`
   margin: 0 6px 0 0;
 `;
 
-class MainHeader extends React.Component {
-  render() {
-    const { props } = this;
-    return (
-      <div>
-        <MainHeading>
-          {props.storeCount}
-          {' '}
-          reviews
-        </MainHeading>
-        <Stars rating={props.rating} />
-      </div>
-    );
-  }
-}
+const MainHeader = (props) => (
+  <div>
+    <MainHeading>
+      {props.storeCount}
+      {' '}
+      reviews
+    </MainHeading>
+    <Stars rating={props.rating} />
+  </div>
+);
+
+MainHeader.propTypes = {
+  storeCount: PropTypes.number.isRequired,
+  rating: PropTypes.number.isRequired,
+};
 
 export default MainHeader;

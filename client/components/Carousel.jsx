@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -29,10 +28,6 @@ const CarouselInner = styled.ul`
   transition: transform 0.3s ease-out;
 `;
 
-// transform: translate(${(props) => props.translate}px, 0);
-// transform: translate(${(props) => `${props.translate}px;`}, 0);
-//   left: ${(props) => props.translate};
-
 const ListItem = styled.li`
   padding: 0 9px 9px;
   box-sizing: border-box;
@@ -41,13 +36,6 @@ const ListItem = styled.li`
   flex-grow: 1;
   flex-shrink: 0;
 `;
-  // &:nth-child(1) {
-  //   padding-left: 0;
-  //   left: 0;
-  // }
-  // &:nth-child(4) {
-  //   padding-right: 0;
-  // }
 
 const ReviewImageListItem = styled.img`
   width: 100%;
@@ -103,14 +91,14 @@ class Carousel extends React.Component {
     this.setState((state) => ({
       firstItemIndex: state.firstItemIndex - 4,
       translate: state.translate + 828,
-    }), () => console.log(this.state));
+    }));
   }
 
   handleRightArrowClick() {
     this.setState((state) => ({
       firstItemIndex: state.firstItemIndex + 4,
       translate: state.translate - 828,
-    }), () => console.log(this.state));
+    }));
   }
 
   render() {
@@ -119,7 +107,6 @@ class Carousel extends React.Component {
     return (
       <Container>
         <Heading>Photos from reviews</Heading>
-        {/* Arrow conditional: */}
         {state.firstItemIndex > 0
           && (
           <ButtonLeft translate={state.translate} aria-label="arrow" type="button" onClick={() => this.handleLeftArrowClick()}>
@@ -137,7 +124,6 @@ class Carousel extends React.Component {
             ))}
           </CarouselInner>
         </CarouselOuter>
-        {/* Arrow conditional: */}
         {state.firstItemIndex + 4 < props.allImages.length
           && (
           <ButtonRight translate={state.translate} aria-label="arrow" type="button" onClick={() => this.handleRightArrowClick()}>
@@ -150,5 +136,12 @@ class Carousel extends React.Component {
     );
   }
 }
+
+Carousel.propTypes = {
+  allImages: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.oneOf([null]),
+  ])).isRequired,
+};
 
 export default Carousel;
