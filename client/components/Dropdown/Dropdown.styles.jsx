@@ -1,13 +1,11 @@
-import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
-const DropDownContainer = styled.div`
+export const DropDownContainer = styled.div`
   display: inline-flex;
   position: relative;
 `;
 
-const DropDownHeader = styled.button`
+export const DropDownHeader = styled.button`
   letter-spacing: 0.4px;
   left: 7px;
   position: relative;
@@ -61,7 +59,7 @@ const DropDownHeader = styled.button`
   `)}
   `;
 
-const SvgContainer = styled.span`
+export const SvgContainer = styled.span`
   position: relative;
   flex-grow: 0;
   flex-shrink: 0;
@@ -81,7 +79,7 @@ const SvgContainer = styled.span`
   text-transform: none;
 `;
 
-const TextContainer = styled.span`
+export const TextContainer = styled.span`
   position: relative;
   flex-grow: 1;
   box-sizing: border-box;
@@ -95,14 +93,14 @@ const TextContainer = styled.span`
   text-transform: none;
 `;
 
-const Svg = styled.svg`
+export const Svg = styled.svg`
   display:block;
   overflow: hidden;
   fill: currentColor;
   text-align: left;
 `;
 
-const DropDownList = styled.div`
+export const DropDownList = styled.div`
   background: #fff;
   border-radius: 12px;
   border: 1px rgba(34, 34, 34, 0.15) solid;
@@ -125,7 +123,7 @@ const DropDownList = styled.div`
   transition: opacity ${(props) => (props.isOpen ? 180 : 0)}ms ease-out, transform ${(props) => (props.isOpen ? 180 : 0)}ms cubic-bezier(0.175, 0.885, 0.4, 1.1);
 `;
 
-const ListItem = styled.button`
+export const ListItem = styled.button`
   font-size: 13px;
   background: none;
   border: none;
@@ -165,42 +163,3 @@ const ListItem = styled.button`
   };
   `}
 `;
-
-const Dropdown = (props) => (
-  <DropDownContainer>
-    <DropDownHeader
-      type="button"
-      isOpen={props.isOpen}
-      onClick={(e) => {
-        e.preventDefault();
-        props.handleDropdownClick();
-      }}
-    >
-      <TextContainer>
-        Sort by:
-        {' '}
-        {props.sortBy === 'rating' ? 'Recommended' : 'Newest'}
-      </TextContainer>
-      <SvgContainer>
-        <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polygon points="16.5 10 12 16 7.5 10 16.5 10" /></Svg>
-      </SvgContainer>
-    </DropDownHeader>
-    <DropDownList isOpen={props.isOpen}>
-      <ListItem isSelected={props.sortBy === 'rating'} type="button" value="rating" onClick={props.handleSortByClick}>
-        Recommended
-      </ListItem>
-      <ListItem isSelected={props.sortBy === 'date'} type="button" value="date" onClick={props.handleSortByClick}>
-        Newest
-      </ListItem>
-    </DropDownList>
-  </DropDownContainer>
-);
-
-Dropdown.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  sortBy: PropTypes.string.isRequired,
-  handleDropdownClick: PropTypes.func.isRequired,
-  handleSortByClick: PropTypes.func.isRequired,
-};
-
-export default Dropdown;

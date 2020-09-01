@@ -1,82 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  position: relative;
-`;
-
-const Heading = styled.h4`
-  font-weight: 300;
-  margin-bottom: 12px;
-  line-height: 28px;
-  padding: 9px;
-`;
-
-const CarouselOuter = styled.div`
-  overflow-x: hidden;
-  position: relative;
-`;
-
-const CarouselInner = styled.ul`
-  margin-top: 0;
-  list-style: none;
-  padding: 0px;
-  display: flex;
-  flex-wrap: nowrap;
-  transform: translate(${(props) => props.translate}px, 0);
-  transition: transform 0.3s ease-out;
-`;
-
-const ListItem = styled.li`
-  padding: 0 9px 9px;
-  box-sizing: border-box;
-  max-width: 25%;
-  flex-basis: 25%;
-  flex-grow: 1;
-  flex-shrink: 0;
-`;
-
-const ReviewImageListItem = styled.img`
-  width: 100%;
-  border-radius: 6px;
-`;
-
-const ButtonLeft = styled.button`
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  margin-left: 24px;
-  margin-top: -12px;
-  height: 48px;
-  width: 48px;
-  padding: 12px;
-  border-radius: 24px;
-  background-color: #fff;
-  border: none;
-  outline: none;
-  z-index: 1;
-`;
-
-const ButtonRight = styled.button`
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  margin-left: -67px;
-  margin-top: -12px;
-  height: 48px;
-  width: 48px;
-  padding: 12px;
-  border-radius: 24px;
-  background-color: #fff;
-  border: none;
-  outline: none;
-`;
-
-const Svg = styled.svg`
-  height: 24px;
-  width: 24px;
-`;
+import {
+  Container,
+  Heading,
+  CarouselInner,
+  CarouselOuter,
+  ListItem,
+  ReviewImageListItem,
+  ButtonLeft,
+  ButtonRight,
+  Svg,
+} from './Carousel.styles';
 
 class Carousel extends React.Component {
   constructor(props) {
@@ -90,14 +24,14 @@ class Carousel extends React.Component {
   handleLeftArrowClick() {
     this.setState((state) => ({
       firstItemIndex: state.firstItemIndex - 4,
-      translate: state.translate + 828,
+      translate: state.translate + 100,
     }));
   }
 
   handleRightArrowClick() {
     this.setState((state) => ({
       firstItemIndex: state.firstItemIndex + 4,
-      translate: state.translate - 828,
+      translate: state.translate - 100,
     }));
   }
 

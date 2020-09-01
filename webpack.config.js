@@ -1,5 +1,5 @@
 module.exports = {
-  entry: `${__dirname}/client/components/ReviewsWidget.jsx`,
+  entry: `${__dirname}/client/components/ReviewsWidget/ReviewsWidget.jsx`,
   module: {
     rules: [
       {

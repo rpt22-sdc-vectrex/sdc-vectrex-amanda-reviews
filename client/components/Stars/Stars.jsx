@@ -1,20 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  line-height:18px;
-  display: inline-block;
-  vertical-align: middle;
-`;
-
-const Svg = styled.svg`
-  display: inline-block;
-  height: 18px;
-  width: 18px;
-  color: ${(props) => props.theme.colors.darkGray};
-  margin: 0 4px 4px 0;
-`;
+import {
+  Svg,
+  Container,
+} from './Stars.styles';
 
 const stars = {
   full: (key) => <Svg key={key} xmlns="http://www.w3.org/2000/svg" viewBox="3 3 18 18" aria-hidden="true" focusable="false"><path d="M20.83,9.15l-6-.52L12.46,3.08h-.92L9.18,8.63l-6,.52L2.89,10l4.55,4L6.08,19.85l.75.55L12,17.3l5.17,3.1.75-.55L16.56,14l4.55-4Z" /></Svg>,

@@ -1,50 +1,9 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
-const List = styled.ul`
-  list-style: none;
-  padding: 6px;
-  height: 36px;
-  margin: 60px 0 30px;
-`;
-
-const ListItem = styled.li`
-  margin-right: 6px;
-  display: inline-block;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 36px;
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
-  background-color: #efefef;
-  color: ${(props) => props.theme.colors.paleGray};
-`;
-
-const Link = styled.a`
-  &:hover {
-    background-color: #dedede;
-  };
-  &.active {
-    background-color: #a7a7a7;
-  }
-  width: 100%;
-  height: 100%;
-  border-radius: 18px;
-  display: inline-block;
-  text-decoration: none;
-  color: ${(props) => props.theme.colors.darkGray};
-`;
-
-const Span = styled.span`
-  width: 18px;
-  height: 18px;
-  display: inline-block;
-  vertical-align: sub;
-`;
+import {
+  Link, ListItem, List, Span,
+} from './PageList.styles';
 
 // conditonal rendering using built-in "children" prop:
 // if condition true rander element with link around it otherwise without link

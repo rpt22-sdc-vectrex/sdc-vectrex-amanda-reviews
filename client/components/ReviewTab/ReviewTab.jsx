@@ -1,23 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Dropdown from './Dropdown';
-import Menu from './Menu';
-
-const Container = styled.div`
-  margin-bottom: 20px;
-  overflow: visible;
-  width: auto;
-  padding-left: 0px;
-`;
-
-const DropdownCont = styled.div`
-  justify-content: flex-end;
-  display: flex;
-  box-sizing: border-box;
-  margin-top: 6px;
-  width: 830px;
-`;
+import Dropdown from '../Dropdown/Dropdown';
+import Menu from '../Menu/Menu';
+import {
+  Container,
+  DropdownCont,
+} from './ReviewTab.styles';
 
 const ReviewTab = (props) => (
   <Container>

@@ -1,22 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
-import ReviewTab from './ReviewTab';
-import Carousel from './Carousel';
-import ReviewPager from './ReviewPager';
-import Theme from './Theme';
-import MainHeader from './MainHeader';
+import ReviewTab from '../ReviewTab/ReviewTab';
+import Carousel from '../Carousel/Carousel';
+import ReviewPager from '../ReviewPager/ReviewPager';
+import Theme from '../Theme';
+import MainHeader from '../MainHeader/MainHeader';
+import Container from './ReviewsWidget.styles';
 
 const serverUrl = 'http://localhost:8888';
-
-// width should be width: 100% if rendered with proxy, otherwise 830px for development
-const Container = styled.div`
-  font-weight: 300;
-  font-family: ${(props) => props.theme.fonts[0]};
-  line-height: 150%;
-  letter-spacing: 0.4px;
-  width: 830px;
-`;
 
 export default class ReviewsWidget extends React.Component {
   constructor(props) {

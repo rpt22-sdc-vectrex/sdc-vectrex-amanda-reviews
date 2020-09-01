@@ -1,8 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   border-bottom: 2px solid rgba(34, 34, 34, 0.15);
   margin: 0;
@@ -11,7 +9,7 @@ const Container = styled.div`
   color: #222;
 `;
 
-const MenuButton = styled.button`
+export const MenuButton = styled.button`
   background: none;
   border: none;
   color: inherit;
@@ -51,7 +49,7 @@ const MenuButton = styled.button`
   }
 `;
 
-const Badge = styled.span`
+export const Badge = styled.span`
   background: #eaeaea;
   border-radius: 15px;
   color: inherit;
@@ -64,45 +62,4 @@ const Badge = styled.span`
   min-width: 25px;
   margin-left: 12px !important;
   box-sizing: border-box;
-}
 `;
-
-const Menu = (props) => (
-  <Container>
-    <MenuButton
-      type="button"
-      value="productReviews"
-      isActive={props.activeTab === 'productReviews'}
-      onClick={(e) => {
-        e.preventDefault();
-        props.handleMenuClick(e.target.value);
-      }}
-    >
-      Reviews for this item
-      {' '}
-      <Badge>{props.productReviewCount}</Badge>
-    </MenuButton>
-    <MenuButton
-      type="button"
-      value="shopReviews"
-      isActive={props.activeTab === 'shopReviews'}
-      onClick={(e) => {
-        e.preventDefault();
-        props.handleMenuClick(e.target.value);
-      }}
-    >
-      Reviews for this shop
-      {' '}
-      <Badge>{props.storeReviewCount}</Badge>
-    </MenuButton>
-  </Container>
-);
-
-Menu.propTypes = {
-  activeTab: PropTypes.string.isRequired,
-  handleMenuClick: PropTypes.func.isRequired,
-  productReviewCount: PropTypes.number.isRequired,
-  storeReviewCount: PropTypes.number.isRequired,
-};
-
-export default Menu;
