@@ -20,7 +20,7 @@ export const Paragraph = styled.p`
 `;
 
 export const ReviewImage = styled.img`
-  width: 179px;
-  height: 179px;
+  width: 100%;
+  height: auto;
   border-radius: 6px;
 `;

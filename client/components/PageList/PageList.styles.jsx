@@ -42,3 +42,9 @@ export const Span = styled.span`
   display: inline-block;
   vertical-align: sub;
 `;
+
+export const Ellipsis = styled.span`
+  font-size: 26px;
+  vertical-align: middle;
+  margin-right: 6px;
+`;

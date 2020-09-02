@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Link, ListItem, List, Span,
+  Link, ListItem, List, Span, Ellipsis,
 } from './PageList.styles';
 
 // conditonal rendering using built-in "children" prop:
@@ -15,7 +16,58 @@ function linkIf(condition, props, children) {
   return children;
 }
 
+const PageLink = (props) => (
+  <ListItem key={props.pageNum}>
+    <Link
+      onClick={(e) => {
+        e.preventDefault();
+        props.handleClick(props.pageNum);
+      }}
+      className={props.activePage === props.pageNum && 'active'}
+      href="."
+    >
+      {props.pageNum}
+    </Link>
+  </ListItem>
+);
+
 class PageList extends React.Component {
+  static collapsePages(pages, activePage, handleClick) {
+    if (pages.length <= 3) {
+      return pages.map((pageNum) => (
+        <PageLink pageNum={pageNum} activePage={activePage} handleClick={handleClick} />
+      ));
+    }
+    if (activePage <= 2) {
+      return (
+        <>
+          <PageLink pageNum={1} activePage={activePage} handleClick={handleClick} />
+          <PageLink pageNum={2} activePage={activePage} handleClick={handleClick} />
+          <Ellipsis>…</Ellipsis>
+          <PageLink pageNum={pages.length} activePage={activePage} handleClick={handleClick} />
+        </>
+      );
+    } if (activePage >= pages.length - 1) {
+      return (
+        <>
+          <PageLink pageNum={1} activePage={activePage} handleClick={handleClick} />
+          <Ellipsis>…</Ellipsis>
+          <PageLink pageNum={pages.length - 1} activePage={activePage} handleClick={handleClick} />
+          <PageLink pageNum={pages.length} activePage={activePage} handleClick={handleClick} />
+        </>
+      );
+    }
+    return (
+      <>
+        <PageLink pageNum={1} activePage={activePage} handleClick={handleClick} />
+        <Ellipsis>…</Ellipsis>
+        <PageLink pageNum={activePage} activePage={activePage} handleClick={handleClick} />
+        <Ellipsis>…</Ellipsis>
+        <PageLink pageNum={pages.length} activePage={activePage} handleClick={handleClick} />
+      </>
+    );
+  }
+
   render() {
     const pages = [];
     const { props } = this;
@@ -39,20 +91,7 @@ class PageList extends React.Component {
                   </svg>
                 </Span>)}
             </ListItem>
-            {pages.map((pageNum) => (
-              <ListItem key={pageNum}>
-                <Link
-                  onClick={(e) => {
-                    e.preventDefault();
-                    props.handlePageClick(pageNum);
-                  }}
-                  className={props.activePage === pageNum && 'active'}
-                  href="."
-                >
-                  {pageNum}
-                </Link>
-              </ListItem>
-            ))}
+            {PageList.collapsePages(pages, props.activePage, props.handlePageClick)}
             <ListItem>
               {linkIf(props.activePage < props.totalPages, {
                 onClick: (e) => {
