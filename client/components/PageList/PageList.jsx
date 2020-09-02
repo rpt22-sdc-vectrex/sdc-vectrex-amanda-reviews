@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -35,7 +34,12 @@ class PageList extends React.Component {
   static collapsePages(pages, activePage, handleClick) {
     if (pages.length <= 3) {
       return pages.map((pageNum) => (
-        <PageLink pageNum={pageNum} activePage={activePage} handleClick={handleClick} />
+        <PageLink
+          key={pageNum}
+          pageNum={pageNum}
+          activePage={activePage}
+          handleClick={handleClick}
+        />
       ));
     }
     if (activePage <= 2) {

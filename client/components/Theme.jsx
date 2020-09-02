@@ -26,7 +26,7 @@ const theme = {
     smallMain: '300 13px/150% Roboto',
     boldMain: '500 13px/150% Roboto',
     badgeMain: '400 13px/1 Roboto',
-    baseHeading: '300 26px/42px GuardianEgypt',
+    baseHeading: '300 26px/42px GuardianEgypt, Merriweather, serif',
   },
 };
 
