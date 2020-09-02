@@ -57,7 +57,7 @@ app.get('/review-list/:productId', (req, res) => {
   const limit = 4;
   const { productId } = req.params;
   const sortBy = req.query.sortBy === 'date' ? 'date' : 'rating';
-  const entireStore = !!req.query.store;
+  const entireStore = req.query.store === 'true';
   const sql = entireStore ? `
     SELECT * FROM reviews 
     LEFT JOIN product_to_stores ON reviews.product_id = product_to_stores.id 
@@ -68,7 +68,6 @@ app.get('/review-list/:productId', (req, res) => {
     LIMIT ?, ?;
     `
     : 'SELECT * FROM reviews WHERE product_id = ? ORDER BY ?? DESC LIMIT ?, ?;';
-
   const queryArgs = [productId, sortBy, pageIndex * limit, limit];
   db.query(sql, queryArgs, (err, reviews) => {
     if (err) {

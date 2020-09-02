@@ -11,6 +11,7 @@ const Heading = styled.h4`
   font-weight: 300;
   margin-bottom: 12px;
   line-height: 28px;
+  padding: 9px;
 `;
 
 const CarouselOuter = styled.div`
@@ -19,6 +20,7 @@ const CarouselOuter = styled.div`
 `;
 
 const CarouselInner = styled.ul`
+  margin-top: 0;
   list-style: none;
   padding: 0px;
   display: flex;
@@ -49,15 +51,15 @@ const ListItem = styled.li`
 
 const ReviewImageListItem = styled.img`
   width: 100%;
-  height: 100%;
   border-radius: 6px;
 `;
 
 const ButtonLeft = styled.button`
   position: absolute;
-  top: 48%;
+  top: 50%;
   left: 0%;
   margin-left: 24px;
+  margin-top: -12px;
   height: 48px;
   width: 48px;
   padding: 12px;
@@ -68,16 +70,12 @@ const ButtonLeft = styled.button`
   z-index: 1;
 `;
 
-const SvgLeft = styled.svg`
-  height: 20px;
-  width: 20px;
-`;
-
 const ButtonRight = styled.button`
   position: absolute;
-  top: 48%;
+  top: 50%;
   left: 100%;
   margin-left: -67px;
+  margin-top: -12px;
   height: 48px;
   width: 48px;
   padding: 12px;
@@ -87,7 +85,7 @@ const ButtonRight = styled.button`
   outline: none;
 `;
 
-const SvgRight = styled.svg`
+const Svg = styled.svg`
   height: 24px;
   width: 24px;
 `;
@@ -123,7 +121,13 @@ class Carousel extends React.Component {
         <Heading>Photos from reviews</Heading>
         {/* Arrow conditional: */}
         {state.firstItemIndex > 0
-          && <ButtonLeft translate={state.translate} aria-label="arrow" type="button" onClick={() => this.handleLeftArrowClick()}><SvgLeft fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="3 3 18 18" aria-hidden="true" focusable="false"><path d="M16,21a0.994,0.994,0,0,1-.664-0.253L5.5,12l9.841-8.747a1,1,0,0,1,1.328,1.494L8.5,12l8.159,7.253A1,1,0,0,1,16,21Z" /></SvgLeft></ButtonLeft>}
+          && (
+          <ButtonLeft translate={state.translate} aria-label="arrow" type="button" onClick={() => this.handleLeftArrowClick()}>
+            <Svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M16,21a0.994,0.994,0,0,1-.664-0.253L5.5,12l9.841-8.747a1,1,0,0,1,1.328,1.494L8.5,12l8.159,7.253A1,1,0,0,1,16,21Z" />
+            </Svg>
+          </ButtonLeft>
+          )}
         <CarouselOuter>
           <CarouselInner translate={state.translate}>
             {props.allImages.map((image) => (
@@ -135,7 +139,13 @@ class Carousel extends React.Component {
         </CarouselOuter>
         {/* Arrow conditional: */}
         {state.firstItemIndex + 4 < props.allImages.length
-          && <ButtonRight translate={state.translate} aria-label="arrow" type="button" onClick={() => this.handleRightArrowClick()}><SvgRight fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8,21a1,1,0,0,1-.664-1.747L15.5,12,7.336,4.747A1,1,0,0,1,8.664,3.253L18.5,12,8.664,20.747A0.994,0.994,0,0,1,8,21Z" /></SvgRight></ButtonRight>}
+          && (
+          <ButtonRight translate={state.translate} aria-label="arrow" type="button" onClick={() => this.handleRightArrowClick()}>
+            <Svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M8,21a1,1,0,0,1-.664-1.747L15.5,12,7.336,4.747A1,1,0,0,1,8.664,3.253L18.5,12,8.664,20.747A0.994,0.994,0,0,1,8,21Z" />
+            </Svg>
+          </ButtonRight>
+          )}
       </Container>
     );
   }

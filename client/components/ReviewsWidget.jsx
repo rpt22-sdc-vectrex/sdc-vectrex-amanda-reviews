@@ -1,21 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Dropdown from './Dropdown';
-import Stars from './Stars';
+import ReviewTab from './ReviewTab';
 import Carousel from './Carousel';
 import Pager from './Pager';
 import Theme from './Theme';
+import MainHeader from './MainHeader';
 
 const serverUrl = 'http://localhost:8888';
 
-export const MainHeading = styled.h3`
-  font-family: ${({ theme: { fonts } }) => `${fonts[1]}`};
-  font-size: 26px;
-  font-weight: 300;
-`;
-
-// width should be width: 100% if rendered with proxy, otherwise 810px for development
+// width should be width: 100% if rendered with proxy, otherwise 830px for development
 const Container = styled.div`
   font-weight: 300;
   font-family: ${(props) => props.theme.fonts[0]};
@@ -35,8 +29,13 @@ export default class ReviewsWidget extends React.Component {
       reviewPictures: [],
       pageNumber: 1,
       sortBy: 'rating',
+      isDropdownOpen: false,
+      activeTab: 'productReviews',
     };
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.handleSortByClick = this.handleSortByClick.bind(this);
+    this.handleDropdownClick = this.handleDropdownClick.bind(this);
+    this.handleMenuClick = this.handleMenuClick.bind(this);
   }
 
   componentDidMount() {
@@ -52,11 +51,45 @@ export default class ReviewsWidget extends React.Component {
           ...reviewSummary.data,
           reviewList: reviewList.data,
           reviewPictures: reviewPictures.data,
-        }, () => console.log(this.state));
+        });
       })
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  handleSortByClick(e) {
+    e.preventDefault();
+    const sort = e.target.value;
+    this.setState((state) => ({
+      sortBy: sort,
+      pageNumber: 1,
+      isDropdownOpen: !state.isDropdownOpen,
+    }));
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf('/') + 1) || 1;
+    const { activeTab } = this.state;
+    axios.get(`${serverUrl}/review-list/${id}`, {
+      params: {
+        pageNumber: 1,
+        sortBy: sort,
+        store: activeTab === 'shopReviews',
+      },
+    })
+      .then((response) => {
+        this.setState({
+          reviewList: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  handleDropdownClick() {
+    this.setState((state) => ({
+      isDropdownOpen: !state.isDropdownOpen,
+    }));
   }
 
   handlePageClick(pageNum) {
@@ -65,11 +98,38 @@ export default class ReviewsWidget extends React.Component {
     this.setState({
       pageNumber: pageNum,
     });
-    const { sortBy } = this.state;
+    const { sortBy, activeTab } = this.state;
     axios.get(`${serverUrl}/review-list/${id}`, {
       params: {
         pageNumber: pageNum,
         sortBy,
+        store: activeTab === 'shopReviews',
+      },
+    })
+      .then((response) => {
+        this.setState({
+          reviewList: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  handleMenuClick(tab) {
+    console.log(tab);
+    this.setState({
+      activeTab: tab,
+    }, () => console.log(this.state));
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf('/') + 1) || 1;
+    const { sortBy } = this.state;
+    const store = tab === 'shopReviews';
+    axios.get(`${serverUrl}/review-list/${id}`, {
+      params: {
+        pageNumber: 1,
+        sortBy,
+        store,
       },
     })
       .then((response) => {
@@ -87,25 +147,17 @@ export default class ReviewsWidget extends React.Component {
     return (
       <Theme>
         <Container>
-          <MainHeading>
-            {state.storeCount}
-            {' '}
-            reviews
-          </MainHeading>
-          <Stars rating={state.rating} />
-          <div>
-            <button type="button" className="itemReviews">
-              Reviews for this item
-              {' '}
-              {state.productCount}
-            </button>
-            <button type="button" className="shopReviews">
-              Reviews for this shop
-              {' '}
-              {state.storeCount}
-            </button>
-          </div>
-          <Dropdown />
+          <MainHeader rating={state.rating} storeCount={state.storeCount} />
+          <ReviewTab
+            isOpen={state.isDropdownOpen}
+            handleDropdownClick={this.handleDropdownClick}
+            handleSortByClick={this.handleSortByClick}
+            storeCount={state.storeCount}
+            productCount={state.productCount}
+            sortBy={state.sortBy}
+            activeTab={state.activeTab}
+            handleMenuClick={this.handleMenuClick}
+          />
           <Pager
             handlePageClick={this.handlePageClick}
             reviewList={state.reviewList}

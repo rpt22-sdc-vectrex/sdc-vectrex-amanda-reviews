@@ -9,7 +9,7 @@ const List = styled.ul`
   list-style: none;
   padding: 6px;
   height: 36px;
-  margin-bottom: 40px;
+  margin: 60px 0 30px;
 `;
 
 const ListItem = styled.li`
@@ -91,7 +91,8 @@ class Pager extends React.Component {
                     props.handlePageClick(pageNum);
                   }}
                   className={props.activePage === pageNum && 'active'}
-                  href="http://placehold.it"
+                  // TODO: fix link
+                  href="."
                 >
                   {pageNum}
                 </Link>
