@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  line-height:18px;
+export const StarContainer = styled.div`
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: sub;
 `;
 
 export const Svg = styled.svg`

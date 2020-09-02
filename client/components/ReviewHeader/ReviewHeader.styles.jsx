@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
-  font-size: 13px;
+const ReviewHeaderContainer = styled.div`
+  font-size: ${(props) => props.theme.fontSize.extraSmall};
   color: ${(props) => props.theme.colors.middleGray};
   margin-bottom: 6px;
 `;
 
-export default Container;
+export default ReviewHeaderContainer;

@@ -3,9 +3,8 @@ import axios from 'axios';
 import ReviewTab from '../ReviewTab/ReviewTab';
 import Carousel from '../Carousel/Carousel';
 import ReviewPager from '../ReviewPager/ReviewPager';
-import Theme from '../Theme';
 import MainHeader from '../MainHeader/MainHeader';
-import Container from './ReviewsWidget.styles';
+import ReviewsWidgetContainer from './ReviewsWidget.styles';
 
 const serverUrl = 'http://localhost:8888';
 
@@ -116,28 +115,26 @@ export default class ReviewsWidget extends React.Component {
     const reviewPerPage = 4;
     const totalPages = state.activeTab === 'productReviews' ? Math.ceil(state.productReviewCount / reviewPerPage) : Math.ceil(state.storeReviewCount / reviewPerPage);
     return (
-      <Theme>
-        <Container>
-          <MainHeader rating={state.rating} storeReviewCount={state.storeReviewCount} />
-          <ReviewTab
-            isOpen={state.isDropdownOpen}
-            handleDropdownClick={this.handleDropdownClick}
-            handleSortByClick={this.handleSortByClick}
-            storeReviewCount={state.storeReviewCount}
-            productReviewCount={state.productReviewCount}
-            sortBy={state.sortBy}
-            activeTab={state.activeTab}
-            handleMenuClick={this.handleMenuClick}
-          />
-          <ReviewPager
-            handlePageClick={this.handlePageClick}
-            reviewList={state.reviewList}
-            activePage={state.pageNumber}
-            totalPages={totalPages}
-          />
-          <Carousel reviewPictures={state.reviewPictures} />
-        </Container>
-      </Theme>
+      <ReviewsWidgetContainer>
+        <MainHeader rating={state.rating} storeReviewCount={state.storeReviewCount} />
+        <ReviewTab
+          isOpen={state.isDropdownOpen}
+          handleDropdownClick={this.handleDropdownClick}
+          handleSortByClick={this.handleSortByClick}
+          storeReviewCount={state.storeReviewCount}
+          productReviewCount={state.productReviewCount}
+          sortBy={state.sortBy}
+          activeTab={state.activeTab}
+          handleMenuClick={this.handleMenuClick}
+        />
+        <ReviewPager
+          handlePageClick={this.handlePageClick}
+          reviewList={state.reviewList}
+          activePage={state.pageNumber}
+          totalPages={totalPages}
+        />
+        <Carousel reviewPictures={state.reviewPictures} />
+      </ReviewsWidgetContainer>
     );
   }
 }

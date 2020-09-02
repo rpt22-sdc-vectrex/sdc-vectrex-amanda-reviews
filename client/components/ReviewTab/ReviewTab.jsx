@@ -3,27 +3,27 @@ import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown/Dropdown';
 import Menu from '../Menu/Menu';
 import {
-  Container,
-  DropdownCont,
+  ReviewTabContainer,
+  DropdownContainer,
 } from './ReviewTab.styles';
 
 const ReviewTab = (props) => (
-  <Container>
+  <ReviewTabContainer>
     <Menu
       storeReviewCount={props.storeReviewCount}
       productReviewCount={props.productReviewCount}
       activeTab={props.activeTab}
       handleMenuClick={props.handleMenuClick}
     />
-    <DropdownCont>
+    <DropdownContainer>
       <Dropdown
         sortBy={props.sortBy}
         isOpen={props.isOpen}
         handleDropdownClick={props.handleDropdownClick}
         handleSortByClick={props.handleSortByClick}
       />
-    </DropdownCont>
-  </Container>
+    </DropdownContainer>
+  </ReviewTabContainer>
 );
 
 ReviewTab.propTypes = {

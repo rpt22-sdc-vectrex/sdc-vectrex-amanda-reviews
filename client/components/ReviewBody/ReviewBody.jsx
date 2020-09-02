@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Stars from '../Stars/Stars';
-import ReviewImage from '../shared/ReviewImage';
 import {
-  Container,
+  ReviewImage,
+  ReviewBodyContainer,
   TextContainer,
   Paragraph,
   ImageContainer,
 } from './ReviewBody.styles';
 
 const ReviewBody = (props) => (
-  <Container>
+  <ReviewBodyContainer>
     <TextContainer>
       <Stars rating={props.rating} />
       <Paragraph>{props.text}</Paragraph>
@@ -20,7 +20,7 @@ const ReviewBody = (props) => (
       <ReviewImage alt="user_uploaded" src={props.reviewPicture} />
     </ImageContainer>
     )}
-  </Container>
+  </ReviewBodyContainer>
 );
 
 ReviewBody.defaultProps = {

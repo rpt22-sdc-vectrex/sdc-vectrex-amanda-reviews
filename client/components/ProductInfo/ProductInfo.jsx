@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import Link from '../shared/Link';
 import ImageSmall from '../shared/ImageSmall';
 import {
-  Container,
+  ProductInfoContainer,
   Paragraph,
 } from './ProductInfo.styles';
 
 const ProductInfo = (props) => (
-  <Container>
+  <ProductInfoContainer>
     <Paragraph>Purchased item:</Paragraph>
     <ImageSmall alt="product" src={props.mainImage} />
     <Link href={`/${props.product_id}`}>{`${props.itemName.slice(0, 60)}...`}</Link>
-  </Container>
+  </ProductInfoContainer>
 );
 
 ProductInfo.defaultProps = {

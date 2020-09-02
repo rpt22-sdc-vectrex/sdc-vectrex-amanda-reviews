@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Svg,
-  Container,
+  StarContainer,
 } from './Stars.styles';
 
 const stars = {
@@ -30,9 +30,9 @@ const renderRating = (rating) => {
 const Stars = (props) => {
   const { rating } = props;
   return (
-    <Container>
+    <StarContainer>
       {renderRating(rating)}
-    </Container>
+    </StarContainer>
   );
 };
 

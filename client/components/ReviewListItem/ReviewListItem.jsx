@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import ReviewHeader from '../ReviewHeader/ReviewHeader';
 import ReviewBody from '../ReviewBody/ReviewBody';
 import ProductInfo from '../ProductInfo/ProductInfo';
-import Container from './ReviewListItem.styles';
+import ReviewListItemContainer from './ReviewListItem.styles';
 
 const ReviewListItem = (props) => {
   const { review } = props;
   return (
-    <Container>
+    <ReviewListItemContainer>
       <ReviewHeader
         userPicture={review.userPicture}
         user_profile_url={review.user_profile_url}
@@ -25,7 +25,7 @@ const ReviewListItem = (props) => {
         mainImage={review.mainImage}
         product_id={review.product_id}
       />
-    </Container>
+    </ReviewListItemContainer>
   );
 };
 

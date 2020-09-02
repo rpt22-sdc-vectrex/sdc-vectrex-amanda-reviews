@@ -5,7 +5,7 @@ export const Container = styled.div`
 `;
 
 export const Heading = styled.h4`
-  font-weight: 300;
+  font-weight: ${(props) => props.theme.fontWeight.light};
   margin-bottom: 12px;
   line-height: 28px;
   padding: 9px;
@@ -18,7 +18,6 @@ export const CarouselOuter = styled.div`
 
 export const CarouselInner = styled.ul`
   margin-top: 0;
-  list-style: none;
   padding: 0px;
   display: flex;
   flex-wrap: nowrap;
@@ -38,37 +37,6 @@ export const ListItem = styled.li`
 export const ReviewImageListItem = styled.img`
   width: 100%;
   border-radius: 6px;
-`;
-
-export const ButtonLeft = styled.button`
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  margin-left: 24px;
-  margin-top: -12px;
-  height: 48px;
-  width: 48px;
-  padding: 12px;
-  border-radius: 24px;
-  background-color: #fff;
-  border: none;
-  outline: none;
-  z-index: 1;
-`;
-
-export const ButtonRight = styled.button`
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  margin-left: -67px;
-  margin-top: -12px;
-  height: 48px;
-  width: 48px;
-  padding: 12px;
-  border-radius: 24px;
-  background-color: #fff;
-  border: none;
-  outline: none;
 `;
 
 export const Svg = styled.svg`

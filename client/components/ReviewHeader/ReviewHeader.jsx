@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Link from '../shared/Link';
 import ImageSmall from '../shared/ImageSmall';
-import Container from './ReviewHeader.styles';
+import ReviewHeaderContainer from './ReviewHeader.styles';
 
 const ReviewHeader = (props) => (
-  <Container>
+  <ReviewHeaderContainer>
     <ImageSmall alt="profile" src={props.userPicture} bRadius="18px" />
     <Link href={props.user_profile_url}>{props.username}</Link>
-    { moment(props.date).format('ll')}
-  </Container>
+    {moment(props.date).format('ll')}
+  </ReviewHeaderContainer>
 );
 
 ReviewHeader.defaultProps = {
-  userPicture: 'http://placehold.it/36x36',
-  user_profile_url: 'http://placehold.it/179x179',
+  userPicture: '',
+  user_profile_url: '',
   username: '',
-  date: '2019-10-05T07:00:00.000Z',
+  date: '',
 };
 
 ReviewHeader.propTypes = {

@@ -9,15 +9,10 @@ export const DropDownHeader = styled.button`
   letter-spacing: 0.4px;
   left: 7px;
   position: relative;
-  color: #222222;
-  font-size: 13px;
-  font-family: ${(props) => props.theme.fonts[0]};
-  font-weight: 500;
-  line-height: 1.4;
+  font: ${(props) => props.theme.fontShorthand.boldMain};
   min-height: 36px;
   min-width: 36px;
   padding: 9px 15px;
-  text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,19 +59,13 @@ export const SvgContainer = styled.span`
   flex-grow: 0;
   flex-shrink: 0;
   display: inline-block;
-  fill: currentColor;
   height: 24px;
   vertical-align: middle;
   width: 24px;
   box-sizing: border-box;
-  margin:0;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #222222;
+  margin: 0;
   font: inherit;
   cursor: pointer;
-  font-weight: 400;
-  text-transform: none;
 `;
 
 export const TextContainer = styled.span`
@@ -84,13 +73,8 @@ export const TextContainer = styled.span`
   flex-grow: 1;
   box-sizing: border-box;
   margin: 0;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #222222;
   text-align: left;
   cursor: pointer;
-  font-weight: 500;
-  text-transform: none;
 `;
 
 export const Svg = styled.svg`
@@ -108,14 +92,11 @@ export const DropDownList = styled.div`
   min-width: 100%;
   max-width: 300px;
   overflow: hidden;
-  font-size: 16px;
-  font-family: ${(props) => props.theme.fonts[0]};
   max-height: 480px;
   position: absolute;
   left: 0;
   top: 0;
-  padding-left: 0;
-  padding-top: 40px;
+  padding: 40px 0 0 0;
   z-index: 10;
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
   transform: scaleX(${(props) => (props.isOpen ? 1 : 0.5)}) scaleY(${(props) => (props.isOpen ? 1 : 0.2)}) perspective(1px);
@@ -124,18 +105,15 @@ export const DropDownList = styled.div`
 `;
 
 export const ListItem = styled.button`
-  font-size: 13px;
+  font: ${(props) => props.theme.fontShorthand.smallMain};
   background: none;
   border: none;
-  font-weight: 300;
-  font-family: ${(props) => props.theme.fonts[0]};
   letter-spacing: inherit;
   cursor: pointer;
   text-align: left;
   outline: none;
-  text-decoration: none;
   transition: background-color 100ms ease-out;
-  color: #222222;
+  color: ${(props) => props.theme.colors.darkGray};
   display: flex;
   flex-wrap: nowrap;
   align-items: center;

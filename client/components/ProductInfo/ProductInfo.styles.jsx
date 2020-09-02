@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const ProductInfoContainer = styled.div`
   margin-left: 48px;
-  font-size: 13px;
+  font-size: ${(props) => props.theme.fontSize.extraSmall};
 `;
 
 export const Paragraph = styled.p`
