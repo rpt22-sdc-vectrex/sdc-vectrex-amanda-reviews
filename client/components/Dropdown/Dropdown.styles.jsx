@@ -1,26 +1,18 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
-import React from 'react';
 import styled from 'styled-components';
 
-const DropDownContainer = styled.div`
+export const DropDownContainer = styled.div`
   display: inline-flex;
   position: relative;
 `;
 
-const DropDownHeader = styled.button`
+export const DropDownHeader = styled.button`
   letter-spacing: 0.4px;
   left: 7px;
   position: relative;
-  color: #222222;
-  font-size: 13px;
-  font-family: ${(props) => props.theme.fonts[0]};
-  font-weight: 500;
-  line-height: 1.4;
+  font: ${(props) => props.theme.fontShorthand.boldMain};
   min-height: 36px;
   min-width: 36px;
   padding: 9px 15px;
-  text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,48 +54,37 @@ const DropDownHeader = styled.button`
   `)}
   `;
 
-const SvgContainer = styled.span`
+export const SvgContainer = styled.span`
   position: relative;
   flex-grow: 0;
   flex-shrink: 0;
   display: inline-block;
-  fill: currentColor;
   height: 24px;
   vertical-align: middle;
   width: 24px;
   box-sizing: border-box;
-  margin:0;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #222222;
+  margin: 0;
   font: inherit;
   cursor: pointer;
-  font-weight: 400;
-  text-transform: none;
 `;
 
-const TextContainer = styled.span`
+export const TextContainer = styled.span`
   position: relative;
   flex-grow: 1;
   box-sizing: border-box;
   margin: 0;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #222222;
   text-align: left;
   cursor: pointer;
-  font-weight: 500;
-  text-transform: none;
 `;
 
-const Svg = styled.svg`
+export const Svg = styled.svg`
   display:block;
   overflow: hidden;
   fill: currentColor;
   text-align: left;
 `;
 
-const DropDownSortBy = styled.div`
+export const DropDownList = styled.div`
   background: #fff;
   border-radius: 12px;
   border: 1px rgba(34, 34, 34, 0.15) solid;
@@ -111,14 +92,11 @@ const DropDownSortBy = styled.div`
   min-width: 100%;
   max-width: 300px;
   overflow: hidden;
-  font-size: 16px;
-  font-family: ${(props) => props.theme.fonts[0]};
   max-height: 480px;
   position: absolute;
   left: 0;
   top: 0;
-  padding-left: 0;
-  padding-top: 40px;
+  padding: 40px 0 0 0;
   z-index: 10;
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
   transform: scaleX(${(props) => (props.isOpen ? 1 : 0.5)}) scaleY(${(props) => (props.isOpen ? 1 : 0.2)}) perspective(1px);
@@ -126,19 +104,16 @@ const DropDownSortBy = styled.div`
   transition: opacity ${(props) => (props.isOpen ? 180 : 0)}ms ease-out, transform ${(props) => (props.isOpen ? 180 : 0)}ms cubic-bezier(0.175, 0.885, 0.4, 1.1);
 `;
 
-const ListItem = styled.button`
-  font-size: 13px;
+export const ListItem = styled.button`
+  font: ${(props) => props.theme.fontShorthand.smallMain};
   background: none;
   border: none;
-  font-weight: 300;
-  font-family: ${(props) => props.theme.fonts[0]};
   letter-spacing: inherit;
   cursor: pointer;
   text-align: left;
   outline: none;
-  text-decoration: none;
   transition: background-color 100ms ease-out;
-  color: #222222;
+  color: ${(props) => props.theme.colors.darkGray};
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -166,40 +141,3 @@ const ListItem = styled.button`
   };
   `}
 `;
-
-class Dropdown extends React.Component {
-  render() {
-    const { props } = this;
-    return (
-      <DropDownContainer>
-        <DropDownHeader
-          type="button"
-          isOpen={props.isOpen}
-          onClick={(e) => {
-            e.preventDefault();
-            props.handleDropdownClick();
-          }}
-        >
-          <TextContainer>
-            Sort by:
-            {' '}
-            {props.sortBy === 'rating' ? 'Recommended' : 'Newest'}
-          </TextContainer>
-          <SvgContainer>
-            <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polygon points="16.5 10 12 16 7.5 10 16.5 10" /></Svg>
-          </SvgContainer>
-        </DropDownHeader>
-        <DropDownSortBy isOpen={props.isOpen}>
-          <ListItem isSelected={props.sortBy === 'rating'} type="button" value="rating" onClick={props.handleSortByClick}>
-            Recommended
-          </ListItem>
-          <ListItem isSelected={props.sortBy === 'date'} type="button" value="date" onClick={props.handleSortByClick}>
-            Newest
-          </ListItem>
-        </DropDownSortBy>
-      </DropDownContainer>
-    );
-  }
-}
-
-export default Dropdown;

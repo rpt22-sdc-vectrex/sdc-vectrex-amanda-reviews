@@ -22,5 +22,6 @@ module.exports = {
   ],
   rules: {
     'no-console': 'off',
+    'react/destructuring-assignment': [0],
   },
 };

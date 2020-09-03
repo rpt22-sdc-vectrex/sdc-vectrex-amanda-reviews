@@ -43,9 +43,9 @@ app.get('/review-summary/:productId', (req, res) => {
       res.status(500).send(err);
     } else {
       const reviewSummary = {};
-      reviewSummary.storeCount = result[0][0].count;
+      reviewSummary.storeReviewCount = result[0][0].count;
       reviewSummary.rating = Math.round(result[0][0].avgRating * 2) / 2;
-      reviewSummary.productCount = result[1][0].count;
+      reviewSummary.productReviewCount = result[1][0].count;
       res.send(reviewSummary);
     }
   });

@@ -1,52 +1,9 @@
-/* eslint-disable react/prefer-stateless-function */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import ReviewList from './ReviewList';
-
-// TODO: Refacor styling
-const List = styled.ul`
-  list-style: none;
-  padding: 6px;
-  height: 36px;
-  margin: 60px 0 30px;
-`;
-
-const ListItem = styled.li`
-  margin-right: 6px;
-  display: inline-block;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 36px;
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
-  background-color: #efefef;
-  color: ${(props) => props.theme.colors.paleGray};
-`;
-
-const Link = styled.a`
-  &:hover {
-    background-color: #dedede;
-  };
-  &.active {
-    background-color: #a7a7a7;
-  }
-  width: 100%;
-  height: 100%;
-  border-radius: 18px;
-  display: inline-block;
-  text-decoration: none;
-  color: ${(props) => props.theme.colors.darkGray};
-`;
-
-const Span = styled.span`
-  width: 18px;
-  height: 18px;
-  display: inline-block;
-  vertical-align: sub;
-`;
+import {
+  Link, ListItem, List, Span, Ellipsis,
+} from './PageList.styles';
 
 // conditonal rendering using built-in "children" prop:
 // if condition true rander element with link around it otherwise without link
@@ -58,7 +15,63 @@ function linkIf(condition, props, children) {
   return children;
 }
 
-class Pager extends React.Component {
+const PageLink = (props) => (
+  <ListItem key={props.pageNum}>
+    <Link
+      onClick={(e) => {
+        e.preventDefault();
+        props.handleClick(props.pageNum);
+      }}
+      className={props.activePage === props.pageNum && 'active'}
+      href="."
+    >
+      {props.pageNum}
+    </Link>
+  </ListItem>
+);
+
+class PageList extends React.Component {
+  static collapsePages(pages, activePage, handleClick) {
+    if (pages.length <= 3) {
+      return pages.map((pageNum) => (
+        <PageLink
+          key={pageNum}
+          pageNum={pageNum}
+          activePage={activePage}
+          handleClick={handleClick}
+        />
+      ));
+    }
+    if (activePage <= 2) {
+      return (
+        <>
+          <PageLink pageNum={1} activePage={activePage} handleClick={handleClick} />
+          <PageLink pageNum={2} activePage={activePage} handleClick={handleClick} />
+          <Ellipsis>…</Ellipsis>
+          <PageLink pageNum={pages.length} activePage={activePage} handleClick={handleClick} />
+        </>
+      );
+    } if (activePage >= pages.length - 1) {
+      return (
+        <>
+          <PageLink pageNum={1} activePage={activePage} handleClick={handleClick} />
+          <Ellipsis>…</Ellipsis>
+          <PageLink pageNum={pages.length - 1} activePage={activePage} handleClick={handleClick} />
+          <PageLink pageNum={pages.length} activePage={activePage} handleClick={handleClick} />
+        </>
+      );
+    }
+    return (
+      <>
+        <PageLink pageNum={1} activePage={activePage} handleClick={handleClick} />
+        <Ellipsis>…</Ellipsis>
+        <PageLink pageNum={activePage} activePage={activePage} handleClick={handleClick} />
+        <Ellipsis>…</Ellipsis>
+        <PageLink pageNum={pages.length} activePage={activePage} handleClick={handleClick} />
+      </>
+    );
+  }
+
   render() {
     const pages = [];
     const { props } = this;
@@ -67,7 +80,6 @@ class Pager extends React.Component {
     }
     return (
       <div>
-        <ReviewList reviewData={props.reviewList} />
         {(pages.length > 1) && (
           <List>
             <ListItem>
@@ -83,21 +95,7 @@ class Pager extends React.Component {
                   </svg>
                 </Span>)}
             </ListItem>
-            {pages.map((pageNum) => (
-              <ListItem key={pageNum}>
-                <Link
-                  onClick={(e) => {
-                    e.preventDefault();
-                    props.handlePageClick(pageNum);
-                  }}
-                  className={props.activePage === pageNum && 'active'}
-                  // TODO: fix link
-                  href="."
-                >
-                  {pageNum}
-                </Link>
-              </ListItem>
-            ))}
+            {PageList.collapsePages(pages, props.activePage, props.handlePageClick)}
             <ListItem>
               {linkIf(props.activePage < props.totalPages, {
                 onClick: (e) => {
@@ -118,17 +116,15 @@ class Pager extends React.Component {
   }
 }
 
-Pager.defaultProps = {
+PageList.defaultProps = {
   totalPages: 0,
   activePage: 1,
-  reviewList: [],
 };
 
-Pager.propTypes = {
+PageList.propTypes = {
   totalPages: PropTypes.number,
   activePage: PropTypes.number,
   handlePageClick: PropTypes.func.isRequired,
-  reviewList: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default Pager;
+export default PageList;
