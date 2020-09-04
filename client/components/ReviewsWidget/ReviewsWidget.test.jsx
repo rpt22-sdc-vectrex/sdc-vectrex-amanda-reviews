@@ -92,7 +92,7 @@ describe('ReviewsWidget initial state tests', () => {
     expect(wrapper.state('activeTab')).toEqual('productReviews');
   });
 
-  it('initial value of isDropdownOpen in state should be true', () => {
+  it('initial value of isDropdownOpen in state should be false', () => {
     const wrapper = shallow(<ReviewsWidget />);
     expect(wrapper.state('isDropdownOpen')).toEqual(false);
   });
