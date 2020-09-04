@@ -72,7 +72,6 @@ export default class ReviewsWidget extends React.Component {
   }
 
   handleSortByClick(e) {
-    e.preventDefault();
     const sort = e.target.value;
     this.setState((state) => ({
       sortBy: sort,

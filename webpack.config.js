@@ -17,9 +17,6 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  externals: {
-    react: 'React',
-  },
   output: {
     filename: 'bundle.js',
     path: `${__dirname}/public`,
