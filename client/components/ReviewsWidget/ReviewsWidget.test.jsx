@@ -106,15 +106,15 @@ describe('Fetching and updating', () => {
     };
 
     moxios.install();
-    moxios.stubRequest('http://localhost:8888/review-summary/2', {
+    moxios.stubRequest('/review-summary/2', {
       status: 200,
       response: REVIEW_SUMMARY,
     });
-    moxios.stubRequest('http://localhost:8888/review-list/2', {
+    moxios.stubRequest('/review-list/2', {
       status: 200,
       response: REVIEW_LIST,
     });
-    moxios.stubRequest('http://localhost:8888/reviews-pictures/2', {
+    moxios.stubRequest('/reviews-pictures/2', {
       status: 200,
       response: REVIEW_PICTURES,
     });
