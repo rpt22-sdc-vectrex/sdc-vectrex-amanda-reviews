@@ -6,8 +6,6 @@ import ReviewPager from '../ReviewPager/ReviewPager';
 import MainHeader from '../MainHeader/MainHeader';
 import ReviewsWidgetContainer from './ReviewsWidget.styles';
 
-// const serverUrl = 'http://localhost:8888';
-
 export default class ReviewsWidget extends React.Component {
   constructor(props) {
     super(props);
