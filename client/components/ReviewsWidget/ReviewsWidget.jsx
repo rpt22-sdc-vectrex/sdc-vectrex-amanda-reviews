@@ -6,8 +6,6 @@ import ReviewPager from '../ReviewPager/ReviewPager';
 import MainHeader from '../MainHeader/MainHeader';
 import ReviewsWidgetContainer from './ReviewsWidget.styles';
 
-const serverUrl = 'http://localhost:8888';
-
 export default class ReviewsWidget extends React.Component {
   constructor(props) {
     super(props);
@@ -31,9 +29,9 @@ export default class ReviewsWidget extends React.Component {
   componentDidMount() {
     const id = ReviewsWidget.getId();
     Promise.all([
-      axios.get(`${serverUrl}/review-summary/${id}`),
-      axios.get(`${serverUrl}/review-list/${id}`),
-      axios.get(`${serverUrl}/reviews-pictures/${id}`),
+      axios.get(`/review-summary/${id}`),
+      axios.get(`/review-list/${id}`),
+      axios.get(`/reviews-pictures/${id}`),
     ])
       .then(([reviewSummary, reviewList, reviewPictures]) => {
         this.setState({
@@ -54,7 +52,7 @@ export default class ReviewsWidget extends React.Component {
   }
 
   getReviews(id, pageNumber, sortBy, store) {
-    axios.get(`${serverUrl}/review-list/${id}`, {
+    axios.get(`/review-list/${id}`, {
       params: {
         pageNumber,
         sortBy,

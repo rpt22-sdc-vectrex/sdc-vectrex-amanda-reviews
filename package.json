@@ -7,6 +7,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "start": "nodemon server/index.js",
+    "react-build": "webpack -p",
     "react-dev": "webpack -d --watch",
     "db:setup": "./seedDB.sh",
     "lint": "eslint"
@@ -23,14 +24,14 @@
   "jest": {
     "setupFilesAfterEnv": [
       "<rootDir>/testUtils/setupTests.js"
-    ],
-    "testURL": "http://something/here/2"
+    ]
   },
   "homepage": "https://github.com/FEC-Linka/rvrita-etsy-reviews#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "moment": "^2.27.0",

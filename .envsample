@@ -1,0 +1,5 @@
+# Your MySQL credentials
+MYSQL_USERNAME=your_username
+MYSQL_PASSWORD=your_password
+# Express server port - do not change
+PORT=8888
