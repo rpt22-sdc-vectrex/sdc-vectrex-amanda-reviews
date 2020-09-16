@@ -73,6 +73,14 @@ app.get('/review-list/:productId', (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
+      // Test to remove requests to other servers
+      // res.send(reviews.map((review) => ({
+      //   ...review,
+      //   userPicture: 'https://i.picsum.photos/id/505/75/75.jpg?hmac=F5cfi24yLOkue2OncLb8Hqnlk7PBF5qhatPMqqYu-Qk',
+      //   reviewPicture: 'https://i.picsum.photos/id/505/75/75.jpg?hmac=F5cfi24yLOkue2OncLb8Hqnlk7PBF5qhatPMqqYu-Qk',
+      //   itemName: 'foo',
+      //   mainImage: 'https://i.picsum.photos/id/505/75/75.jpg?hmac=F5cfi24yLOkue2OncLb8Hqnlk7PBF5qhatPMqqYu-Qk',
+      // })));
       const ids = [];
       reviews.map((review) => ids.push(review.id));
       const request = {

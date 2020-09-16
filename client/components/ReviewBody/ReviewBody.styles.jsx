@@ -21,6 +21,7 @@ export const Paragraph = styled.p`
 
 export const ReviewImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   border-radius: 6px;
+  background-color: #ddd;
 `;

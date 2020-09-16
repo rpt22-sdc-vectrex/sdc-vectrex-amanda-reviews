@@ -28,20 +28,39 @@ export default class ReviewsWidget extends React.Component {
 
   componentDidMount() {
     const id = ReviewsWidget.getId();
-    Promise.all([
-      axios.get(`/review-summary/${id}`),
-      axios.get(`/review-list/${id}`),
-      axios.get(`/reviews-pictures/${id}`),
-    ])
-      .then(([reviewSummary, reviewList, reviewPictures]) => {
+    // Promise.all([
+    //   axios.get(`/review-summary/${id}`),
+    //   axios.get(`/review-list/${id}`),
+    //   axios.get(`/reviews-pictures/${id}`),
+    // ])
+    //   .then(([reviewSummary, reviewList, reviewPictures]) => {
+    //     this.setState({
+    //       ...reviewSummary.data,
+    //       reviewList: reviewList.data,
+    //       reviewPictures: reviewPictures.data,
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    axios.get(`/review-summary/${id}`)
+      .then((reviewSummary) => {
         this.setState({
           ...reviewSummary.data,
+        });
+      });
+    axios.get(`/review-list/${id}`)
+      .then((reviewList) => {
+        this.setState({
           reviewList: reviewList.data,
+        });
+      });
+    axios.get(`/reviews-pictures/${id}`)
+      .then((reviewPictures) => {
+        this.setState({
           reviewPictures: reviewPictures.data,
         });
-      })
-      .catch((error) => {
-        console.log(error);
       });
   }
 

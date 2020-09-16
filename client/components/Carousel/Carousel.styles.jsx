@@ -37,6 +37,7 @@ export const ListItem = styled.li`
 export const ReviewImageListItem = styled.img`
   width: 100%;
   border-radius: 6px;
+  background-color: #ddd;
 `;
 
 export const Svg = styled.svg`

@@ -6,6 +6,7 @@ const ImageSmall = styled.img`
   border-radius: ${(props) => props.bRadius || '6px'};
   margin-right: 12px;
   float:left;
+  background-color: #ddd;
 `;
 
 export default ImageSmall;
