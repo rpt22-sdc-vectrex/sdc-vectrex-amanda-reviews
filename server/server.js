@@ -73,12 +73,17 @@ app.get('/review-list/:productId', (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      // TODO: change links after deployment: linktoimageservice/reviewPhotos',
-      // 'linktoimageservice/pictures/:itemID, 'linktoproductservice/itemDetails/:productId
+      const ids = [];
+      reviews.map((review) => ids.push(review.id));
+      const request = {
+        params: {
+          ids,
+        },
+      };
       Promise.all([
-        axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviews.json'),
+        axios.get('http://13.56.229.226/reviewPhotos/batch', request),
         axios.get('https://valeriia-ten-item-description.s3.us-east-2.amazonaws.com/100details.json'),
-        axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/pictures-itemID.json'),
+        axios.get(`http://13.56.229.226/pictures?itemId=${productId}`),
       ])
         .then(([
           reviewPhotosResponse,
@@ -101,12 +106,12 @@ app.get('/review-list/:productId', (req, res) => {
             userPicture: photosById[review.id].user_picture,
             reviewPicture: photosById[review.id].review_picture,
             itemName: itemNameById[review.product_id].itemName,
-            // TODO: check with Zack for batch S3
             mainImage: productPicturesResponse.data.item_pictures[0].thumbnail,
           }));
           res.send(reviewsArray);
         })
         .catch((error) => {
+          console.error(error);
           res.status(500).send(error);
         });
     }

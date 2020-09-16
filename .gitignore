@@ -8,4 +8,5 @@ node_modules
 .env
 
 #Ignore dist bundle
+reviews-bundle.js
 bundle.js
