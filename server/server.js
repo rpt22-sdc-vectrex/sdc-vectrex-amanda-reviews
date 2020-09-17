@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable camelcase */
 const express = require('express');
 const axios = require('axios');
@@ -88,40 +89,43 @@ app.get('/review-list/:productId', (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      const ids = [];
-      reviews.map((review) => ids.push(review.id));
-      const request = {
+      const reviewIds = reviews.map((review) => review.id);
+      // Use a set to eliminate duplicate product IDs
+      const productIds = Array.from(new Set(reviews.map((review) => review.product_id)));
+      const reviewPhotosRequest = {
         params: {
-          ids,
+          ids: reviewIds,
         },
       };
       Promise.all([
-        axios.get('http://13.56.229.226/reviewPhotos/batch', request),
-        axios.get('https://valeriia-ten-item-description.s3.us-east-2.amazonaws.com/100details.json'),
-        axios.get(`http://13.56.229.226/pictures?itemId=${productId}`),
+        axios.get('http://13.56.229.226/reviewPhotos/batch', reviewPhotosRequest),
+        Promise.all(productIds.map((pId) => axios.get(`http://ec2-3-133-108-106.us-east-2.compute.amazonaws.com/itemDetails/${pId}`).then((res) => res.data[0]))),
+        Promise.all(productIds.map((pId) => axios.get(`http://13.56.229.226/pictures?itemId=${pId}`).then((res) => res.data))),
       ])
         .then(([
           reviewPhotosResponse,
-          itemDetailsResponse,
-          productPicturesResponse,
+          itemDetailsResponses,
+          productPhotosResponses,
         ]) => {
-          const photosById = {};
+          const userAndReviewPhotosById = {};
           reviewPhotosResponse.data.forEach((photos) => {
-            // eslint-disable-next-line camelcase
             const { id, user_picture, review_picture } = photos;
-            photosById[id] = { user_picture, review_picture };
+            userAndReviewPhotosById[id] = { user_picture, review_picture };
           });
-          const itemNameById = {};
-          itemDetailsResponse.data.forEach((product) => {
-            const { itemName } = product;
-            itemNameById[product.productId] = { itemName };
+          const productNameById = {};
+          itemDetailsResponses.forEach((product) => {
+            productNameById[product.productId] = product.itemName;
+          });
+          const productPhotoById = {};
+          productPhotosResponses.forEach((product) => {
+            productPhotoById[product.item_id] = product.item_pictures[0].thumbnail;
           });
           const reviewsArray = reviews.map((review) => ({
             ...review,
-            userPicture: photosById[review.id].user_picture,
-            reviewPicture: photosById[review.id].review_picture,
-            itemName: itemNameById[review.product_id].itemName,
-            mainImage: productPicturesResponse.data.item_pictures[0].thumbnail,
+            userPicture: userAndReviewPhotosById[review.id].user_picture,
+            reviewPicture: userAndReviewPhotosById[review.id].review_picture,
+            itemName: productNameById[review.product_id],
+            mainImage: productPhotoById[review.product_id],
           }));
           res.send(reviewsArray);
         })
