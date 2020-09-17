@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
@@ -20,16 +21,30 @@ app.use(bodyParser.json());
 // second: all api endpoints
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/:productId', (req, res) => {
-  const { productId } = req.params;
-  const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?';
-  db.query(sql, productId, (err, result) => {
+  // const { productId } = req.params;
+  // const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?';
+  // db.query(sql, productId, (err, result) => {
+  //   if (err) {
+  //     res.status(500).send(err);
+  //   } else if (!result[0].product_id) {
+  //     res.status(404).send('no record in database for this product');
+  //   } else {
+  //     const rating = Math.round(result[0].rating * 2) / 2;
+  //     res.send({ productId, rating });
+  //   }
+  // });
+  const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews group by product_id';
+  db.query(sql, (err, result) => {
     if (err) {
       res.status(500).send(err);
-    } else if (!result[0].product_id) {
-      res.status(404).send('no record in database for this product');
     } else {
-      const rating = Math.round(result[0].rating * 2) / 2;
-      res.send({ productId, rating });
+      const allProductRatings = [];
+      result.forEach((product) => {
+        const { product_id } = product;
+        const rating = Math.round(product.rating * 2) / 2;
+        allProductRatings[product_id - 1] = { product_id, rating };
+      });
+      res.send(allProductRatings);
     }
   });
 });
