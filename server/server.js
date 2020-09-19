@@ -144,8 +144,15 @@ app.get('/reviews-pictures/:productId', (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviews.json')
+      const ids = reviewIds.map((review) => review.id);
+      const reviewPhotosRequest = {
+        params: {
+          ids,
+        },
+      };
+      axios.get('http://13.56.229.226/reviewPhotos/batch', reviewPhotosRequest)
         .then((reviewPhotosResponse) => {
+          console.log(reviewPhotosResponse);
           const photosById = {};
           reviewPhotosResponse.data.forEach((photos) => {
             // eslint-disable-next-line camelcase
@@ -153,9 +160,9 @@ app.get('/reviews-pictures/:productId', (req, res) => {
             photosById[id] = { review_picture };
           });
           const reviewsArray = [];
-          reviewIds.forEach((reviewId) => {
-            if (photosById[reviewId.id].review_picture) {
-              reviewsArray.push([reviewId.id, photosById[reviewId.id].review_picture]);
+          ids.forEach((reviewId) => {
+            if (photosById[reviewId].review_picture) {
+              reviewsArray.push([reviewId, photosById[reviewId].review_picture]);
             }
           });
           res.send(reviewsArray);
