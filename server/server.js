@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable camelcase */
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
@@ -20,16 +22,30 @@ app.use(bodyParser.json());
 // second: all api endpoints
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/:productId', (req, res) => {
-  const { productId } = req.params;
-  const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?';
-  db.query(sql, productId, (err, result) => {
+  // const { productId } = req.params;
+  // const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?';
+  // db.query(sql, productId, (err, result) => {
+  //   if (err) {
+  //     res.status(500).send(err);
+  //   } else if (!result[0].product_id) {
+  //     res.status(404).send('no record in database for this product');
+  //   } else {
+  //     const rating = Math.round(result[0].rating * 2) / 2;
+  //     res.send({ productId, rating });
+  //   }
+  // });
+  const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews group by product_id';
+  db.query(sql, (err, result) => {
     if (err) {
       res.status(500).send(err);
-    } else if (!result[0].product_id) {
-      res.status(404).send('no record in database for this product');
     } else {
-      const rating = Math.round(result[0].rating * 2) / 2;
-      res.send({ productId, rating });
+      const allProductRatings = [];
+      result.forEach((product) => {
+        const { product_id } = product;
+        const rating = Math.round(product.rating * 2) / 2;
+        allProductRatings[product_id - 1] = { product_id, rating };
+      });
+      res.send(allProductRatings);
     }
   });
 });
@@ -73,40 +89,43 @@ app.get('/review-list/:productId', (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      const ids = [];
-      reviews.map((review) => ids.push(review.id));
-      const request = {
+      const reviewIds = reviews.map((review) => review.id);
+      // Use a set to eliminate duplicate product IDs
+      const productIds = Array.from(new Set(reviews.map((review) => review.product_id)));
+      const reviewPhotosRequest = {
         params: {
-          ids,
+          ids: reviewIds,
         },
       };
       Promise.all([
-        axios.get('http://13.56.229.226/reviewPhotos/batch', request),
-        axios.get('https://valeriia-ten-item-description.s3.us-east-2.amazonaws.com/100details.json'),
-        axios.get(`http://13.56.229.226/pictures?itemId=${productId}`),
+        axios.get('http://13.56.229.226/reviewPhotos/batch', reviewPhotosRequest),
+        Promise.all(productIds.map((pId) => axios.get(`http://ec2-3-133-108-106.us-east-2.compute.amazonaws.com/itemDetails/${pId}`).then((res) => res.data[0]))),
+        Promise.all(productIds.map((pId) => axios.get(`http://13.56.229.226/pictures?itemId=${pId}`).then((res) => res.data))),
       ])
         .then(([
           reviewPhotosResponse,
-          itemDetailsResponse,
-          productPicturesResponse,
+          itemDetailsResponses,
+          productPhotosResponses,
         ]) => {
-          const photosById = {};
+          const userAndReviewPhotosById = {};
           reviewPhotosResponse.data.forEach((photos) => {
-            // eslint-disable-next-line camelcase
             const { id, user_picture, review_picture } = photos;
-            photosById[id] = { user_picture, review_picture };
+            userAndReviewPhotosById[id] = { user_picture, review_picture };
           });
-          const itemNameById = {};
-          itemDetailsResponse.data.forEach((product) => {
-            const { itemName } = product;
-            itemNameById[product.productId] = { itemName };
+          const productNameById = {};
+          itemDetailsResponses.forEach((product) => {
+            productNameById[product.productId] = product.itemName;
+          });
+          const productPhotoById = {};
+          productPhotosResponses.forEach((product) => {
+            productPhotoById[product.item_id] = product.item_pictures[0].thumbnail;
           });
           const reviewsArray = reviews.map((review) => ({
             ...review,
-            userPicture: photosById[review.id].user_picture,
-            reviewPicture: photosById[review.id].review_picture,
-            itemName: itemNameById[review.product_id].itemName,
-            mainImage: productPicturesResponse.data.item_pictures[0].thumbnail,
+            userPicture: userAndReviewPhotosById[review.id].user_picture,
+            reviewPicture: userAndReviewPhotosById[review.id].review_picture,
+            itemName: productNameById[review.product_id],
+            mainImage: productPhotoById[review.product_id],
           }));
           res.send(reviewsArray);
         })
@@ -125,8 +144,15 @@ app.get('/reviews-pictures/:productId', (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      axios.get('https://zack-romsdahl-pictures.s3-us-west-1.amazonaws.com/reviews.json')
+      const ids = reviewIds.map((review) => review.id);
+      const reviewPhotosRequest = {
+        params: {
+          ids,
+        },
+      };
+      axios.get('http://13.56.229.226/reviewPhotos/batch', reviewPhotosRequest)
         .then((reviewPhotosResponse) => {
+          console.log(reviewPhotosResponse);
           const photosById = {};
           reviewPhotosResponse.data.forEach((photos) => {
             // eslint-disable-next-line camelcase
@@ -134,9 +160,9 @@ app.get('/reviews-pictures/:productId', (req, res) => {
             photosById[id] = { review_picture };
           });
           const reviewsArray = [];
-          reviewIds.forEach((reviewId) => {
-            if (photosById[reviewId.id].review_picture) {
-              reviewsArray.push([reviewId.id, photosById[reviewId.id].review_picture]);
+          ids.forEach((reviewId) => {
+            if (photosById[reviewId].review_picture) {
+              reviewsArray.push([reviewId, photosById[reviewId].review_picture]);
             }
           });
           res.send(reviewsArray);
