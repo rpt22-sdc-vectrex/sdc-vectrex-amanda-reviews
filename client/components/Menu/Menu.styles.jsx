@@ -18,6 +18,7 @@ export const MenuButton = styled.button`
   padding: 12px 0;
   margin: 0 12px 0;
   position: relative;
+  letter-spacing: 0.4px;
   box-sizing: border-box;
   &:nth-child(1) {
     margin-left: 0;
