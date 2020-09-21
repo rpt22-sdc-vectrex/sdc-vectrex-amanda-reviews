@@ -62,6 +62,7 @@ app.get('/review-summary/:productId', (req, res) => {
       reviewSummary.storeReviewCount = result[0][0].count;
       reviewSummary.rating = Math.round(result[0][0].avgRating * 2) / 2;
       reviewSummary.productReviewCount = result[1][0].count;
+      res.set('Cache-Control', 'max-age=3600');
       res.send(reviewSummary);
     }
   });
@@ -127,7 +128,8 @@ app.get('/review-list/:productId', (req, res) => {
             itemName: productNameById[review.product_id],
             mainImage: productPhotoById[review.product_id],
           }));
-          res.send(reviewsArray);
+          res.set('Cache-Control', 'max-age=3600');
+	  res.send(reviewsArray);
         })
         .catch((error) => {
           console.error(error);
@@ -165,7 +167,8 @@ app.get('/reviews-pictures/:productId', (req, res) => {
               reviewsArray.push([reviewId, photosById[reviewId].review_picture]);
             }
           });
-          res.send(reviewsArray);
+          res.set('Cache-Control', 'max-age=3600');
+	  res.send(reviewsArray);
         })
         .catch((error) => {
           res.status(500).send(error);
