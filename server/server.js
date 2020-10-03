@@ -76,12 +76,12 @@ app.get('/review-list/:productId', (req, res) => {
   const sortBy = req.query.sortBy === 'date' ? 'date' : 'rating';
   const entireStore = req.query.store === 'true';
   const sql = entireStore ? `
-    SELECT * FROM reviews 
-    LEFT JOIN product_to_stores ON reviews.product_id = product_to_stores.id 
+    SELECT * FROM reviews
+    LEFT JOIN product_to_stores ON reviews.product_id = product_to_stores.id
     WHERE store_id = (
       SELECT store_id FROM product_to_stores WHERE id = ?
-      ) 
-    ORDER BY ?? DESC 
+      )
+    ORDER BY ?? DESC
     LIMIT ?, ?;
     `
     : 'SELECT * FROM reviews WHERE product_id = ? ORDER BY ?? DESC LIMIT ?, ?;';
@@ -99,9 +99,9 @@ app.get('/review-list/:productId', (req, res) => {
         },
       };
       Promise.all([
-        axios.get('http://13.56.229.226/reviewPhotos/batch', reviewPhotosRequest),
-        Promise.all(productIds.map((pId) => axios.get(`http://ec2-3-133-108-106.us-east-2.compute.amazonaws.com/itemDetails/${pId}`).then((res) => res.data[0]))),
-        Promise.all(productIds.map((pId) => axios.get(`http://13.56.229.226/pictures?itemId=${pId}`).then((res) => res.data))),
+        axios.get('http://localhost:3000/reviewPhotos/batch', reviewPhotosRequest),
+        Promise.all(productIds.map((pId) => axios.get(`http://localhost:5000/itemDetails/${pId}`).then((res) => res.data[0]))),
+        Promise.all(productIds.map((pId) => axios.get(`http://localhost:3000/pictures?itemId=${pId}`).then((res) => res.data))),
       ])
         .then(([
           reviewPhotosResponse,
@@ -129,7 +129,7 @@ app.get('/review-list/:productId', (req, res) => {
             mainImage: productPhotoById[review.product_id],
           }));
           res.set('Cache-Control', 'max-age=3600');
-	  res.send(reviewsArray);
+          res.send(reviewsArray);
         })
         .catch((error) => {
           console.error(error);
@@ -152,7 +152,7 @@ app.get('/reviews-pictures/:productId', (req, res) => {
           ids,
         },
       };
-      axios.get('http://13.56.229.226/reviewPhotos/batch', reviewPhotosRequest)
+      axios.get('http://localhost:3000/reviewPhotos/batch', reviewPhotosRequest)
         .then((reviewPhotosResponse) => {
           console.log(reviewPhotosResponse);
           const photosById = {};
@@ -168,7 +168,7 @@ app.get('/reviews-pictures/:productId', (req, res) => {
             }
           });
           res.set('Cache-Control', 'max-age=3600');
-	  res.send(reviewsArray);
+          res.send(reviewsArray);
         })
         .catch((error) => {
           res.status(500).send(error);
@@ -176,6 +176,21 @@ app.get('/reviews-pictures/:productId', (req, res) => {
     }
   });
 });
+
+//CRUD implementation
+//all reviews routes
+
+//app.get(/reviews-service)
+
+//app.post(/reviews-service)
+
+//all id routes
+
+//app.get(/reviews-service/:review-id)
+
+//app.put(/reviews-service/:review-id)
+
+//app.delete(/reviews-service/:review-id)
 
 // third: fall through to index.html
 app.get('*', (req, res) => {

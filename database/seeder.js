@@ -42,11 +42,17 @@ function seedDB(count) {
     queryArgs.push(faker.random.number({ min: 1, max: 10 }));
   }
 
+  for (let i = 1; i < 101; i += 1) {
+    queryStrings.push('insert into reviews_service (rating, review_id) values (?, ?);');
+    queryArgs.push(faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]));
+    queryArgs.push(faker.random.number({ min: 1, max: 100 }));
+  }
+
   connection.query(queryStrings.join(''), queryArgs, (err) => {
     if (err) {
       throw err;
     } else {
-      console.log('Records were was inserted.');
+      console.log('Records were inserted.');
     }
     connection.end();
   });
