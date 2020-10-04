@@ -180,17 +180,81 @@ app.get('/reviews-pictures/:productId', (req, res) => {
 //CRUD implementation
 //all reviews routes
 
-//app.get(/reviews-service)
+//app.get(/reviews-service) //responding correctly
+app.get('/reviews-service', (req, res) => {
+  const sql = 'SELECT * FROM reviews_service';
+  db.query(sql, (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      console.log('reviews-service result: ', result)
+      res.send(result);
+    }
+  });
+});
 
-//app.post(/reviews-service)
+//app.post(/reviews-service) //responding correctly
+app.post('/reviews-service', (req, res) => {
+  const review = req.body;
+  const sql = `INSERT INTO reviews_service SET ?`;
+  db.query(sql, review, (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(201).send('reviews-service posted successfully');
+    }
+  });
+});
 
 //all id routes
 
-//app.get(/reviews-service/:review-id)
+//app.get(/reviews-service/:review-id) //responding correctly
+app.get('/reviews-service/:review-id', (req, res) => {
+  const sql = 'SELECT review_id, AVG(rating) as rating FROM reviews_service group by review_id';
+  db.query(sql, (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      const allRatings = [];
+      result.forEach((review) => {
+        const { review_id } = review;
+        const rating = Math.round(review.rating * 2) / 2;
+        allRatings[review_id - 1] = { review_id, rating };
+      });
+      res.send(allRatings);
+    }
+  });
+});
 
 //app.put(/reviews-service/:review-id)
+app.put('/reviews-service', (req, res) => {
+  const review = req.body;
+  //not working: UPDATE reviews_service SET rating = 4 WHERE review_id = 103
+  //not working: UPDATE reviews_service SET rating = ? WHERE review_id = ?
+  //working, but need to make review_id dynamic: UPDATE reviews_service SET rating = ? WHERE review_id = 58 (w/reviews-service)
+  const sql = 'UPDATE reviews_service SET rating = ? WHERE review_id = 58';
+  db.query(sql, review, (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send('successfully updated review by id');
+    }
+  });
+});
 
 //app.delete(/reviews-service/:review-id)
+app.delete('/reviews-service', (req, res) => {
+  //works (w/reviews-service), but need to make review_id dynamic: DELETE FROM reviews_service WHERE review_id = 8
+  const reviewId = req.params.review_id;
+  const sql = 'DELETE FROM reviews_service WHERE review_id = 8';
+  db.query(sql, [reviewId], (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send('successfully deleted review by id: ');
+    }
+  });
+});
 
 // third: fall through to index.html
 app.get('*', (req, res) => {
