@@ -180,7 +180,6 @@ app.get('/reviews-pictures/:productId', (req, res) => {
 //CRUD implementation
 //all reviews routes
 
-//app.get(/reviews-service) //responding correctly
 app.get('/reviews-service', (req, res) => {
   const sql = 'SELECT * FROM reviews_service';
   db.query(sql, (err, result) => {
@@ -193,7 +192,6 @@ app.get('/reviews-service', (req, res) => {
   });
 });
 
-//app.post(/reviews-service) //responding correctly
 app.post('/reviews-service', (req, res) => {
   const review = req.body;
   const sql = `INSERT INTO reviews_service SET ?`;
@@ -208,7 +206,6 @@ app.post('/reviews-service', (req, res) => {
 
 //all id routes
 
-//app.get(/reviews-service/:review-id) //responding correctly
 app.get('/reviews-service/:review-id', (req, res) => {
   const sql = 'SELECT review_id, AVG(rating) as rating FROM reviews_service group by review_id';
   db.query(sql, (err, result) => {
@@ -226,14 +223,12 @@ app.get('/reviews-service/:review-id', (req, res) => {
   });
 });
 
-//app.put(/reviews-service/:review-id)
 app.put('/reviews-service', (req, res) => {
   const review = req.body;
-  //not working: UPDATE reviews_service SET rating = 4 WHERE review_id = 103
-  //not working: UPDATE reviews_service SET rating = ? WHERE review_id = ?
-  //working, but need to make review_id dynamic: UPDATE reviews_service SET rating = ? WHERE review_id = 58 (w/reviews-service)
-  const sql = 'UPDATE reviews_service SET rating = ? WHERE review_id = 58';
-  db.query(sql, review, (err, result) => {
+  const rating = review.rating;
+  const reviewId = review.review_id;
+  const sql = 'UPDATE reviews_service SET rating = ? WHERE review_id = ?';
+  db.query(sql, [rating, reviewId], (err, result) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -242,11 +237,9 @@ app.put('/reviews-service', (req, res) => {
   });
 });
 
-//app.delete(/reviews-service/:review-id)
 app.delete('/reviews-service', (req, res) => {
-  //works (w/reviews-service), but need to make review_id dynamic: DELETE FROM reviews_service WHERE review_id = 8
-  const reviewId = req.params.review_id;
-  const sql = 'DELETE FROM reviews_service WHERE review_id = 8';
+  const reviewId = req.body.review_id;
+  const sql = 'DELETE FROM reviews_service WHERE review_id = ?';
   db.query(sql, [reviewId], (err, result) => {
     if (err) {
       res.status(500).send(err);
