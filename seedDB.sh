@@ -9,4 +9,4 @@ set +a
 
 # load seeding script
 mysql -u $MYSQL_USERNAME -p$MYSQL_PASSWORD < database/schema.sql
-node database/seeder.js 800
+node database/generate.js

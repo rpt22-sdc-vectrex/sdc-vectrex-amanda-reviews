@@ -1,4 +1,3 @@
-//remember to change line 12 in seedDB.sh
 const faker = require('faker');
 const connection = require('./index.js');
 
@@ -25,17 +24,38 @@ const reviewText = [
   'These vases are original, lovely and of great quality.',
 ];
 
+//agnostic data generation script
 function generateReviews(count) {
-  const batch = 50000;
   const reviews = [];
-  for (let i = 0; i <= batch; i++) {
-    reviews.push({
-      username: faker.internet.userName().toLowerCase(),
-      text: faker.random.arrayElement(reviewText),
-      rating: faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]),
-      review_id: faker.random.number({ min: 1, max: 100 })
-    });
+  for (let i = 1; i < count + 1; i += 1) {
+    reviews.push(faker.internet.userName().toLowerCase());
+    reviews.push(faker.random.arrayElement(reviewText));
+    reviews.push(faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]));
+    reviews.push(faker.random.number({ min: 1, max: 100 }));
   }
   return reviews;
 }
 
+//mysql
+async function mysqlDB() {
+  const queryString = 'insert into reviews_service (username, text, rating, review_id) values (?, ?, ?, ?);';
+  let i = 0;
+  while (i < 200) {
+    const reviews = await generateReviews(50000);
+    connection.query(queryString, reviews, (err) => {
+      if (err) {
+        throw err;
+      } else {
+        console.log('Records were inserted.');
+      }
+      connection.end();
+    });
+    i++;
+  }
+}
+
+mysqlDB();
+
+// for (let i = 0; i < 200; i += 1) {
+
+// }
