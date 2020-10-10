@@ -10,3 +10,6 @@ node_modules
 #Ignore dist bundle
 reviews-bundle.js
 bundle.js
+
+#Ignore data .txt file
+review_data.txt

@@ -1,5 +1,10 @@
 const faker = require('faker');
 const connection = require('./index.js');
+const fs = require('fs');
+const path = require('path');
+
+const args = process.argv.slice(2);
+const count = parseInt(args[0]) || 0;
 
 const reviewText = [
   'Absolutely beautiful and appears to be of great quality. The packaging was thoughtful and well done for its journey through usps. Thank you so much!',
@@ -25,37 +30,24 @@ const reviewText = [
 ];
 
 //agnostic data generation script
+//txt file will have a tab delimited row for each of 500K->10M reviews
 function generateReviews(count) {
-  const reviews = [];
+  //let filePath = path.resolve(__dirname, './data/review_data.txt');
+  let writeStream = fs.createWriteStream('review_data.txt', {
+    //append batches to review_data.txt
+    'flags': 'a'
+  });
+  //writeStream.write('hello smoothie');
   for (let i = 1; i < count + 1; i += 1) {
-    reviews.push(faker.internet.userName().toLowerCase());
-    reviews.push(faker.random.arrayElement(reviewText));
-    reviews.push(faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]));
-    reviews.push(faker.random.number({ min: 1, max: 100 }));
+    writeStream.write(`${faker.internet.userName().toLowerCase()}\t${faker.random.arrayElement(reviewText)}\t${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])}\t${faker.random.number(10000000)}\n`);
   }
-  return reviews;
+  writeStream.end(err => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('💄 5,000,000 written to file');
+    }
+  });
 }
 
-//mysql
-async function mysqlDB() {
-  const queryString = 'insert into reviews_service (username, text, rating, review_id) values (?, ?, ?, ?);';
-  let i = 0;
-  while (i < 200) {
-    const reviews = await generateReviews(50000);
-    connection.query(queryString, reviews, (err) => {
-      if (err) {
-        throw err;
-      } else {
-        console.log('Records were inserted.');
-      }
-      connection.end();
-    });
-    i++;
-  }
-}
-
-mysqlDB();
-
-// for (let i = 0; i < 200; i += 1) {
-
-// }
+generateReviews(count);

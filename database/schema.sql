@@ -27,3 +27,9 @@ CREATE TABLE reviews_service (
   rating INTEGER NOT NULL,
   review_id INTEGER NOT NULL
 );
+
+LOAD DATA LOCAL INFILE 'database/data/review_data.txt' INTO TABLE reviews_service (
+  username,
+  rating,
+  review_id
+);

@@ -10,6 +10,7 @@
     "react-build": "webpack -p",
     "react-dev": "webpack -d --watch",
     "db:setup": "./seedDB.sh",
+    "gen": "./generate.sh",
     "lint": "eslint"
   },
   "repository": {
