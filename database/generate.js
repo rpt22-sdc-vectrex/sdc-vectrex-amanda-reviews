@@ -50,4 +50,5 @@ function generateReviews(count) {
   });
 }
 
+//generateReviews called 20x by generate.sh
 generateReviews(count);

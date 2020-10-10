@@ -30,6 +30,9 @@ CREATE TABLE reviews_service (
 
 LOAD DATA LOCAL INFILE 'review_data.txt' INTO TABLE reviews_service (
   username,
+  text,
   rating,
   review_id
 );
+
+SHOW WARNINGS;
