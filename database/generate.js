@@ -1,7 +1,6 @@
 const faker = require('faker');
 const connection = require('./index.js');
 const fs = require('fs');
-const path = require('path');
 
 const args = process.argv.slice(2);
 const count = parseInt(args[0]) || 0;
@@ -30,14 +29,12 @@ const reviewText = [
 ];
 
 //agnostic data generation script
-//txt file will have a tab delimited row for each of 500K->10M reviews
+//txt file will have a tab delimited row for each of 10M reviews
 function generateReviews(count) {
-  //let filePath = path.resolve(__dirname, './data/review_data.txt');
   let writeStream = fs.createWriteStream('review_data.txt', {
     //append batches to review_data.txt
     'flags': 'a'
   });
-  //writeStream.write('hello smoothie');
   for (let i = 1; i < count + 1; i += 1) {
     writeStream.write(`${faker.internet.userName().toLowerCase()}\t${faker.random.arrayElement(reviewText)}\t${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])}\t${faker.random.number(10000000)}\n`);
   }
@@ -50,5 +47,5 @@ function generateReviews(count) {
   });
 }
 
-//generateReviews called 20x by generate.sh-> meant to generate 500,000 at a time and accidentally added an extra 0. then generated 140,000,000 records in .txt file 🍩 --> but my db was seeded with 10,000,000 records as wanted
+//generateReviews called 20x by generate.sh
 generateReviews(count);
