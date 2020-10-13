@@ -50,5 +50,5 @@ function generateReviews(count) {
   });
 }
 
-//generateReviews called 20x by generate.sh
+//generateReviews called 20x by generate.sh-> meant to generate 500,000 at a time and accidentally added an extra 0. then generated 140,000,000 records in .txt file 🍩 --> but my db was seeded with 10,000,000 records as wanted
 generateReviews(count);
