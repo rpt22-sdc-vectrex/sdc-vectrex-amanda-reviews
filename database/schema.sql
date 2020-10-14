@@ -22,6 +22,17 @@ CREATE TABLE product_to_stores (
 DROP TABLE IF EXISTS reviews_service;
 CREATE TABLE reviews_service (
   id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(100) NOT NULL,
+  text TEXT NOT NULL,
   rating INTEGER NOT NULL,
   review_id INTEGER NOT NULL
 );
+
+LOAD DATA LOCAL INFILE 'review_data.txt' INTO TABLE reviews_service (
+  username,
+  text,
+  rating,
+  review_id
+);
+
+SHOW WARNINGS;

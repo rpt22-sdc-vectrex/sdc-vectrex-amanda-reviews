@@ -47,6 +47,12 @@ export default class ReviewsWidget extends React.Component {
           reviewPictures: reviewPictures.data,
         });
       });
+      // axios.get(`/reviews_service/${id}`)
+      // .then((reviews) => {
+      //   this.setState({
+      //     ...reviews.data,
+      //   });
+      // });
   }
 
   static getId() {
