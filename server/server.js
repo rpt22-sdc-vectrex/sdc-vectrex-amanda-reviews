@@ -154,7 +154,7 @@ app.get('/reviews-pictures/:productId', (req, res) => {
       };
       axios.get('http://localhost:3000/reviewPhotos/batch', reviewPhotosRequest)
         .then((reviewPhotosResponse) => {
-          console.log(reviewPhotosResponse);
+          //console.log(reviewPhotosResponse);
           const photosById = {};
           reviewPhotosResponse.data.forEach((photos) => {
             // eslint-disable-next-line camelcase
@@ -178,7 +178,7 @@ app.get('/reviews-pictures/:productId', (req, res) => {
 });
 
 //CRUD implementation
-//all reviews routes
+//all reviews-service routes
 
 app.get('/reviews-service', (req, res) => {
   const sql = 'SELECT * FROM reviews_service';
@@ -204,21 +204,15 @@ app.post('/reviews-service', (req, res) => {
   });
 });
 
-//all id routes
-
-app.get('/reviews-service/:review-id', (req, res) => {
-  const sql = 'SELECT review_id, AVG(rating) as rating FROM reviews_service group by review_id';
-  db.query(sql, (err, result) => {
+app.get('/reviews-service/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `SELECT * FROM reviews_service WHERE id = ?`;
+  db.query(sql, [id], (err, result) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      const allRatings = [];
-      result.forEach((review) => {
-        const { review_id } = review;
-        const rating = Math.round(review.rating * 2) / 2;
-        allRatings[review_id - 1] = { review_id, rating };
-      });
-      res.send(allRatings);
+      res.send(result);
+      console.log('result: ', result);
     }
   });
 });
