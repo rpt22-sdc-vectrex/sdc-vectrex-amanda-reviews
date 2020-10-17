@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # run generateReviews func
 now=$(date)
 echo start time is: $now
