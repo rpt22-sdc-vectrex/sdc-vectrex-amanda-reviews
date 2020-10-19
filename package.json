@@ -7,6 +7,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "start": "nodemon server/index.js",
+    "start-couchbase": "nodemon couchbaseDB/index.js",
     "react-build": "webpack -p",
     "react-dev": "webpack -d --watch",
     "db:setup": "./seedDB.sh",

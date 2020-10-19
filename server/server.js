@@ -246,17 +246,17 @@ app.get('/reviews-pictures/:productId', (req, res) => {
 
 //query by id for CouchbaseDB
 
-app.get('/reviews-service/:id', (req, res) => {
-  const id = req.params.id;
-  ReviewsModel.getById(id, (err, result) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.send(result);
-      console.log('result: ', result);
-    }
-  });
-});
+// app.get('/reviews-service/:id', (req, res) => {
+//   const id = req.params.id;
+//   ReviewsModel.getById(id, (err, result) => {
+//     if (err) {
+//       res.status(500).send(err);
+//     } else {
+//       res.send(result);
+//       console.log('result: ', result);
+//     }
+//   });
+// });
 
 // third: fall through to index.html
 app.get('*', (req, res) => {
