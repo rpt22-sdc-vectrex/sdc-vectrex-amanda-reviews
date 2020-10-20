@@ -1,5 +1,5 @@
 const couchbase = require('couchbase');
-const ottoman = require('ottoman');
+//const ottoman = require('ottoman');
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -21,6 +21,8 @@ const bucket = cluster.bucket('etsy-reviews-service');
 
 const collection = bucket.defaultCollection();
 
+// console.log('collection type: ', typeof collection);
+
 // collection.upsert('testdoc', { name: 'Frank' }, (err, res) => {
 //   if (err) throw err;
 
@@ -41,5 +43,6 @@ const server = app.listen(port, () => {
 
 
 
-module.exports.bucket = bucket;
+//module.exports.bucket = bucket;
 module.exports.collection = collection;
+module.exports.app = app;

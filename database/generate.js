@@ -31,13 +31,21 @@ const reviewText = [
 //agnostic data generation script
 //txt file will have a tab delimited row for each of 10M reviews
 function generateReviews(count) {
-  let writeStream = fs.createWriteStream('review_data.txt', {
-    //append batches to review_data.txt
+  // let writeStream = fs.createWriteStream('review_data.txt', {
+  //   //append batches to review_data.txt
+  //   'flags': 'a'
+  // });
+  let writeStream = fs.createWriteStream('review_data.csv', {
+    //append batches to review_data.csv
     'flags': 'a'
   });
+  //writeStream.write('username,text,rating,review_id' + '\n');
   for (let i = 1; i < count + 1; i += 1) {
-    writeStream.write(`${faker.internet.userName().toLowerCase()}\t${faker.random.arrayElement(reviewText)}\t${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])}\t${faker.random.number(10000000)}\n`);
+    writeStream.write(`${i},${faker.internet.userName().toLowerCase()},${faker.random.arrayElement(reviewText)},${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])},${faker.random.number(10000000)}\n`);
   }
+  // for (let i = 1; i < count + 1; i += 1) {
+  //   writeStream.write(`${faker.internet.userName().toLowerCase()}\t${faker.random.arrayElement(reviewText)}\t${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])}\t${faker.random.number(10000000)}\n`);
+  // }
   writeStream.end(err => {
     if (err) {
       console.log(err);

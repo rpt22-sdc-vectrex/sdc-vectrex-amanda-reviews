@@ -11,5 +11,6 @@ node_modules
 reviews-bundle.js
 bundle.js
 
-#Ignore data .txt file
+#Ignore data files
 review_data.txt
+review_data.csv
