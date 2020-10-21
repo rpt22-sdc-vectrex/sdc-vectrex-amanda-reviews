@@ -40,8 +40,7 @@ ReviewsModel.save = ((data, callback) => {
     username: data.username,
     text: data.text,
     rating: data.rating,
-    review_id: data.review_id,
-    type: 'review'
+    review_id: data.review_id
   };
   //create or update
   const id = data.id ? data.id : uuid.v4();
