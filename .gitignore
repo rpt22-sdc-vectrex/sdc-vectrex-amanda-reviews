@@ -14,6 +14,32 @@ bundle.js
 #Ignore data files
 review_data.txt
 review_data.csv
+review_data1.csv
+review_data2.csv
+review_data3.csv
+review_data4.csv
+review_data5.csv
+review_data6.csv
+review_data7.csv
+review_data8.csv
+review_data9.csv
+review_data10.csv
+review_data11.csv
+review_data12.csv
+review_data13.csv
+review_data14.csv
+review_data15.csv
+review_data16.csv
+review_data17.csv
+review_data18.csv
+review_data19.csv
+review_data20.csv
+review_data21.csv
+review_data22.csv
+review_data23.csv
+review_data24.csv
+review_data25.csv
+review_data26.csv
 
 #Ignore seedCouchbase
 seedCouchbase.sh
