@@ -14,3 +14,6 @@ bundle.js
 #Ignore data files
 review_data.txt
 review_data.csv
+
+#Ignore seedCouchbase
+seedCouchbase.sh
