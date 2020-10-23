@@ -14,9 +14,9 @@ const MainHeader = (props) => (
   </div>
 );
 
-MainHeader.propTypes = {
-  storeReviewCount: PropTypes.number.isRequired,
-  rating: PropTypes.number.isRequired,
-};
+// MainHeader.propTypes = {
+//   storeReviewCount: PropTypes.number.isRequired,
+//   rating: PropTypes.number.isRequired,
+// };
 
 export default MainHeader;
