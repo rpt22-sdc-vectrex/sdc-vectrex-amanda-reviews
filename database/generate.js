@@ -4,7 +4,6 @@ const fs = require('fs');
 
 const args = process.argv.slice(2);
 const count = parseInt(args[0]) || 0;
-//const add = parseInt(args[1]) || 0;
 
 const reviewText = [
   'Absolutely beautiful and appears to be of great quality.',
@@ -66,21 +65,13 @@ const reviewText = [
 //agnostic data generation script
 //txt file will have a tab delimited row for each of 10M reviews
 function generateReviews(count) {
-  // let writeStream = fs.createWriteStream('review_data.txt', {
-  //   //append batches to review_data.txt
-  //   'flags': 'a'
-  // });
-  let writeStream = fs.createWriteStream('review_data.csv', {
-    //append batches to review_data.csv
+  let writeStream = fs.createWriteStream('review_data.txt', {
+    //append batches to review_data.txt
     'flags': 'a'
   });
-  //writeStream.write('id,username,text,rating,review_id');
-  for (let i = 5000001; i < (count + 1) * 2; i += 1) {
-    writeStream.write(`\n${i},${faker.internet.userName().toLowerCase()},${faker.random.arrayElement(reviewText)},${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])},${faker.random.number(10000000)}`);
+  for (let i = 1; i < count + 1; i += 1) {
+    writeStream.write(`${faker.internet.userName().toLowerCase()}\t${faker.random.arrayElement(reviewText)}\t${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])}\t${faker.random.number(10000000)}\n`);
   }
-  // for (let i = 1; i < count + 1; i += 1) {
-  //   writeStream.write(`${faker.internet.userName().toLowerCase()}\t${faker.random.arrayElement(reviewText)}\t${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])}\t${faker.random.number(10000000)}\n`);
-  // }
   writeStream.end(err => {
     if (err) {
       console.log(err);
