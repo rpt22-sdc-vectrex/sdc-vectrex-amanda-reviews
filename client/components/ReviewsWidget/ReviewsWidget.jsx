@@ -11,10 +11,7 @@ export default class ReviewsWidget extends React.Component {
     super(props);
     this.state = {
       storeReviewCount: 0,
-      username: '',
-      text: '',
       rating: 0,
-      review_id: 0,
       productReviewCount: 0,
       reviewList: [],
       reviewPictures: [],
@@ -22,6 +19,9 @@ export default class ReviewsWidget extends React.Component {
       sortBy: 'rating',
       isDropdownOpen: false,
       activeTab: 'productReviews',
+      username: '',
+      text: '',
+      review_id: 0
     };
     this.handlePageClick = this.handlePageClick.bind(this);
     this.handleSortByClick = this.handleSortByClick.bind(this);
@@ -34,6 +34,7 @@ export default class ReviewsWidget extends React.Component {
 
     axios.get(`/review-summary/${id}`)
       .then((reviewSummary) => {
+        console.log('💥 reviewSummary: ', reviewSummary);
         this.setState({
           ...reviewSummary.data,
         });

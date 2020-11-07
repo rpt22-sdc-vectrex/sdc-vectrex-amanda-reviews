@@ -22,18 +22,6 @@ app.use(bodyParser.json());
 // second: all api endpoints
 // endpoint for reviews data to return rating for different modules
 app.get('/reviews/:productId', (req, res) => {
-  // const { productId } = req.params;
-  // const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews WHERE product_id = ?';
-  // db.query(sql, productId, (err, result) => {
-  //   if (err) {
-  //     res.status(500).send(err);
-  //   } else if (!result[0].product_id) {
-  //     res.status(404).send('no record in database for this product');
-  //   } else {
-  //     const rating = Math.round(result[0].rating * 2) / 2;
-  //     res.send({ productId, rating });
-  //   }
-  // });
   const sql = 'SELECT product_id, AVG(rating) as rating FROM reviews group by product_id';
   db.query(sql, (err, result) => {
     if (err) {
@@ -203,6 +191,18 @@ app.post('/reviews-service', (req, res) => {
     }
   });
 });
+
+// app.get('/reviews-service/:id', (req, res) => {
+//   const sql = `SELECT * FROM query`;
+//   db.query(sql, (err, result) => {
+//     if (err) {
+//       res.status(400).send(err);
+//     } else {
+//       res.send(result);
+//       console.log('result: ', result);
+//     }
+//   });
+// });
 
 app.get('/reviews-service/:id', (req, res) => {
   const id = req.params.id;
