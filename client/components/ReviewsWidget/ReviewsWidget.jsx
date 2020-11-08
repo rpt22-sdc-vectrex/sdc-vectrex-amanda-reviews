@@ -57,7 +57,6 @@ export default class ReviewsWidget extends React.Component {
         this.setState({
           username: reviews.data.username,
           text: reviews.data.text,
-          rating: reviews.data.rating,
           review_id: reviews.data.review_id,
         });
       });
@@ -153,3 +152,6 @@ export default class ReviewsWidget extends React.Component {
     );
   }
 }
+
+
+// rating: reviews.data.rating,
