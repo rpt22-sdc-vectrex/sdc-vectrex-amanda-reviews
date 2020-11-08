@@ -11,10 +11,7 @@ export default class ReviewsWidget extends React.Component {
     super(props);
     this.state = {
       storeReviewCount: 0,
-      username: '',
-      text: '',
       rating: 0,
-      review_id: 0,
       productReviewCount: 0,
       reviewList: [],
       reviewPictures: [],
@@ -48,16 +45,6 @@ export default class ReviewsWidget extends React.Component {
       .then((reviewPictures) => {
         this.setState({
           reviewPictures: reviewPictures.data,
-        });
-      });
-    axios.get(`/reviews-service/${id}`)
-      .then((reviews) => {
-        console.log('reviews data by review id: ', reviews.data);
-        this.setState({
-          username: reviews.data.username,
-          text: reviews.data.text,
-          rating: reviews.data.rating,
-          review_id: reviews.data.review_id,
         });
       });
   }
@@ -152,3 +139,11 @@ export default class ReviewsWidget extends React.Component {
     );
   }
 }
+
+
+/*
+username: '',
+      text: '',
+      rating: 0,
+      review_id: 0,
+*/

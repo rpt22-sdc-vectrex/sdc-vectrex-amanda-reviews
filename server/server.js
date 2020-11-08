@@ -180,68 +180,68 @@ app.get('/reviews-pictures/:productId', (req, res) => {
 //CRUD implementation
 //all reviews-service routes
 
-app.get('/reviews-service', (req, res) => {
-  const sql = 'SELECT * FROM reviews_service';
-  db.query(sql, (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      console.log('reviews-service result: ', result)
-      res.send(result);
-    }
-  });
-});
+// app.get('/reviews-service', (req, res) => {
+//   const sql = 'SELECT * FROM reviews_service';
+//   db.query(sql, (err, result) => {
+//     if (err) {
+//       res.status(400).send(err);
+//     } else {
+//       console.log('reviews-service result: ', result)
+//       res.send(result);
+//     }
+//   });
+// });
 
-app.post('/reviews-service', (req, res) => {
-  const review = req.body;
-  const sql = `INSERT INTO reviews_service SET ?`;
-  db.query(sql, review, (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(201).send('reviews-service posted successfully');
-    }
-  });
-});
+// app.post('/reviews-service', (req, res) => {
+//   const review = req.body;
+//   const sql = `INSERT INTO reviews_service SET ?`;
+//   db.query(sql, review, (err, result) => {
+//     if (err) {
+//       res.status(400).send(err);
+//     } else {
+//       res.status(201).send('reviews-service posted successfully');
+//     }
+//   });
+// });
 
-app.get('/reviews-service/:id', (req, res) => {
-  const id = req.params.id;
-  const sql = `SELECT * FROM reviews_service WHERE id = ?`;
-  db.query(sql, [id], (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.send(result);
-      console.log('result: ', result);
-    }
-  });
-});
+// app.get('/reviews-service/:id', (req, res) => {
+//   const id = req.params.id;
+//   const sql = `SELECT * FROM reviews_service WHERE id = ?`;
+//   db.query(sql, [id], (err, result) => {
+//     if (err) {
+//       res.status(400).send(err);
+//     } else {
+//       res.send(result);
+//       console.log('result: ', result);
+//     }
+//   });
+// });
 
-app.put('/reviews-service', (req, res) => {
-  const review = req.body;
-  const rating = review.rating;
-  const reviewId = review.review_id;
-  const sql = 'UPDATE reviews_service SET rating = ? WHERE review_id = ?';
-  db.query(sql, [rating, reviewId], (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(200).send('successfully updated review by id');
-    }
-  });
-});
+// app.put('/reviews-service', (req, res) => {
+//   const review = req.body;
+//   const rating = review.rating;
+//   const reviewId = review.review_id;
+//   const sql = 'UPDATE reviews_service SET rating = ? WHERE review_id = ?';
+//   db.query(sql, [rating, reviewId], (err, result) => {
+//     if (err) {
+//       res.status(400).send(err);
+//     } else {
+//       res.status(200).send('successfully updated review by id');
+//     }
+//   });
+// });
 
-app.delete('/reviews-service', (req, res) => {
-  const reviewId = req.body.review_id;
-  const sql = 'DELETE FROM reviews_service WHERE review_id = ?';
-  db.query(sql, [reviewId], (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(200).send('successfully deleted review by id: ');
-    }
-  });
-});
+// app.delete('/reviews-service', (req, res) => {
+//   const reviewId = req.body.review_id;
+//   const sql = 'DELETE FROM reviews_service WHERE review_id = ?';
+//   db.query(sql, [reviewId], (err, result) => {
+//     if (err) {
+//       res.status(400).send(err);
+//     } else {
+//       res.status(200).send('successfully deleted review by id: ');
+//     }
+//   });
+// });
 
 // third: fall through to index.html
 app.get('*', (req, res) => {
