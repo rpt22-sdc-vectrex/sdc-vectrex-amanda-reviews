@@ -34,13 +34,14 @@ export default class ReviewsWidget extends React.Component {
 
     axios.get(`/review-summary/${id}`)
       .then((reviewSummary) => {
-        console.log('💥 reviewSummary: ', reviewSummary);
+        console.log('💥 reviewSummary: ', reviewSummary); //falling through
         this.setState({
           ...reviewSummary.data,
         });
       });
     axios.get(`/review-list/${id}`)
       .then((reviewList) => {
+        console.log('💥 reviewList: ', reviewList); //falling through
         this.setState({
           reviewList: reviewList.data,
         });

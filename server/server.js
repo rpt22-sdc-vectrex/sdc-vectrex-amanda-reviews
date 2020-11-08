@@ -96,6 +96,7 @@ app.get('/review-list/:productId', (req, res) => {
           itemDetailsResponses,
           productPhotosResponses,
         ]) => {
+          console.log('🍒 itemDetailsResponses: ', itemDetailsResponses);
           const userAndReviewPhotosById = {};
           reviewPhotosResponse.data.forEach((photos) => {
             const { id, user_picture, review_picture } = photos;
@@ -212,7 +213,7 @@ app.get('/reviews-service/:id', (req, res) => {
       res.status(400).send(err);
     } else {
       res.send(result);
-      console.log('result: ', result);
+      //console.log('result: ', result);
     }
   });
 });
