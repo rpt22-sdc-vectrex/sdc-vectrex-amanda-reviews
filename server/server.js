@@ -213,7 +213,6 @@ app.get('/reviews-service/:id', (req, res) => {
       res.status(400).send(err);
     } else {
       res.send(result);
-      //console.log('result: ', result);
     }
   });
 });
@@ -221,9 +220,9 @@ app.get('/reviews-service/:id', (req, res) => {
 app.put('/reviews-service', (req, res) => {
   const review = req.body;
   const rating = review.rating;
-  const reviewId = review.review_id;
-  const sql = 'UPDATE reviews_service SET rating = ? WHERE review_id = ?';
-  db.query(sql, [rating, reviewId], (err, result) => {
+  const productId = review.product_id;
+  const sql = 'UPDATE reviews_service SET rating = ? WHERE product_id = ?';
+  db.query(sql, [rating, productId], (err, result) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -233,9 +232,9 @@ app.put('/reviews-service', (req, res) => {
 });
 
 app.delete('/reviews-service', (req, res) => {
-  const reviewId = req.body.review_id;
-  const sql = 'DELETE FROM reviews_service WHERE review_id = ?';
-  db.query(sql, [reviewId], (err, result) => {
+  const productId = req.body.product_id;
+  const sql = 'DELETE FROM reviews_service WHERE product_id = ?';
+  db.query(sql, [productId], (err, result) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -245,12 +244,6 @@ app.delete('/reviews-service', (req, res) => {
 });
 
 // third: fall through to index.html
-// for proxy
-// app.get('/', (req, res) => {
-//   res.sendFile(path.resolve(__dirname, '../public/index.html'));
-// });
-
-// for service
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });

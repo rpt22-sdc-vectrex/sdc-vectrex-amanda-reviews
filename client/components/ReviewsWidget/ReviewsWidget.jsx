@@ -21,7 +21,7 @@ export default class ReviewsWidget extends React.Component {
       activeTab: 'productReviews',
       username: '',
       text: '',
-      review_id: 0
+      product_id: 0
     };
     this.handlePageClick = this.handlePageClick.bind(this);
     this.handleSortByClick = this.handleSortByClick.bind(this);
@@ -60,7 +60,7 @@ export default class ReviewsWidget extends React.Component {
         this.setState({
           username: reviews.data.username,
           text: reviews.data.text,
-          review_id: reviews.data.review_id,
+          product_id: reviews.data.review_id,
         });
       });
   }
@@ -116,7 +116,6 @@ export default class ReviewsWidget extends React.Component {
     this.getReviews(id, pageNum, sortBy, activeTab === 'shopReviews');
   }
 
-  //returning undefined for activeTabState when clicked/handled
   handleMenuClick(tab) {
     this.setState({
       activeTab: tab,
@@ -133,6 +132,7 @@ export default class ReviewsWidget extends React.Component {
     const reviewPerPage = 4;
     const totalPages = state.activeTab === 'productReviews' ? Math.ceil(state.productReviewCount / reviewPerPage) : Math.ceil(state.storeReviewCount / reviewPerPage);
     console.log('reviewList state: ', state.reviewList);
+    console.log('activeTab state: ', state.activeTab);
     return (
       <ReviewsWidgetContainer>
         <MainHeader rating={state.rating} storeReviewCount={state.storeReviewCount} />
