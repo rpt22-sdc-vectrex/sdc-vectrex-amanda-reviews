@@ -34,26 +34,28 @@ export default class ReviewsWidget extends React.Component {
 
     axios.get(`/review-summary/${id}`)
       .then((reviewSummary) => {
-        console.log('💥 reviewSummary: ', reviewSummary); //falling through
+        console.log('💥 reviewSummary: ', reviewSummary);
         this.setState({
           ...reviewSummary.data,
         });
       });
     axios.get(`/review-list/${id}`)
       .then((reviewList) => {
-        console.log('💥 reviewList: ', reviewList); //falling through
+        console.log('💥 reviewList: ', reviewList);
         this.setState({
           reviewList: reviewList.data,
         });
       });
     axios.get(`/reviews-pictures/${id}`)
       .then((reviewPictures) => {
+        console.log('💥 reviewPictures: ', reviewPictures);
         this.setState({
           reviewPictures: reviewPictures.data,
         });
       });
     axios.get(`/reviews-service/${id}`)
       .then((reviews) => {
+        console.log('💥 reviews: ', reviews);
         console.log('reviews data by review id: ', reviews.data);
         this.setState({
           username: reviews.data.username,
@@ -114,6 +116,7 @@ export default class ReviewsWidget extends React.Component {
     this.getReviews(id, pageNum, sortBy, activeTab === 'shopReviews');
   }
 
+  //returning undefined for activeTabState when clicked/handled
   handleMenuClick(tab) {
     this.setState({
       activeTab: tab,
@@ -129,6 +132,7 @@ export default class ReviewsWidget extends React.Component {
     const { state } = this;
     const reviewPerPage = 4;
     const totalPages = state.activeTab === 'productReviews' ? Math.ceil(state.productReviewCount / reviewPerPage) : Math.ceil(state.storeReviewCount / reviewPerPage);
+    console.log('reviewList state: ', state.reviewList);
     return (
       <ReviewsWidgetContainer>
         <MainHeader rating={state.rating} storeReviewCount={state.storeReviewCount} />

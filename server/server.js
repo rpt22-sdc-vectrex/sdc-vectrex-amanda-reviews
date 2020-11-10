@@ -245,9 +245,17 @@ app.delete('/reviews-service', (req, res) => {
 });
 
 // third: fall through to index.html
+// for proxy
+// app.get('/', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '../public/index.html'));
+// });
+
+// for service
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
 // export for tests
 module.exports = app;
+
+
