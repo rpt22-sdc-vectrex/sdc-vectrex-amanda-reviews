@@ -71,7 +71,7 @@ function generateReviews(count) {
   });
   //writeStream.write(`id\tusername\ttext\trating\tproduct_id`);
   for (let i = 1; i < count + 1; i += 1) {
-    writeStream.write(`${faker.internet.userName().toLowerCase()}\t${faker.random.arrayElement(reviewText)}\t${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])}\t${faker.random.number(10000000)}\n`);
+    writeStream.write(`\n${faker.internet.userName().toLowerCase()}\t${faker.random.arrayElement(reviewText)}\t${faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])}\t${faker.random.number(10000000)}`);
   }
   writeStream.end(err => {
     if (err) {
