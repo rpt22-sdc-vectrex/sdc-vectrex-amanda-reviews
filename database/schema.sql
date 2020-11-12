@@ -25,14 +25,14 @@ CREATE TABLE reviews_service (
   username VARCHAR(100) NOT NULL,
   text TEXT NOT NULL,
   rating INTEGER NOT NULL,
-  product_id INTEGER NOT NULL
+  review_id INTEGER NOT NULL
 );
 
 LOAD DATA LOCAL INFILE 'review_data.txt' INTO TABLE reviews_service (
   username,
   text,
   rating,
-  product_id
+  review_id
 );
 
 SHOW WARNINGS;

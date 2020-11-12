@@ -221,7 +221,7 @@ app.put('/reviews-service', (req, res) => {
   const review = req.body;
   const rating = review.rating;
   const productId = review.product_id;
-  const sql = 'UPDATE reviews_service SET rating = ? WHERE product_id = ?';
+  const sql = 'UPDATE reviews_service SET rating = ? WHERE review_id = ?';
   db.query(sql, [rating, productId], (err, result) => {
     if (err) {
       res.status(400).send(err);
@@ -233,7 +233,7 @@ app.put('/reviews-service', (req, res) => {
 
 app.delete('/reviews-service', (req, res) => {
   const productId = req.body.product_id;
-  const sql = 'DELETE FROM reviews_service WHERE product_id = ?';
+  const sql = 'DELETE FROM reviews_service WHERE review_id = ?';
   db.query(sql, [productId], (err, result) => {
     if (err) {
       res.status(400).send(err);

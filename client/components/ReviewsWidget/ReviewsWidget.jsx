@@ -21,7 +21,7 @@ export default class ReviewsWidget extends React.Component {
       activeTab: 'productReviews',
       username: '',
       text: '',
-      product_id: 0
+      review_id: 0
     };
     this.handlePageClick = this.handlePageClick.bind(this);
     this.handleSortByClick = this.handleSortByClick.bind(this);
@@ -60,7 +60,7 @@ export default class ReviewsWidget extends React.Component {
         this.setState({
           username: reviews.data.username,
           text: reviews.data.text,
-          product_id: reviews.data.review_id,
+          review_id: reviews.data.review_id,
         });
       });
   }

@@ -43,7 +43,7 @@ function seedDB(count) {
   }
 
   for (let i = 1; i < 101; i += 1) {
-    queryStrings.push('insert into reviews_service (username, text, rating, product_id) values (?, ?, ?, ?);');
+    queryStrings.push('insert into reviews_service (username, text, rating, review_id) values (?, ?, ?, ?);');
     queryArgs.push(faker.internet.userName().toLowerCase());
     queryArgs.push(faker.random.arrayElement(reviewText));
     queryArgs.push(faker.random.arrayElement([1, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]));
