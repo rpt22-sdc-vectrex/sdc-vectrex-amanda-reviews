@@ -11,10 +11,7 @@ export default class ReviewsWidget extends React.Component {
     super(props);
     this.state = {
       storeReviewCount: 0,
-      username: '',
-      text: '',
       rating: 0,
-      review_id: 0,
       productReviewCount: 0,
       reviewList: [],
       reviewPictures: [],
@@ -22,6 +19,9 @@ export default class ReviewsWidget extends React.Component {
       sortBy: 'rating',
       isDropdownOpen: false,
       activeTab: 'productReviews',
+      username: '',
+      text: '',
+      review_id: 0
     };
     this.handlePageClick = this.handlePageClick.bind(this);
     this.handleSortByClick = this.handleSortByClick.bind(this);
@@ -34,29 +34,32 @@ export default class ReviewsWidget extends React.Component {
 
     axios.get(`/review-summary/${id}`)
       .then((reviewSummary) => {
+        console.log('💥 reviewSummary: ', reviewSummary);
         this.setState({
           ...reviewSummary.data,
         });
       });
     axios.get(`/review-list/${id}`)
       .then((reviewList) => {
+        console.log('💥 reviewList: ', reviewList);
         this.setState({
           reviewList: reviewList.data,
         });
       });
     axios.get(`/reviews-pictures/${id}`)
       .then((reviewPictures) => {
+        console.log('💥 reviewPictures: ', reviewPictures);
         this.setState({
           reviewPictures: reviewPictures.data,
         });
       });
     axios.get(`/reviews-service/${id}`)
       .then((reviews) => {
+        console.log('💥 reviews: ', reviews);
         console.log('reviews data by review id: ', reviews.data);
         this.setState({
           username: reviews.data.username,
           text: reviews.data.text,
-          rating: reviews.data.rating,
           review_id: reviews.data.review_id,
         });
       });
@@ -128,6 +131,8 @@ export default class ReviewsWidget extends React.Component {
     const { state } = this;
     const reviewPerPage = 4;
     const totalPages = state.activeTab === 'productReviews' ? Math.ceil(state.productReviewCount / reviewPerPage) : Math.ceil(state.storeReviewCount / reviewPerPage);
+    console.log('reviewList state: ', state.reviewList);
+    console.log('activeTab state: ', state.activeTab);
     return (
       <ReviewsWidgetContainer>
         <MainHeader rating={state.rating} storeReviewCount={state.storeReviewCount} />
@@ -152,3 +157,6 @@ export default class ReviewsWidget extends React.Component {
     );
   }
 }
+
+
+// rating: reviews.data.rating,
