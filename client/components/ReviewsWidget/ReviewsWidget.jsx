@@ -6,10 +6,6 @@ import ReviewPager from '../ReviewPager/ReviewPager';
 import MainHeader from '../MainHeader/MainHeader';
 import ReviewsWidgetContainer from './ReviewsWidget.styles';
 
-//let serverUrl = 'http://localhost:8888';
-let serverUrl = 'http://3.22.180.127:3306';
-//'http://3.139.213.113:8888'
-
 export default class ReviewsWidget extends React.Component {
   constructor(props) {
     super(props);
@@ -36,28 +32,31 @@ export default class ReviewsWidget extends React.Component {
   componentDidMount() {
     const id = ReviewsWidget.getId();
 
-    axios.get(`${serverUrl}/review-summary/${id}`)
+    axios.get(`/review-summary/${id}`)
       .then((reviewSummary) => {
         console.log('💥 reviewSummary: ', reviewSummary);
         this.setState({
           ...reviewSummary.data,
         });
-      });
-    axios.get(`${serverUrl}/review-list/${id}`)
+      })
+      .catch((error) => console.log(error));
+    axios.get(`/review-list/${id}`)
       .then((reviewList) => {
         console.log('💥 reviewList: ', reviewList);
         this.setState({
           reviewList: reviewList.data,
         });
-      });
-    axios.get(`${serverUrl}/reviews-pictures/${id}`)
+      })
+      .catch((error) => console.log(error));
+    axios.get(`/reviews-pictures/${id}`)
       .then((reviewPictures) => {
         console.log('💥 reviewPictures: ', reviewPictures);
         this.setState({
           reviewPictures: reviewPictures.data,
         });
-      });
-    axios.get(`${serverUrl}/reviews-service/${id}`)
+      })
+      .catch((error) => console.log(error));
+    axios.get(`/reviews-service/${id}`)
       .then((reviews) => {
         console.log('💥 reviews: ', reviews);
         console.log('reviews data by review id: ', reviews.data);
@@ -66,7 +65,8 @@ export default class ReviewsWidget extends React.Component {
           text: reviews.data.text,
           review_id: reviews.data.review_id,
         });
-      });
+      })
+      .catch((error) => console.log(error));
   }
 
   static getId() {
@@ -161,6 +161,3 @@ export default class ReviewsWidget extends React.Component {
     );
   }
 }
-
-
-// rating: reviews.data.rating,

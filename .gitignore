@@ -14,5 +14,5 @@ bundle.js
 #Ignore data files
 review_data.txt
 
-#Ignore newrelic config
+#Ignore newrelic config #newrelic_agent.log
 newrelic.js
