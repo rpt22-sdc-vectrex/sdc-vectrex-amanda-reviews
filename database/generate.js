@@ -62,7 +62,6 @@ const reviewText = [
   'This bowl is lovely and of great quality.'
 ];
 
-//agnostic data generation script
 //txt file will have a tab delimited row for each of 10M reviews
 function generateReviews(count) {
   let writeStream = fs.createWriteStream('review_data.txt', {
@@ -82,5 +81,4 @@ function generateReviews(count) {
   });
 }
 
-//generateReviews called 20x by generate.sh
 generateReviews(count);

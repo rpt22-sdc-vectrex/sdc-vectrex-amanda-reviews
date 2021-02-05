@@ -157,6 +157,3 @@ export default class ReviewsWidget extends React.Component {
     );
   }
 }
-
-
-// rating: reviews.data.rating,

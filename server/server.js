@@ -143,7 +143,6 @@ app.get('/reviews-pictures/:productId', (req, res) => {
       };
       axios.get('http://localhost:3000/reviewPhotos/batch', reviewPhotosRequest)
         .then((reviewPhotosResponse) => {
-          //console.log(reviewPhotosResponse);
           const photosById = {};
           reviewPhotosResponse.data.forEach((photos) => {
             // eslint-disable-next-line camelcase
@@ -193,6 +192,7 @@ app.post('/reviews-service', (req, res) => {
   });
 });
 
+//MySQL view:
 // app.get('/reviews-service/:id', (req, res) => {
 //   const sql = `SELECT * FROM query`;
 //   db.query(sql, (err, result) => {
