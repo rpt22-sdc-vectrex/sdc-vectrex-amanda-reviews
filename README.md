@@ -8,6 +8,7 @@ Technologies used:
 * React
 * Express
 * MySQL
+* Redis
 
 ## Instructions
 
