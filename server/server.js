@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const db = require('../database');
+const { client, cacheIds } = require('../database/redis');
 
 const app = express();
 
@@ -205,13 +206,14 @@ app.post('/reviews-service', (req, res) => {
 //   });
 // });
 
-app.get('/reviews-service/:id', (req, res) => {
+app.get('/reviews-service/:id', cacheIds, (req, res) => {
   const id = req.params.id;
   const sql = `SELECT * FROM reviews_service WHERE id = ?`;
   db.query(sql, [id], (err, result) => {
     if (err) {
       res.status(400).send(err);
     } else {
+      client.setex(id, 60, JSON.stringify(result));
       res.send(result);
     }
   });
